@@ -48,11 +48,11 @@ function draw() {
   drawStars();
   drawCommencecommet();
   drawAura();
-  drawShield();
-  drawHealthbar();
   moon();
   cyanBttn();
   ufo(x, y);
+  drawShieldBuff();
+  drawHealthbar();
   drawCursor();
 }
 
@@ -229,82 +229,56 @@ function moon() {
   endShape();
 }
 
-function pulse(y) {
-  fill(97, 255, 115, 110);
-  noStroke();
-  beginShape();
-  vertex(width / 2 - 40, y + 5);
-  bezierVertex(
-    width / 2 - 40,
-    y + 5,
-    width / 2,
-    y + 150,
-    width / 2 + 40,
-    y + 5
-  );
-  endShape();
-
-  beginShape();
-  vertex(width / 2 - 60, y + 5);
-  bezierVertex(
-    width / 2 - 60,
-    y + 5,
-    width / 2,
-    y + 230,
-    width / 2 + 60,
-    y + 5
-  );
-  endShape();
-
-  beginShape();
-  vertex(width / 2 - 70, y + 5);
-  bezierVertex(
-    width / 2 - 70,
-    y + 5,
-    width / 2,
-    y + 280,
-    width / 2 + 70,
-    y + 5
-  );
-  endShape();
-}
-
 function cyanBttn() {
   push();
-  fill(94, 255, 215);
-  //stroke(0, 204, 153);
+  fill(0, 255, 255);
   noStroke();
   strokeWeight(3);
   ellipse(windowWidth / 10, windowHeight / 5, 60, 60, 15);
   pop();
 }
 
-function drawShield() {
+function drawShieldBuff() {
   noStroke();
-  fill(102, 255, 255, 40);
-  ellipse(x, y, 200, 200);
-  fill(102, 255, 255, 20);
-  ellipse(x, y, 250, 250);
+  fill(102, 255, 255, 90);
+  ellipse(x + 200, y, 80, 80);
+  fill(102, 255, 255);
+  beginShape();
+  vertex(x + 178, y - 20);
+  vertex(x + 190, y - 12);
+  vertex(x + 200, y - 20);
+  vertex(x + 210, y - 12);
+  vertex(x + 223, y - 20);
+  bezierVertex(x + 223, y - 20, x + 230, y + 15, x + 200, y + 27);
+  bezierVertex(x + 200, y + 27, x + 170, y + 15, x + 178, y - 20);
+  endShape();
 }
 
 function drawHealthbar() {
+  // HP BAR Background
   strokeWeight(40);
   stroke(255, 255, 255, 80);
+
+  // HP BAR
   line(900, 60, 600, 60);
-  stroke(153, 255, 51);
+  stroke(102, 255, 153);
   strokeWeight(20);
+
   //max
   line(900, 60, 600, 60);
   // Make the line shrink and grow as listed below depending on how much HP there is and morph colors vvv
   /*
+
   //medium
   stroke(255, 204, 0);
   line(790, 60, 600, 60);
   //low
+
   stroke(153, 0, 51);
   strokeWeight(20);
   line(690, 60, 600, 60);
   */
+
   //guides
   strokeWeight(2);
   stroke(0, 0, 0, 50);
@@ -313,13 +287,34 @@ function drawHealthbar() {
 }
 
 function ufo(x, y) {
-  noStroke();
-  fill(0, 255, 255);
-
   let levitationdistance = 15;
   let levitate = levitationdistance * Math.sin(frameCount * 0.05);
   y += levitate;
 
+  // >>> Pulse <<<
+  function pulse(x, y) {
+    fill(97, 255, 115, 110);
+    noStroke();
+    beginShape();
+    vertex(x - 40, y + 5);
+    bezierVertex(x - 40, y + 5, x, y + 150, x + 40, y + 5);
+    endShape();
+
+    beginShape();
+    vertex(x - 60, y + 5);
+    bezierVertex(x - 60, y + 5, x, y + 230, x + 60, y + 5);
+    endShape();
+
+    beginShape();
+    vertex(x - 70, y + 5);
+    bezierVertex(x - 70, y + 5, x, y + 280, x + 70, y + 5);
+    endShape();
+  }
+  // pulse(x, y);
+
+  // >>> UFO <<<
+  noStroke();
+  fill(0, 255, 255);
   //ship
   ellipse(x + 2, y + 2, 215, 82);
 
@@ -426,4 +421,15 @@ function ufo(x, y) {
   bezierVertex(x - 30, y - 100, x + 40, y - 90, x + 53, y - 30);
   bezierVertex(x + 55, y + 5, x - 30, y - 10, x - 10, y);
   endShape();
+
+  function drawShield() {
+    noStroke();
+    fill(102, 255, 255, 90);
+    ellipse(x, y - 15, diameter, diameter / 1);
+  }
+  let diameter = 245;
+  let dsize = diameter * Math.sin(frameCount * 0.09);
+  diameter += dsize / 18;
+
+  drawShield();
 }
