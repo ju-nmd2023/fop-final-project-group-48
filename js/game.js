@@ -51,7 +51,6 @@ function draw() {
   moon();
   cyanBttn();
   ufo(x, y);
-  drawShieldBuff();
   drawHealthbar();
   drawCursor();
 }
@@ -160,19 +159,19 @@ function moon() {
   ellipse(width - 50, height / 2, 800, 800);
   // Nose
   beginShape();
-  vertex(width - 400, height / 2.5);
+  vertex(width - 400, height / 3);
   bezierVertex(
     width - 400,
-    height / 2.8,
-    width - 480,
+    height / 3,
+    width - 440,
     height / 2,
-    width - 650,
-    height / 1.9
+    width - 630,
+    height / 1.95
   );
   bezierVertex(
-    width - 650,
-    height / 1.9,
-    width - 600,
+    width - 630,
+    height / 1.95,
+    width - 560,
     height / 1.7,
     width - 400,
     height / 1.8
@@ -187,6 +186,7 @@ function moon() {
   ellipse(width - 335, height / 2.4, 40, 110);
   fill(255, 255, 255, 150);
   ellipse(width - 280, height / 2.7, 100, 130);
+
   // Craters
   fill(54, 49, 68);
   ellipse(width - 40, height / 5, 150, 120);
@@ -197,7 +197,29 @@ function moon() {
   ellipse(width - 280, height / 1.25, 10, 8);
   ellipse(width - 280, height / 1.28, 23, 18);
   ellipse(width - 260, height / 1.26, 15, 10);
-  // Wrinkles
+
+  // Eyelid
+  fill(117, 117, 117);
+  beginShape();
+  vertex(width - 240, height / 4);
+  bezierVertex(
+    width - 240,
+    height / 4,
+    width - 340,
+    height / 2.7,
+    width - 370,
+    height / 3
+  );
+  bezierVertex(
+    width - 370,
+    height / 3,
+    width - 340,
+    height / 4,
+    width - 240,
+    height / 4
+  );
+  endShape();
+  // Eye-Brow
   stroke(54, 49, 68);
   strokeWeight(18);
   fill(117, 117, 117);
@@ -227,31 +249,52 @@ function moon() {
     height / 2
   );
   endShape();
+  beginShape();
+  vertex(width - 135, height / 2.15);
+  bezierVertex(
+    width - 135,
+    height / 2.15,
+    width - 135,
+    height / 2,
+    width - 95,
+    height / 2
+  );
+  bezierVertex(
+    width - 95,
+    height / 2,
+    width - 65,
+    height / 2,
+    width - 65,
+    height / 2.15
+  );
+  endShape();
+
+  // Nose Details
+  fill(54, 49, 68);
+  ellipse(width - 500, height / 1.83, 20, 2);
+  stroke(54, 49, 68);
+  noFill();
+  strokeWeight(18);
+  beginShape();
+  vertex(width - 440, height / 1.77);
+  bezierVertex(
+    width - 440,
+    height / 1.77,
+    width - 400,
+    height / 1.85,
+    width - 450,
+    height / 1.95
+  );
+  endShape();
 }
 
 function cyanBttn() {
   push();
-  fill(0, 255, 255);
+  fill(94, 255, 215);
   noStroke();
   strokeWeight(3);
   ellipse(windowWidth / 10, windowHeight / 5, 60, 60, 15);
   pop();
-}
-
-function drawShieldBuff() {
-  noStroke();
-  fill(102, 255, 255, 90);
-  ellipse(x + 200, y, 80, 80);
-  fill(102, 255, 255);
-  beginShape();
-  vertex(x + 178, y - 20);
-  vertex(x + 190, y - 12);
-  vertex(x + 200, y - 20);
-  vertex(x + 210, y - 12);
-  vertex(x + 223, y - 20);
-  bezierVertex(x + 223, y - 20, x + 230, y + 15, x + 200, y + 27);
-  bezierVertex(x + 200, y + 27, x + 170, y + 15, x + 178, y - 20);
-  endShape();
 }
 
 function drawHealthbar() {
@@ -314,7 +357,7 @@ function ufo(x, y) {
 
   // >>> UFO <<<
   noStroke();
-  fill(0, 255, 255);
+  fill(94, 255, 215);
   //ship
   ellipse(x + 2, y + 2, 215, 82);
 
@@ -427,9 +470,27 @@ function ufo(x, y) {
     fill(102, 255, 255, 90);
     ellipse(x, y - 15, diameter, diameter / 1);
   }
+  // live-bubble effect
   let diameter = 245;
   let dsize = diameter * Math.sin(frameCount * 0.09);
   diameter += dsize / 18;
 
+  function drawShieldBuff() {
+    noStroke();
+    fill(102, 255, 255, 90);
+    ellipse(x + 200, y, 80, 80);
+    fill(102, 255, 255);
+    beginShape();
+    vertex(x + 178, y - 20);
+    vertex(x + 190, y - 12);
+    vertex(x + 200, y - 20);
+    vertex(x + 210, y - 12);
+    vertex(x + 223, y - 20);
+    bezierVertex(x + 223, y - 20, x + 230, y + 15, x + 200, y + 27);
+    bezierVertex(x + 200, y + 27, x + 170, y + 15, x + 178, y - 20);
+    endShape();
+  }
+
   drawShield();
+  drawShieldBuff();
 }
