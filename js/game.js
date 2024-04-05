@@ -20,7 +20,7 @@ commetThree = {
 //STARRY SKY INSPIRATION FROM LECTURES
 let stars = [];
 
-let bgY = 800;
+let auraMove = 1800;
 let direction = "forward";
 
 function preload() {
@@ -77,16 +77,16 @@ function drawStars() {
 }
 
 function drawAura() {
-  bgcolor(bgY);
+  bgcolor(auraMove);
   if (direction === "forward") {
-    if (bgY < 850) {
-      bgY = bgY + 0.5;
+    if (auraMove < 1830) {
+      auraMove = auraMove + 0.3;
     } else {
       direction = "backwards";
     }
   } else if (direction === "backwards") {
-    if (bgY > 750) {
-      bgY = bgY - 0.4;
+    if (auraMove > 1780) {
+      auraMove = auraMove - 0.2;
     } else {
       direction = "forward";
     }
@@ -147,12 +147,12 @@ function commet(x, y) {
   ellipse(x, y, 15, 15);
 }
 
-function bgcolor(bgY) {
+function bgcolor(auraMove) {
   noStroke();
   fill(153, 0, 51, 30);
-  ellipse(width - 50, height / 2, 1100, 1100);
-  ellipse(width - 50, height / 2, 1300, 1300);
-  ellipse(width - 50, height / 2, 1800, 1800);
+  ellipse(auraMove, height / 2, 1100, 1100);
+  ellipse(auraMove, height / 2, 1300, 1300);
+  ellipse(auraMove, height / 2, 1800, 1800);
 }
 
 function moon() {
