@@ -50,7 +50,7 @@ function draw() {
   drawAura();
   drawHealthBuff();
   moon();
-  cyanBttn();
+  //cyanBttn();
   ufo(x, y);
   drawShieldBuff();
   drawHealthbar();
@@ -289,7 +289,7 @@ function moon() {
   );
   endShape();
 }
-
+/*
 function cyanBttn() {
   push();
   fill(94, 255, 215);
@@ -298,6 +298,7 @@ function cyanBttn() {
   ellipse(windowWidth / 10, windowHeight / 5, 60, 60, 15);
   pop();
 }
+*/
 
 function drawHealthbar() {
   // HP BAR Background
@@ -333,23 +334,25 @@ function drawHealthbar() {
 
 function drawHealthBuff() {
   function healthBuffObject() {
-    noStroke();
-    fill(102, 255, 153, 120);
+    //stroke(102, 255, 153, 100);
+    //strokeWeight(2);
+    fill(102, 255, 153, 80);
     ellipse(x + 300, y, diameter, diameter);
-    fill(102, 255, 153);
+    noStroke();
+    fill(179, 255, 179);
     beginShape();
-    vertex(x + 292, y - 20);
-    vertex(x + 307, y - 20);
-    vertex(x + 307, y - 5);
-    vertex(x + 322, y - 5);
-    vertex(x + 322, y + 10);
-    vertex(x + 307, y + 10);
-    vertex(x + 307, y + 25);
-    vertex(x + 292, y + 25);
-    vertex(x + 292, y + 10);
-    vertex(x + 276, y + 10);
-    vertex(x + 276, y - 5);
-    vertex(x + 292, y - 5);
+    vertex(x + 292.5, y - 21);
+    vertex(x + 307.5, y - 21);
+    vertex(x + 307.5, y - 7);
+    vertex(x + 322, y - 7);
+    vertex(x + 322, y + 7);
+    vertex(x + 307.5, y + 7);
+    vertex(x + 307.5, y + 21);
+    vertex(x + 292.5, y + 21);
+    vertex(x + 292.5, y + 7);
+    vertex(x + 278, y + 7);
+    vertex(x + 278, y - 7);
+    vertex(x + 292.5, y - 7);
     endShape();
   }
   // live-bubble effect
@@ -361,9 +364,11 @@ function drawHealthBuff() {
 
 function drawShieldBuff() {
   function shieldBuffObject() {
-    noStroke();
-    fill(102, 255, 255, 90);
+    //stroke(102, 255, 255, 100);
+    //strokeWeight(2);
+    fill(102, 255, 255, 80);
     ellipse(x + 200, y, diameter, diameter);
+    noStroke();
     fill(102, 255, 255);
     beginShape();
     vertex(x + 178, y - 20);

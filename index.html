@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pawsome Meowterspace: Strife of the Lunartic</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-    <link rel="icon" type="image/x-icon" href="/js/favicon.ico" />
     <script src="js/game.js" defer></script>
+    <script src="js/menu.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="/js/favicon.ico" />
+    <link rel="stylesheet" href="game.css" />
+    <link rel="stylesheet" href="https://use.typekit.net/xuh2gep.css" />
     <style>
       canvas {
         border: none;
@@ -25,5 +28,19 @@
       }
     </style>
   </head>
-  <body></body>
+  <body>
+    <div id="menu">
+      <div class="menu-flex">
+        <button id="menu-bttn" title="Choose Difficulty">Difficulty</button>
+        <button
+          id="menu-bttn"
+          title="Challenge Yourslef to Infinite Encounters & Reach #1 by Surviving the Longest!"
+        >
+          Infinite Mode
+        </button>
+        <button id="menu-bttn" title="Review Controls">Controls</button>
+      </div>
+    </div>
+    <button id="close-bttn">Menu</button>
+  </body>
 </html>
