@@ -48,9 +48,11 @@ function draw() {
   drawStars();
   drawCommencecommet();
   drawAura();
+  drawHealthBuff();
   moon();
   cyanBttn();
   ufo(x, y);
+  drawShieldBuff();
   drawHealthbar();
   drawCursor();
 }
@@ -329,6 +331,57 @@ function drawHealthbar() {
   line(800, 54, 800, 67);
 }
 
+function drawHealthBuff() {
+  function healthBuffObject() {
+    noStroke();
+    fill(102, 255, 153, 120);
+    ellipse(x + 300, y, diameter, diameter);
+    fill(102, 255, 153);
+    beginShape();
+    vertex(x + 292, y - 20);
+    vertex(x + 307, y - 20);
+    vertex(x + 307, y - 5);
+    vertex(x + 322, y - 5);
+    vertex(x + 322, y + 10);
+    vertex(x + 307, y + 10);
+    vertex(x + 307, y + 25);
+    vertex(x + 292, y + 25);
+    vertex(x + 292, y + 10);
+    vertex(x + 276, y + 10);
+    vertex(x + 276, y - 5);
+    vertex(x + 292, y - 5);
+    endShape();
+  }
+  // live-bubble effect
+  let diameter = 80;
+  let dsize = diameter * Math.sin(frameCount * 0.09);
+  diameter += dsize / 18;
+  healthBuffObject();
+}
+
+function drawShieldBuff() {
+  function shieldBuffObject() {
+    noStroke();
+    fill(102, 255, 255, 90);
+    ellipse(x + 200, y, diameter, diameter);
+    fill(102, 255, 255);
+    beginShape();
+    vertex(x + 178, y - 20);
+    vertex(x + 190, y - 12);
+    vertex(x + 200, y - 20);
+    vertex(x + 210, y - 12);
+    vertex(x + 223, y - 20);
+    bezierVertex(x + 223, y - 20, x + 230, y + 15, x + 200, y + 27);
+    bezierVertex(x + 200, y + 27, x + 170, y + 15, x + 178, y - 20);
+    endShape();
+  }
+  // live-bubble effect
+  let diameter = 80;
+  let dsize = diameter * Math.sin(frameCount * 0.09);
+  diameter += dsize / 18;
+  shieldBuffObject();
+}
+
 function ufo(x, y) {
   let levitationdistance = 15;
   let levitate = levitationdistance * Math.sin(frameCount * 0.05);
@@ -475,22 +528,5 @@ function ufo(x, y) {
   let dsize = diameter * Math.sin(frameCount * 0.09);
   diameter += dsize / 18;
 
-  function drawShieldBuff() {
-    noStroke();
-    fill(102, 255, 255, 90);
-    ellipse(x + 200, y, 80, 80);
-    fill(102, 255, 255);
-    beginShape();
-    vertex(x + 178, y - 20);
-    vertex(x + 190, y - 12);
-    vertex(x + 200, y - 20);
-    vertex(x + 210, y - 12);
-    vertex(x + 223, y - 20);
-    bezierVertex(x + 223, y - 20, x + 230, y + 15, x + 200, y + 27);
-    bezierVertex(x + 200, y + 27, x + 170, y + 15, x + 178, y - 20);
-    endShape();
-  }
-
   drawShield();
-  drawShieldBuff();
 }
