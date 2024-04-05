@@ -151,8 +151,10 @@ function bgcolor(auraMove) {
   noStroke();
   fill(153, 0, 51, 30);
   ellipse(auraMove, height / 2, 1100, 1100);
-  ellipse(auraMove, height / 2, 1300, 1300);
-  ellipse(auraMove, height / 2, 1800, 1800);
+  fill(153, 0, 51, 20);
+  ellipse(auraMove - 80, height / 2, 1300, 1300);
+  fill(153, 0, 51, 15);
+  ellipse(auraMove - 150, height / 2, 1800, 1800);
 }
 
 function moon() {
@@ -167,11 +169,11 @@ function moon() {
     height / 3,
     width - 440,
     height / 2,
-    width - 630,
+    width - 640,
     height / 1.95
   );
   bezierVertex(
-    width - 630,
+    width - 640,
     height / 1.95,
     width - 560,
     height / 1.7,
@@ -273,7 +275,8 @@ function moon() {
 
   // Nose Details
   fill(54, 49, 68);
-  ellipse(width - 500, height / 1.83, 20, 2);
+  noStroke();
+  ellipse(width - 485, height / 1.83, 50, 15);
   stroke(54, 49, 68);
   noFill();
   strokeWeight(18);
@@ -524,12 +527,15 @@ function ufo(x, y) {
   endShape();
 
   function drawShield() {
-    noStroke();
-    fill(102, 255, 255, 90);
+    push();
+    stroke(102, 255, 255, 30);
+    strokeWeight(30);
+    fill(102, 255, 255, 70);
     ellipse(x, y - 15, diameter, diameter / 1);
+    pop();
   }
   // live-bubble effect
-  let diameter = 245;
+  let diameter = 225;
   let dsize = diameter * Math.sin(frameCount * 0.09);
   diameter += dsize / 18;
 
