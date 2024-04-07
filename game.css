@@ -10,12 +10,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  gap: 20px;
 }
 #menu-bttn {
-  width: 12em;
+  width: 10em;
   min-width: fit-content;
-  padding: 0.5em;
+  padding: 0.4em;
   font-family: "pain-de-mie", sans-serif;
   font-size: 2.5em;
   letter-spacing: 2pt;
@@ -27,9 +27,9 @@
   background-color: rgb(126, 236, 255);
   border: 6px solid transparent;
   cursor: pointer;
+  transition: ease-in-out 0.4s;
 }
 #menu-bttn:hover {
-  transition: ease-in 0.25s;
   color: rgb(143, 76, 0);
   background-color: rgb(255, 218, 126);
   border: 6px solid transparent;
