@@ -1,3 +1,4 @@
+import { Menufunction } from "menu.js";
 let y = 450;
 let x = 500;
 
