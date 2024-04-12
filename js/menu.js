@@ -7,7 +7,8 @@ const menuBtn = document.getElementById("menu-bttn");
 difficultyBtn.addEventListener("click", function (event) {
   console.log("Difficulty Button Clicked!");
 
-  menu.style.display = "none";
+  state = "easy";
+  console.log(state);
 });
 
 infiniteBtn.addEventListener("click", function (event) {
@@ -27,3 +28,15 @@ menuBtn.addEventListener("click", function (event) {
 
   menu.style.display = "block";
 });
+
+let state = "easy";
+
+/*if (state === "start") {
+  startState();
+} else if (state === "easy") {
+  gameState();
+} else if (state === "normal") {
+  gameState();
+} else if (state === "hard") {
+  gameState();
+}*/

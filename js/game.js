@@ -1,5 +1,9 @@
+// game physics etc
 let y = 450;
 let x = 500;
+let ufoSpeed = 0;
+let gravityStrength = 0.1;
+let boosterStrength = 0.25;
 
 // COMET
 let commetOne = {
@@ -55,6 +59,20 @@ function draw() {
   drawShieldBuff();
   drawHealthbar();
   drawCursor();
+
+  if (state === "start") {
+    startState();
+  } else if (state === "easy") {
+    gameState();
+  } else if (state === "normal") {
+    gameState();
+  } else if (state === "hard") {
+    gameState();
+  }
+
+  if (state === "easy") {
+    ufo(x, y);
+  }
 }
 
 function windowResized() {
@@ -540,4 +558,12 @@ function ufo(x, y) {
   diameter += dsize / 18;
 
   drawShield();
+}
+
+function gameState() {
+  if (keyIsDown(38)) {
+    ufoSpeed = ufoSpeed - boosterStrength;
+  }
+
+  y = y + ufoSpeed;
 }
