@@ -50,7 +50,6 @@ function draw() {
   drawAura();
   drawHealthBuff();
   moon();
-  //cyanBttn();
   ufo(x, y);
   drawShieldBuff();
   drawHealthbar();
@@ -292,16 +291,6 @@ function moon() {
   );
   endShape();
 }
-/*
-function cyanBttn() {
-  push();
-  fill(94, 255, 215);
-  noStroke();
-  strokeWeight(3);
-  ellipse(windowWidth / 10, windowHeight / 5, 60, 60, 15);
-  pop();
-}
-*/
 
 function drawHealthbar() {
   // HP BAR Background
