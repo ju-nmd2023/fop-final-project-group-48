@@ -7,6 +7,7 @@ const menuBtn = document.getElementById("menu-bttn");
 difficultyBtn.addEventListener("click", function (event) {
   console.log("Difficulty Button Clicked!");
 
+  menu.style.display = "none";
   state = "easy";
   console.log(state);
 });
