@@ -1,3 +1,10 @@
+import { Ufo, Moon, HealthBuff, ShieldBuff } from "classes.js";
+
+let ufo = new Ufo(x, y);
+let moon = new Moon();
+let healthBuff = new HealthBuff();
+let shieldBuff = new ShieldBuff();
+
 // game physics etc
 let y = 450;
 let x = 500;
@@ -27,11 +34,6 @@ let stars = [];
 let auraMove = 1800;
 let direction = "forward";
 
-function preload() {
-  //title = loadImage("js/title.png");
-  //titletwo = loadImage("js/titletwo.png");
-} // Load the image before canvas was draw for smooth game
-
 function setup() {
   createCanvas(windowWidth, windowHeight);
   window.addEventListener("resize", windowResized); //checking if window is resized
@@ -52,11 +54,6 @@ function draw() {
   drawStars();
   drawCommencecommet();
   drawAura();
-  drawHealthBuff();
-  moon();
-  //cyanBttn();
-  ufo(x, y);
-  drawShieldBuff();
   drawHealthbar();
   drawCursor();
 
@@ -71,7 +68,6 @@ function draw() {
   }
 
   if (state === "easy") {
-    ufo(x, y);
   }
 }
 
@@ -79,12 +75,12 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
 }
 
+// NON-Movable OBJECTS
 function drawGeneral() {
   noStroke();
   clear();
   background(30, 30, 70);
 }
-
 function drawStars() {
   noStroke();
   for (let star of stars) {
@@ -93,7 +89,6 @@ function drawStars() {
     star.alpha = star.alpha + 0.01;
   }
 }
-
 function drawAura() {
   bgcolor(auraMove);
   if (direction === "forward") {
@@ -110,17 +105,14 @@ function drawAura() {
     }
   }
 }
-
 function drawCursor() {
   paw(mouseX, mouseY);
 }
-
 function drawCommencecommet() {
   commetshower(commetOne);
   commetshower(commetTwo);
   commetshower(commetThree);
 }
-
 function commetshower(comet) {
   comet.x += comet.speed;
   comet.y += comet.speed;
@@ -153,7 +145,6 @@ function paw(x, y) {
   }
   beans();
 }
-
 function commet(x, y) {
   push();
   stroke(255, 255, 255, 40);
@@ -164,7 +155,6 @@ function commet(x, y) {
   noStroke();
   ellipse(x, y, 15, 15);
 }
-
 function bgcolor(auraMove) {
   noStroke();
   fill(153, 0, 51, 30);
@@ -174,153 +164,6 @@ function bgcolor(auraMove) {
   fill(153, 0, 51, 15);
   ellipse(auraMove - 150, height / 2, 1800, 1800);
 }
-
-function moon() {
-  noStroke();
-  fill(117, 117, 117);
-  ellipse(width - 50, height / 2, 800, 800);
-  // Nose
-  beginShape();
-  vertex(width - 400, height / 3);
-  bezierVertex(
-    width - 400,
-    height / 3,
-    width - 440,
-    height / 2,
-    width - 640,
-    height / 1.95
-  );
-  bezierVertex(
-    width - 640,
-    height / 1.95,
-    width - 560,
-    height / 1.7,
-    width - 400,
-    height / 1.8
-  );
-  endShape();
-  //Eye
-  fill(198, 198, 198);
-  ellipse(width - 280, height / 2.4, 190, 290);
-  fill(255, 0, 116);
-  ellipse(width - 305, height / 2.4, 130, 200);
-  fill(54, 49, 68);
-  ellipse(width - 335, height / 2.4, 40, 110);
-  fill(255, 255, 255, 150);
-  ellipse(width - 280, height / 2.7, 100, 130);
-
-  // Craters
-  fill(54, 49, 68);
-  ellipse(width - 40, height / 5, 150, 120);
-  ellipse(width - 70, height / 3.3, 50, 40);
-  ellipse(width - 30, height / 3.5, 20, 15);
-  ellipse(width - 60, height / 1.24, 80, 60);
-  ellipse(width - 120, height / 1.28, 40, 30);
-  ellipse(width - 280, height / 1.25, 10, 8);
-  ellipse(width - 280, height / 1.28, 23, 18);
-  ellipse(width - 260, height / 1.26, 15, 10);
-
-  // Eyelid
-  fill(117, 117, 117);
-  beginShape();
-  vertex(width - 240, height / 4);
-  bezierVertex(
-    width - 240,
-    height / 4,
-    width - 340,
-    height / 2.7,
-    width - 370,
-    height / 3
-  );
-  bezierVertex(
-    width - 370,
-    height / 3,
-    width - 340,
-    height / 4,
-    width - 240,
-    height / 4
-  );
-  endShape();
-  // Eye-Brow
-  stroke(54, 49, 68);
-  strokeWeight(18);
-  fill(117, 117, 117);
-  beginShape();
-  vertex(width - 240, height / 4);
-  bezierVertex(
-    width - 240,
-    height / 4,
-    width - 340,
-    height / 2.7,
-    width - 370,
-    height / 3
-  );
-  endShape();
-  // Mouth
-  stroke(54, 49, 68);
-  noFill();
-  strokeWeight(18);
-  beginShape();
-  vertex(width - 410, height / 1.45);
-  bezierVertex(
-    width - 410,
-    height / 1.45,
-    width - 160,
-    height / 1.35,
-    width - 100,
-    height / 2
-  );
-  endShape();
-  beginShape();
-  vertex(width - 135, height / 2.15);
-  bezierVertex(
-    width - 135,
-    height / 2.15,
-    width - 135,
-    height / 2,
-    width - 95,
-    height / 2
-  );
-  bezierVertex(
-    width - 95,
-    height / 2,
-    width - 65,
-    height / 2,
-    width - 65,
-    height / 2.15
-  );
-  endShape();
-
-  // Nose Details
-  fill(54, 49, 68);
-  noStroke();
-  ellipse(width - 485, height / 1.83, 50, 15);
-  stroke(54, 49, 68);
-  noFill();
-  strokeWeight(18);
-  beginShape();
-  vertex(width - 440, height / 1.77);
-  bezierVertex(
-    width - 440,
-    height / 1.77,
-    width - 400,
-    height / 1.85,
-    width - 450,
-    height / 1.95
-  );
-  endShape();
-}
-/*
-function cyanBttn() {
-  push();
-  fill(94, 255, 215);
-  noStroke();
-  strokeWeight(3);
-  ellipse(windowWidth / 10, windowHeight / 5, 60, 60, 15);
-  pop();
-}
-*/
-
 function drawHealthbar() {
   // HP BAR Background
   strokeWeight(40);
@@ -353,214 +196,8 @@ function drawHealthbar() {
   line(800, 54, 800, 67);
 }
 
-function drawHealthBuff() {
-  function healthBuffObject() {
-    //stroke(102, 255, 153, 100);
-    //strokeWeight(2);
-    fill(102, 255, 153, 80);
-    ellipse(x + 300, y, diameter, diameter);
-    noStroke();
-    fill(179, 255, 179);
-    beginShape();
-    vertex(x + 292.5, y - 21);
-    vertex(x + 307.5, y - 21);
-    vertex(x + 307.5, y - 7);
-    vertex(x + 322, y - 7);
-    vertex(x + 322, y + 7);
-    vertex(x + 307.5, y + 7);
-    vertex(x + 307.5, y + 21);
-    vertex(x + 292.5, y + 21);
-    vertex(x + 292.5, y + 7);
-    vertex(x + 278, y + 7);
-    vertex(x + 278, y - 7);
-    vertex(x + 292.5, y - 7);
-    endShape();
-  }
-  // live-bubble effect
-  let diameter = 80;
-  let dsize = diameter * Math.sin(frameCount * 0.09);
-  diameter += dsize / 18;
-  healthBuffObject();
-}
-
-function drawShieldBuff() {
-  function shieldBuffObject() {
-    //stroke(102, 255, 255, 100);
-    //strokeWeight(2);
-    fill(102, 255, 255, 80);
-    ellipse(x + 200, y, diameter, diameter);
-    noStroke();
-    fill(102, 255, 255);
-    beginShape();
-    vertex(x + 178, y - 20);
-    vertex(x + 190, y - 12);
-    vertex(x + 200, y - 20);
-    vertex(x + 210, y - 12);
-    vertex(x + 223, y - 20);
-    bezierVertex(x + 223, y - 20, x + 230, y + 15, x + 200, y + 27);
-    bezierVertex(x + 200, y + 27, x + 170, y + 15, x + 178, y - 20);
-    endShape();
-  }
-  // live-bubble effect
-  let diameter = 80;
-  let dsize = diameter * Math.sin(frameCount * 0.09);
-  diameter += dsize / 18;
-  shieldBuffObject();
-}
-
-function ufo(x, y) {
-  let levitationdistance = 15;
-  let levitate = levitationdistance * Math.sin(frameCount * 0.05);
-  y += levitate;
-
-  // >>> Pulse <<<
-  function pulse(x, y) {
-    fill(97, 255, 115, 110);
-    noStroke();
-    beginShape();
-    vertex(x - 40, y + 5);
-    bezierVertex(x - 40, y + 5, x, y + 150, x + 40, y + 5);
-    endShape();
-
-    beginShape();
-    vertex(x - 60, y + 5);
-    bezierVertex(x - 60, y + 5, x, y + 230, x + 60, y + 5);
-    endShape();
-
-    beginShape();
-    vertex(x - 70, y + 5);
-    bezierVertex(x - 70, y + 5, x, y + 280, x + 70, y + 5);
-    endShape();
-  }
-  // pulse(x, y);
-
-  // >>> UFO <<<
-  noStroke();
-  fill(94, 255, 215);
-  //ship
-  ellipse(x + 2, y + 2, 215, 82);
-
-  //cockpit
-  fill(107, 136, 153);
-  ellipse(x + 2, y - 20, 120, 30);
-
-  //cat
-  push();
-  fill(71, 71, 71);
-  noStroke();
-  rect(x - 30, y - 65, 60, 40, 9);
-
-  //ear-right
-  beginShape();
-  vertex(x + 2 + 30, y - 59);
-  bezierVertex(x + 22, y - 91, x + 2 + 14, y - 60, x + 2 + 10, y - 65);
-  endShape();
-
-  //ear-left
-  beginShape();
-  vertex(x - 30, y - 59);
-  bezierVertex(x - 22, y - 91, x - 14, y - 60, x - 10, y - 65);
-  endShape();
-
-  //cheek-left
-  beginShape();
-  vertex(x - 30, y - 48);
-  bezierVertex(x - 32, y - 47, x - 38, y - 45, x - 28, y - 28);
-  endShape();
-
-  //cheek-right
-  beginShape();
-  vertex(x + 30, y - 48);
-  bezierVertex(x + 32, y - 47, x + 38, y - 45, x + 28, y - 28);
-  endShape();
-
-  //eye-left
-  fill(255);
-  noStroke();
-  ellipse(x - 12, y - 50, 16, 14);
-  fill(204, 153, 255);
-  noStroke();
-  ellipse(x - 11, y - 50, 11);
-  fill(255);
-  ellipse(x - 9, y - 52, 4);
-
-  //eye-right
-  noStroke();
-  ellipse(x + 12, y - 50, 16, 14);
-  fill(204, 153, 255);
-  noStroke();
-  ellipse(x + 11, y - 50, 11);
-  fill(255);
-  ellipse(x + 13, y - 52, 4);
-
-  //mouth
-  noFill();
-  stroke(255, 255, 204);
-  strokeWeight(1);
-  beginShape();
-  vertex(x - 5, y - 39);
-  bezierVertex(x - 5, y - 39, x - 3, y - 36, x, y - 39);
-  endShape();
-  beginShape();
-  vertex(x, y - 39);
-  bezierVertex(x, y - 39, x + 3, y - 36, x + 5, y - 39);
-  endShape();
-
-  //scarf
-  fill(247, 147, 30);
-  noStroke();
-  rect(x - 28.5, y - 25, 58, 19, 8);
-  pop();
-
-  //Paws
-  fill(50, 50, 50);
-  ellipse(x + 13, y - 12.5, 17, 15);
-  ellipse(x - 11, y - 12.5, 17, 15);
-  fill(223, 159, 191);
-  //toe-beans-right
-  ellipse(x + 13.5, y - 9, 6, 4);
-  ellipse(x + 16, y - 14, 3.5, 3.3);
-  ellipse(x + 12, y - 15, 3.5, 3.3);
-  ellipse(x + 8.8, y - 12, 3.5, 3.3);
-  //toe-beans-left
-  ellipse(x - 11.5, y - 9, 6, 4);
-  ellipse(x - 15, y - 14, 3.5, 3.3);
-  ellipse(x - 11, y - 15, 3.5, 3.3);
-  ellipse(x - 7, y - 13, 3.5, 3.3);
-  //glass
-  fill(169, 196, 195, 50);
-  noStroke();
-  beginShape();
-  vertex(x - 60, y - 10);
-  bezierVertex(x - 53, y - 110, x + 47, y - 110, x + 60, y - 20);
-  bezierVertex(x + 60, y, x - 60, y, x - 60, y - 20);
-  endShape();
-
-  //reflection
-  fill(255, 254, 217, 50);
-  beginShape();
-  vertex(x - 25, y - 25);
-  bezierVertex(x - 30, y - 100, x + 40, y - 90, x + 53, y - 30);
-  bezierVertex(x + 55, y + 5, x - 30, y - 10, x - 10, y);
-  endShape();
-
-  function drawShield() {
-    push();
-    stroke(102, 255, 255, 30);
-    strokeWeight(30);
-    fill(102, 255, 255, 70);
-    ellipse(x, y - 15, diameter, diameter / 1);
-    pop();
-  }
-  // live-bubble effect
-  let diameter = 225;
-  let dsize = diameter * Math.sin(frameCount * 0.09);
-  diameter += dsize / 18;
-
-  drawShield();
-}
-
 function gameState() {
+  draw;
   if (keyIsDown(38)) {
     ufoSpeed = ufoSpeed - boosterStrength;
   }
