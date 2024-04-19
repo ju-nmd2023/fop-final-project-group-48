@@ -133,13 +133,10 @@ class Ufo {
     pop();
   }
 }
-/*
-HOW TO USE
 function drawUFfo(x, y) {
   let ufo = new Ufo(x, y);
   ufo.draw();
 }
-*/
 
 class Moon {
   constructor() {}
@@ -317,13 +314,6 @@ class HealthBuff {
     endShape();
   }
 }
-/*
-HOW TO USE
-function drawHealthBuff(x, y, diameter) {
-  let healthBuff = new HealthBuff(x, y, diameter);
-  healthBuff.draw();
-}
-*/
 
 class ShieldBuff {
   constructor(x, y, diameter) {
@@ -366,12 +356,5 @@ class ShieldBuff {
     endShape();
   }
 }
-/*
-HOW TO USE
-function drawShieldBuff(x, y, diameter) {
-  let shieldBuff = new ShieldBuff(x, y, diameter);
-  shieldBuff.draw();
-}
-*/
 
 export { Ufo, Moon, HealthBuff, ShieldBuff };

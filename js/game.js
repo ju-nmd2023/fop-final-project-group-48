@@ -1,9 +1,4 @@
-import { Ufo, Moon, HealthBuff, ShieldBuff } from "classes.js";
-
-let ufo = new Ufo(x, y);
-let moon = new Moon();
-let healthBuff = new HealthBuff();
-let shieldBuff = new ShieldBuff();
+import { Ufo, Moon, HealthBuff, ShieldBuff } from "./classes.js";
 
 // game physics etc
 let y = 450;
@@ -69,6 +64,18 @@ function draw() {
 
   if (state === "easy") {
   }
+}
+function drawUFfo(x, y) {
+  let ufo = new Ufo(x, y);
+  ufo.draw();
+}
+function drawHealthBuff(x, y, diameter) {
+  let healthBuff = new HealthBuff(x, y, diameter);
+  healthBuff.draw();
+}
+function drawShieldBuff(x, y, diameter) {
+  let shieldBuff = new ShieldBuff(x, y, diameter);
+  shieldBuff.draw();
 }
 
 function windowResized() {
