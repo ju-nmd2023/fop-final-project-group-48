@@ -580,4 +580,27 @@ function movement() {
 
   y = y + ufoVertSpeed;
   x = x + ufoHoriSpeed;
+
+  maxSpeed();
+  borderCheck();
 }
+
+function maxSpeed() {
+  if (ufoVertSpeed >= 6) {
+    ufoVertSpeed = 6;
+  }
+
+  if (ufoVertSpeed <= -6) {
+    ufoVertSpeed = -6;
+  }
+
+  if (ufoHoriSpeed >= 6) {
+    ufoHoriSpeed = 6;
+  }
+
+  if (ufoHoriSpeed <= -6) {
+    ufoHoriSpeed = -6;
+  }
+}
+
+function borderCheck() {}
