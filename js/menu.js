@@ -8,7 +8,7 @@ difficultyBtn.addEventListener("click", function (event) {
   console.log("Difficulty Button Clicked!");
 
   menu.style.display = "none";
-  state = "easy";
+  state = "game";
   console.log(state);
 });
 
@@ -29,15 +29,3 @@ menuBtn.addEventListener("click", function (event) {
 
   menu.style.display = "block";
 });
-
-let state = "easy";
-
-/*if (state === "start") {
-  startState();
-} else if (state === "easy") {
-  gameState();
-} else if (state === "normal") {
-  gameState();
-} else if (state === "hard") {
-  gameState();
-}*/

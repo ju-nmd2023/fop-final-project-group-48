@@ -1,7 +1,10 @@
+let state = "start";
+
 // game physics etc
 let y = 450;
 let x = 500;
-let ufoSpeed = 0;
+let ufoVertSpeed = 0;
+let ufoHoriSpeed = 0;
 let gravityStrength = 0.1;
 let boosterStrength = 0.25;
 
@@ -48,30 +51,11 @@ function setup() {
 }
 
 function draw() {
-  drawGeneral();
-  drawStars();
-  drawCommencecommet();
-  drawAura();
-  drawHealthBuff();
-  moon();
-  //cyanBttn();
-  ufo(x, y);
-  drawShieldBuff();
-  drawHealthbar();
-  drawCursor();
-
   if (state === "start") {
     startState();
-  } else if (state === "easy") {
-    gameState();
-  } else if (state === "normal") {
-    gameState();
-  } else if (state === "hard") {
-    gameState();
   }
-
-  if (state === "easy") {
-    ufo(x, y);
+  if (state === "game") {
+    gameState();
   }
 }
 
@@ -310,16 +294,6 @@ function moon() {
   );
   endShape();
 }
-/*
-function cyanBttn() {
-  push();
-  fill(94, 255, 215);
-  noStroke();
-  strokeWeight(3);
-  ellipse(windowWidth / 10, windowHeight / 5, 60, 60, 15);
-  pop();
-}
-*/
 
 function drawHealthbar() {
   // HP BAR Background
@@ -409,10 +383,6 @@ function drawShieldBuff() {
 }
 
 function ufo(x, y) {
-  let levitationdistance = 15;
-  let levitate = levitationdistance * Math.sin(frameCount * 0.05);
-  y += levitate;
-
   // >>> Pulse <<<
   function pulse(x, y) {
     fill(97, 255, 115, 110);
@@ -560,10 +530,54 @@ function ufo(x, y) {
   drawShield();
 }
 
+function levitatingUfo() {
+  let levitationdistance = 1;
+  let levitate = levitationdistance * Math.sin(frameCount * 0.05);
+  y += levitate;
+  ufo(x, y);
+}
+
 function gameState() {
+  drawGeneral();
+  drawStars();
+  drawCommencecommet();
+  drawAura();
+  moon();
+  drawHealthbar();
+  ufo(x, y);
+  drawCursor();
+
+  movement();
+}
+
+function startState() {
+  drawGeneral();
+  drawStars();
+  drawCommencecommet();
+  drawAura();
+  moon();
+  drawHealthbar();
+  levitatingUfo();
+  drawCursor();
+}
+
+function movement() {
   if (keyIsDown(38)) {
-    ufoSpeed = ufoSpeed - boosterStrength;
+    ufoVertSpeed = ufoVertSpeed - boosterStrength;
   }
 
-  y = y + ufoSpeed;
+  if (keyIsDown(40)) {
+    ufoVertSpeed = ufoVertSpeed + boosterStrength;
+  }
+
+  if (keyIsDown(37)) {
+    ufoHoriSpeed = ufoHoriSpeed - boosterStrength;
+  }
+
+  if (keyIsDown(39)) {
+    ufoHoriSpeed = ufoHoriSpeed + boosterStrength;
+  }
+
+  y = y + ufoVertSpeed;
+  x = x + ufoHoriSpeed;
 }
