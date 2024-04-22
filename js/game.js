@@ -6,7 +6,9 @@ let x = 500;
 let ufoVertSpeed = 0;
 let ufoHoriSpeed = 0;
 let gravityStrength = 0.1;
-let boosterStrength = 0.25;
+let boosterStrength = 0.5;
+const speedLimit = 6;
+const slowDownStrength = 0.95;
 
 // COMET
 let commetOne = {
@@ -513,6 +515,13 @@ function ufo(x, y) {
   bezierVertex(x - 30, y - 100, x + 40, y - 90, x + 53, y - 30);
   bezierVertex(x + 55, y + 5, x - 30, y - 10, x - 10, y);
   endShape();
+}
+
+function levitatingUfo() {
+  let levitationdistance = 1;
+  let levitate = levitationdistance * Math.sin(frameCount * 0.05);
+  y += levitate;
+  ufo(x, y);
 
   function drawShield() {
     push();
@@ -530,13 +539,6 @@ function ufo(x, y) {
   drawShield();
 }
 
-function levitatingUfo() {
-  let levitationdistance = 1;
-  let levitate = levitationdistance * Math.sin(frameCount * 0.05);
-  y += levitate;
-  ufo(x, y);
-}
-
 function gameState() {
   drawGeneral();
   drawStars();
@@ -548,6 +550,7 @@ function gameState() {
   drawCursor();
 
   movement();
+  borderCheck();
 }
 
 function startState() {
@@ -581,26 +584,42 @@ function movement() {
   y = y + ufoVertSpeed;
   x = x + ufoHoriSpeed;
 
-  maxSpeed();
+  slowDown();
   borderCheck();
 }
 
-function maxSpeed() {
-  if (ufoVertSpeed >= 6) {
-    ufoVertSpeed = 6;
+function slowDown() {
+  if (ufoVertSpeed > 0) {
+    ufoVertSpeed = ufoVertSpeed * slowDownStrength;
   }
 
-  if (ufoVertSpeed <= -6) {
-    ufoVertSpeed = -6;
+  if (ufoVertSpeed < 0) {
+    ufoVertSpeed = ufoVertSpeed * slowDownStrength;
   }
 
-  if (ufoHoriSpeed >= 6) {
-    ufoHoriSpeed = 6;
+  if (ufoHoriSpeed > 0) {
+    ufoHoriSpeed = ufoHoriSpeed * slowDownStrength;
   }
 
-  if (ufoHoriSpeed <= -6) {
-    ufoHoriSpeed = -6;
+  if (ufoHoriSpeed < 0) {
+    ufoHoriSpeed = ufoHoriSpeed * slowDownStrength;
   }
 }
 
-function borderCheck() {}
+function borderCheck() {
+  if (x >= windowWidth - 100) {
+    x = windowWidth - 100;
+  }
+
+  if (x <= 100) {
+    x = 100;
+  }
+
+  if (y >= windowHeight - 40) {
+    y = windowHeight - 40;
+  }
+
+  if (y <= 80) {
+    y = 80;
+  }
+}
