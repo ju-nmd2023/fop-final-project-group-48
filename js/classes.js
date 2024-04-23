@@ -7,18 +7,18 @@ class Ufo {
   }
 
   draw() {
-    this._levitate();
-    this._pulse();
-    this._drawUFO();
-    this._drawShield();
+    this.levitate();
+    this.pulse();
+    this.drawUFO();
+    this.drawShield();
   }
 
-  _levitate() {
+  levitate() {
     let levitate = this.levitationdistance * Math.sin(frameCount * 0.05);
     this.y += levitate;
   }
 
-  _pulse() {
+  pulse() {
     let x = this.x;
     let y = this.y;
 
@@ -40,7 +40,7 @@ class Ufo {
     endShape();
   }
 
-  _drawUFO() {
+  drawUFO() {
     let x = this.x;
     let y = this.y;
 
@@ -122,7 +122,7 @@ class Ufo {
     ellipse(x - 7, y - 13, 3.5, 3.3);
   }
 
-  _drawShield() {
+  drawShield() {
     let x = this.x;
     let y = this.y;
     push();
@@ -132,10 +132,6 @@ class Ufo {
     ellipse(x, y - 15, this.diameter, this.diameter / 1);
     pop();
   }
-}
-function drawUFfo(x, y) {
-  let ufo = new Ufo(x, y);
-  ufo.draw();
 }
 
 class Moon {
@@ -357,4 +353,40 @@ class ShieldBuff {
   }
 }
 
-export { Ufo, Moon, HealthBuff, ShieldBuff };
+class Projectile {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  draw() {
+    push();
+    stroke(181, 51, 88, 90);
+    strokeWeight(50);
+    line(this.x, this.y, this.x + 100, this.y);
+    pop();
+    fill(255, 0, 116);
+    noStroke();
+    ellipse(this.x, this.y, 30, 30);
+  }
+}
+
+class MegaProjectile {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  draw() {
+    push();
+    stroke(255, 151, 0, 90);
+    strokeWeight(120);
+    line(this.x, this.y, this.x + 100, this.y);
+    pop();
+    fill(250, 218, 0);
+    noStroke();
+    ellipse(this.x, this.y, 80, 80);
+  }
+}
+
+//export { Ufo, Moon, HealthBuff, ShieldBuff, Projectile, MegaProjectile };

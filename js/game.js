@@ -1,5 +1,21 @@
-// import { Ufo, Moon, HealthBuff, ShieldBuff } from "./classes.js";
+/* HOW TO WORK WITH MODULES???
+import {
+  Ufo,
+  Moon,
+  HealthBuff,
+  ShieldBuff,
+  Projectile,
+  MegaProjectile,
+} from "./classes.js";
 
+// Imported Classes
+let ufo = new Ufo(100, 100);
+let moon = new Moon();
+let healthBuff = new HealthBuff(200, 200, 50);
+let shieldBuff = new ShieldBuff(300, 300, 60);
+let projectile = new Projectile(400, 400);
+let megaProjectile = new MegaProjectile(500, 500);
+*/
 let state = "start";
 
 // game physics etc
@@ -8,7 +24,7 @@ let x = 500;
 let ufoVertSpeed = 0;
 let ufoHoriSpeed = 0;
 let gravityStrength = 0.1;
-let boosterStrength = 0.5;
+let boosterStrength = 0.8;
 const speedLimit = 6;
 const slowDownStrength = 0.95;
 
@@ -25,7 +41,7 @@ let commetTwo = {
   y: 300,
   speed: 1.8,
 };
-commetThree = {
+let commetThree = {
   x: 1000,
   y: 800,
   speed: 0.7,
@@ -64,27 +80,23 @@ function draw() {
   if (state === "game") {
     gameState();
   }
-  drawTitle();
+  //drawTitle();
 }
 
 function mouseClicked() {
   showTitle = false; // Hide the title when the mouse is clicked
 }
-
 function keyPressed() {
   showTitle = false; // Hide the title when any key is pressed
 }
-
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
 }
-
 function drawGeneral() {
   noStroke();
   clear();
   background(30, 30, 70);
 }
-
 function drawStars() {
   noStroke();
   for (let star of stars) {
@@ -93,7 +105,6 @@ function drawStars() {
     star.alpha = star.alpha + 0.01;
   }
 }
-
 function drawAura() {
   bgcolor(auraMove);
   if (direction === "forward") {
@@ -110,17 +121,14 @@ function drawAura() {
     }
   }
 }
-
 function drawCursor() {
   paw(mouseX, mouseY);
 }
-
 function drawCommencecommet() {
   commetshower(commetOne);
   commetshower(commetTwo);
   commetshower(commetThree);
 }
-
 function commetshower(comet) {
   comet.x += comet.speed;
   comet.y += comet.speed;
@@ -130,6 +138,22 @@ function commetshower(comet) {
     comet.y = 0;
   }
   commet(comet.x, comet.y);
+}
+
+// START TITLE
+function drawTitle() {
+  if (showTitle) {
+    let maxWidth = 850;
+    let maxHeight = 850;
+    let scale = min(maxWidth / title.width, maxHeight / title.height);
+
+    // Center IT
+    let imageX = (windowWidth - title.width * 0.6) / 2;
+    let imageY = (windowHeight - title.height * 0.6) / 1.8;
+
+    // Draw the image with the calculated position and scaled dimensions
+    image(title, imageX, imageY, title.width * 0.6, title.height * 0.6);
+  }
 }
 
 // OBJECTS
@@ -153,7 +177,6 @@ function paw(x, y) {
   }
   beans();
 }
-
 function commet(x, y) {
   push();
   stroke(255, 255, 255, 40);
@@ -164,7 +187,6 @@ function commet(x, y) {
   noStroke();
   ellipse(x, y, 15, 15);
 }
-
 function bgcolor(auraMove) {
   noStroke();
   fill(153, 0, 51, 30);
@@ -174,7 +196,6 @@ function bgcolor(auraMove) {
   fill(153, 0, 51, 15);
   ellipse(auraMove - 150, height / 2, 1800, 1800);
 }
-
 function moon() {
   noStroke();
   fill(117, 117, 117);
@@ -310,7 +331,6 @@ function moon() {
   );
   endShape();
 }
-
 function drawHealthbar() {
   // HP BAR Background
   strokeWeight(40);
@@ -342,7 +362,6 @@ function drawHealthbar() {
   line(700, 54, 700, 67);
   line(800, 54, 800, 67);
 }
-
 function drawHealthBuff() {
   function healthBuffObject() {
     //stroke(102, 255, 153, 100);
@@ -372,7 +391,6 @@ function drawHealthBuff() {
   diameter += dsize / 18;
   healthBuffObject();
 }
-
 function drawShieldBuff() {
   function shieldBuffObject() {
     //stroke(102, 255, 255, 100);
@@ -397,23 +415,6 @@ function drawShieldBuff() {
   diameter += dsize / 18;
   shieldBuffObject();
 }
-
-// START TITLE
-function drawTitle() {
-  if (showTitle) {
-    let maxWidth = 850;
-    let maxHeight = 850;
-    let scale = min(maxWidth / title.width, maxHeight / title.height);
-
-    // Center IT
-    let imageX = (windowWidth - title.width * 0.6) / 2;
-    let imageY = (windowHeight - title.height * 0.6) / 2;
-
-    // Draw the image with the calculated position and scaled dimensions
-    image(title, imageX, imageY, title.width * 0.6, title.height * 0.6);
-  }
-}
-
 function ufo(x, y) {
   // >>> Pulse <<<
   function pulse(x, y) {
@@ -546,7 +547,6 @@ function ufo(x, y) {
   bezierVertex(x + 55, y + 5, x - 30, y - 10, x - 10, y);
   endShape();
 }
-
 function levitatingUfo() {
   let levitationdistance = 1;
   let levitate = levitationdistance * Math.sin(frameCount * 0.05);
@@ -568,7 +568,28 @@ function levitatingUfo() {
 
   drawShield();
 }
+function drawProjectile() {
+  push();
+  stroke(181, 51, 88, 90);
+  strokeWeight(50);
+  line(1000, 800, 1100, 800);
+  pop();
+  fill(255, 0, 116);
+  noStroke();
+  ellipse(1000, 800, 30, 30);
+}
+function drawMegaProjectile() {
+  push();
+  stroke(255, 151, 0, 90);
+  strokeWeight(120);
+  line(1000, 500, 1100, 500);
+  pop();
+  fill(250, 218, 0);
+  noStroke();
+  ellipse(1000, 500, 80, 80);
+}
 
+// GAME
 function gameState() {
   drawGeneral();
   drawStars();
@@ -592,22 +613,24 @@ function startState() {
   drawHealthbar();
   levitatingUfo();
   drawCursor();
+  //projectile.draw();
+  //megaProjectile.draw();
 }
 
 function movement() {
-  if (keyIsDown(38)) {
+  if (keyIsDown(38) || keyIsDown(32)) {
     ufoVertSpeed = ufoVertSpeed - boosterStrength;
   }
-
-  if (keyIsDown(40)) {
+  // could we make the gravity to affect the ship anyway? Meaning it has free fall?
+  if (keyIsDown(40) || keyIsDown(83)) {
     ufoVertSpeed = ufoVertSpeed + boosterStrength;
   }
 
-  if (keyIsDown(37)) {
+  if (keyIsDown(37) || keyIsDown(65)) {
     ufoHoriSpeed = ufoHoriSpeed - boosterStrength;
   }
 
-  if (keyIsDown(39)) {
+  if (keyIsDown(39) || keyIsDown(68)) {
     ufoHoriSpeed = ufoHoriSpeed + boosterStrength;
   }
 
@@ -622,7 +645,6 @@ function slowDown() {
   if (ufoVertSpeed > 0) {
     ufoVertSpeed = ufoVertSpeed * slowDownStrength;
   }
-
   if (ufoVertSpeed < 0) {
     ufoVertSpeed = ufoVertSpeed * slowDownStrength;
   }
