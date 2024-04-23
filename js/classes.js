@@ -1,3 +1,37 @@
+class Aura {
+  constructor() {
+    this.auraMove = 1800;
+    this.direction = "forward";
+  }
+
+  bgcolor() {
+    noStroke();
+    fill(153, 0, 51, 30);
+    ellipse(this.auraMove, height / 2, 1100, 1100);
+    fill(153, 0, 51, 20);
+    ellipse(this.auraMove - 80, height / 2, 1300, 1300);
+    fill(153, 0, 51, 15);
+    ellipse(this.auraMove - 150, height / 2, 1800, 1800);
+  }
+
+  drawAura() {
+    this.bgcolor();
+    if (this.direction === "forward") {
+      if (this.auraMove < 1830) {
+        this.auraMove += 0.3;
+      } else {
+        this.direction = "backwards";
+      }
+    } else if (this.direction === "backwards") {
+      if (this.auraMove > 1780) {
+        this.auraMove -= 0.2;
+      } else {
+        this.direction = "forward";
+      }
+    }
+  }
+}
+
 class Ufo {
   constructor(x, y) {
     this.x = x;
@@ -389,4 +423,5 @@ class MegaProjectile {
   }
 }
 
-//export { Ufo, Moon, HealthBuff, ShieldBuff, Projectile, MegaProjectile };
+//export { Aura, Ufo, Moon, HealthBuff, ShieldBuff, Projectile, MegaProjectile };
+export { Aura };

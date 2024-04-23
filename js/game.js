@@ -16,6 +16,11 @@ let shieldBuff = new ShieldBuff(300, 300, 60);
 let projectile = new Projectile(400, 400);
 let megaProjectile = new MegaProjectile(500, 500);
 */
+
+//Check-console
+//import { Aura } from "./classes.js";
+//let aura = new Aura();
+
 let state = "start";
 
 // game physics etc
