@@ -1,3 +1,5 @@
+// import { Ufo, Moon, HealthBuff, ShieldBuff } from "./classes.js";
+
 let state = "start";
 
 // game physics etc
@@ -9,6 +11,8 @@ let gravityStrength = 0.1;
 let boosterStrength = 0.5;
 const speedLimit = 6;
 const slowDownStrength = 0.95;
+
+let showTitle = true;
 
 // COMET
 let commetOne = {
@@ -33,9 +37,10 @@ let auraMove = 1800;
 let direction = "forward";
 
 function preload() {
-  //title = loadImage("js/title.png");
-  //titletwo = loadImage("js/titletwo.png");
-} // Load the image before canvas was draw for smooth game
+  title = loadImage("../img/titledark.png", () =>
+    console.log("Image loaded successfully")
+  );
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -59,6 +64,15 @@ function draw() {
   if (state === "game") {
     gameState();
   }
+  drawTitle();
+}
+
+function mouseClicked() {
+  showTitle = false; // Hide the title when the mouse is clicked
+}
+
+function keyPressed() {
+  showTitle = false; // Hide the title when any key is pressed
 }
 
 function windowResized() {
@@ -382,6 +396,22 @@ function drawShieldBuff() {
   let dsize = diameter * Math.sin(frameCount * 0.09);
   diameter += dsize / 18;
   shieldBuffObject();
+}
+
+// START TITLE
+function drawTitle() {
+  if (showTitle) {
+    let maxWidth = 850;
+    let maxHeight = 850;
+    let scale = min(maxWidth / title.width, maxHeight / title.height);
+
+    // Center IT
+    let imageX = (windowWidth - title.width * 0.6) / 2;
+    let imageY = (windowHeight - title.height * 0.6) / 2;
+
+    // Draw the image with the calculated position and scaled dimensions
+    image(title, imageX, imageY, title.width * 0.6, title.height * 0.6);
+  }
 }
 
 function ufo(x, y) {
