@@ -21,14 +21,14 @@ let megaProjectile = new MegaProjectile(500, 500);
 //import { Aura } from "./classes.js";
 //let aura = new Aura();
 
-let state = "game";
+let state = "title";
 
 // game physics etc
 let y = 450;
 let x = 500;
 let ufoVertSpeed = 0;
 let ufoHoriSpeed = 0;
-let gravityStrength = 0.1;
+let gravityStrength = 1.01;
 let boosterStrength = 0.8;
 const speedLimit = 6;
 const slowDownStrength = 0.95;
@@ -85,6 +85,10 @@ function draw() {
   if (state === "game") {
     gameState();
   }
+  if (state === "title") {
+    titleState();
+  }
+  drawCursor();
   drawTitle();
 }
 
@@ -595,6 +599,19 @@ function drawMegaProjectile() {
 }
 
 // GAME
+function titleState() {
+  drawGeneral();
+  drawStars();
+  drawCommencecommet();
+  drawAura();
+  moon();
+  drawTitle();
+
+  if (showTitle === false) {
+    state = "game";
+  }
+}
+
 function gameState() {
   drawGeneral();
   drawStars();
@@ -603,7 +620,8 @@ function gameState() {
   moon();
   drawHealthbar();
   ufo(x, y);
-  drawCursor();
+  drawProjectile();
+  drawMegaProjectile();
 
   movement();
   borderCheck();
@@ -617,13 +635,13 @@ function startState() {
   moon();
   drawHealthbar();
   levitatingUfo();
-  drawCursor();
+
   //projectile.draw();
   //megaProjectile.draw();
 }
 
 function movement() {
-  if (keyIsDown(38) || keyIsDown(32)) {
+  if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87)) {
     ufoVertSpeed = ufoVertSpeed - boosterStrength;
   }
   // could we make the gravity to affect the ship anyway? Meaning it has free fall?
@@ -642,6 +660,7 @@ function movement() {
   y = y + ufoVertSpeed;
   x = x + ufoHoriSpeed;
 
+  gravity();
   slowDown();
   borderCheck();
 }
@@ -679,4 +698,8 @@ function borderCheck() {
   if (y <= 80) {
     y = 80;
   }
+}
+
+function gravity() {
+  y *= gravityStrength;
 }
