@@ -666,7 +666,6 @@ function movement() {
 
   gravity();
   slowDown();
-  borderCheck();
 }
 
 function slowDown() {
@@ -695,8 +694,10 @@ function borderCheck() {
     x = 100;
   }
 
-  if (y >= windowHeight - 40) {
-    y = windowHeight - 40;
+  if (y >= windowHeight + 200) {
+    state = "title";
+    showTitle = true;
+    y = 450;
   }
 
   if (y <= 80) {
