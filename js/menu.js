@@ -8,6 +8,8 @@ difficultyBtn.addEventListener("click", function (event) {
   console.log("Difficulty Button Clicked!");
 
   menu.style.display = "none";
+  state = "game";
+  console.log(state);
 });
 
 infiniteBtn.addEventListener("click", function (event) {
@@ -25,5 +27,6 @@ controlsBtn.addEventListener("click", function (event) {
 menuBtn.addEventListener("click", function (event) {
   console.log("Menu Button Clicked!");
 
+  state = "start";
   menu.style.display = "block";
 });
