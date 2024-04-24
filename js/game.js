@@ -18,8 +18,8 @@ let megaProjectile = new MegaProjectile(500, 500);
 */
 
 //Check-console
-//import { Aura } from "./classes.js";
-//let aura = new Aura();
+import { Aura } from "./classes.js";
+let aura = new Aura();
 
 let state = "title";
 
@@ -34,6 +34,7 @@ const speedLimit = 6;
 const slowDownStrength = 0.95;
 
 let showTitle = true;
+let title;
 
 // COMET
 let commetOne = {
@@ -62,6 +63,7 @@ function preload() {
     console.log("Image loaded successfully")
   );
 }
+window.preload = preload;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -77,6 +79,7 @@ function setup() {
     stars.push(star);
   }
 }
+window.setup = setup;
 
 function draw() {
   if (state === "start") {
@@ -88,9 +91,10 @@ function draw() {
   if (state === "title") {
     titleState();
   }
-  drawCursor();
   drawTitle();
+  drawCursor();
 }
+window.draw = draw;
 
 function mouseClicked() {
   showTitle = false; // Hide the title when the mouse is clicked
@@ -606,6 +610,7 @@ function titleState() {
   drawAura();
   moon();
   drawTitle();
+  drawCursor();
 
   if (showTitle === false) {
     state = "game";
@@ -635,16 +640,15 @@ function startState() {
   moon();
   drawHealthbar();
   levitatingUfo();
-
+  aura.draw();
   //projectile.draw();
   //megaProjectile.draw();
 }
 
 function movement() {
-  if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87)) {
-    ufoVertSpeed = ufoVertSpeed - boosterStrength;
+  if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87) || mouseIsPressed) {
+    ufoVertSpeed = ufoVertSpeed - boosterStrength - 1;
   }
-  // could we make the gravity to affect the ship anyway? Meaning it has free fall?
   if (keyIsDown(40) || keyIsDown(83)) {
     ufoVertSpeed = ufoVertSpeed + boosterStrength;
   }
