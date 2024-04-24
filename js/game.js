@@ -21,7 +21,7 @@ let megaProjectile = new MegaProjectile(500, 500);
 //import { Aura } from "./classes.js";
 //let aura = new Aura();
 
-let state = "start";
+let state = "game";
 
 // game physics etc
 let y = 450;
@@ -85,7 +85,7 @@ function draw() {
   if (state === "game") {
     gameState();
   }
-  //drawTitle();
+  drawTitle();
 }
 
 function mouseClicked() {

@@ -27,5 +27,6 @@ controlsBtn.addEventListener("click", function (event) {
 menuBtn.addEventListener("click", function (event) {
   console.log("Menu Button Clicked!");
 
+  state = "start";
   menu.style.display = "block";
 });
