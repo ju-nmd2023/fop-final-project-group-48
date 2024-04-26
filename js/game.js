@@ -99,9 +99,11 @@ window.draw = draw;
 function mouseClicked() {
   showTitle = false; // Hide the title when the mouse is clicked
 }
+window.mouseClicked = mouseClicked;
 function keyPressed() {
   showTitle = false; // Hide the title when any key is pressed
 }
+window.keyPressed = keyPressed;
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
 }
@@ -168,6 +170,7 @@ function drawTitle() {
     image(title, imageX, imageY, title.width * 0.6, title.height * 0.6);
   }
 }
+window.drawTitle = drawTitle;
 
 // OBJECTS
 function paw(x, y) {
@@ -616,6 +619,7 @@ function titleState() {
     state = "game";
   }
 }
+window.titleState = titleState;
 
 function gameState() {
   drawGeneral();
@@ -631,6 +635,7 @@ function gameState() {
   movement();
   borderCheck();
 }
+window.gameState = gameState;
 
 function startState() {
   drawGeneral();
@@ -644,6 +649,7 @@ function startState() {
   //projectile.draw();
   //megaProjectile.draw();
 }
+window.startState = startState;
 
 function movement() {
   if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87) || mouseIsPressed) {
@@ -667,6 +673,7 @@ function movement() {
   gravity();
   slowDown();
 }
+window.movement = movement;
 
 function slowDown() {
   if (ufoVertSpeed > 0) {
@@ -684,6 +691,7 @@ function slowDown() {
     ufoHoriSpeed = ufoHoriSpeed * slowDownStrength;
   }
 }
+window.slowDown = slowDown;
 
 function borderCheck() {
   if (x >= windowWidth - 100) {
@@ -704,7 +712,9 @@ function borderCheck() {
     y = 80;
   }
 }
+window.borderCheck = borderCheck;
 
 function gravity() {
   y *= gravityStrength;
 }
+window.gravity = gravity;
