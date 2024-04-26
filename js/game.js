@@ -433,24 +433,7 @@ function drawShieldBuff() {
 }
 function ufo(x, y) {
   // >>> Pulse <<<
-  function pulse(x, y) {
-    fill(97, 255, 115, 110);
-    noStroke();
-    beginShape();
-    vertex(x - 40, y + 5);
-    bezierVertex(x - 40, y + 5, x, y + 150, x + 40, y + 5);
-    endShape();
 
-    beginShape();
-    vertex(x - 60, y + 5);
-    bezierVertex(x - 60, y + 5, x, y + 230, x + 60, y + 5);
-    endShape();
-
-    beginShape();
-    vertex(x - 70, y + 5);
-    bezierVertex(x - 70, y + 5, x, y + 280, x + 70, y + 5);
-    endShape();
-  }
   // pulse(x, y);
 
   // >>> UFO <<<
@@ -563,6 +546,24 @@ function ufo(x, y) {
   bezierVertex(x + 55, y + 5, x - 30, y - 10, x - 10, y);
   endShape();
 }
+function pulse(x, y) {
+  fill(97, 255, 115, 110);
+  noStroke();
+  beginShape();
+  vertex(x - 40, y + 5);
+  bezierVertex(x - 40, y + 5, x, y + 150, x + 40, y + 5);
+  endShape();
+
+  beginShape();
+  vertex(x - 60, y + 5);
+  bezierVertex(x - 60, y + 5, x, y + 230, x + 60, y + 5);
+  endShape();
+
+  beginShape();
+  vertex(x - 70, y + 5);
+  bezierVertex(x - 70, y + 5, x, y + 280, x + 70, y + 5);
+  endShape();
+}
 function levitatingUfo() {
   let levitationdistance = 1;
   let levitate = levitationdistance * Math.sin(frameCount * 0.05);
@@ -653,7 +654,8 @@ window.startState = startState;
 
 function movement() {
   if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87) || mouseIsPressed) {
-    ufoVertSpeed = ufoVertSpeed - boosterStrength - 1;
+    ufoVertSpeed = ufoVertSpeed - boosterStrength;
+    pulse(x, y);
   }
   if (keyIsDown(40) || keyIsDown(83)) {
     ufoVertSpeed = ufoVertSpeed + boosterStrength;
