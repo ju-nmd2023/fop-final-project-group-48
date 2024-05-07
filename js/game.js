@@ -21,14 +21,14 @@ let megaProjectile = new MegaProjectile(500, 500);
 import { Aura } from "./classes.js";
 let aura = new Aura();
 
-let state = "title";
+let state = "game";
 
 // game physics etc
 let y = 450;
 let x = 500;
 let ufoVertSpeed = 0;
 let ufoHoriSpeed = 0;
-let gravityStrength = 1.01;
+//let gravityStrength = 1.01;
 let boosterStrength = 0.8;
 const speedLimit = 6;
 const slowDownStrength = 0.95;
@@ -58,6 +58,13 @@ let stars = [];
 let auraMove = 1800;
 let direction = "forward";
 
+// menu button elements
+const difficultyBtn = document.getElementById("difficulty-bttn");
+const infiniteBtn = document.getElementById("infinite-bttn");
+const controlsBtn = document.getElementById("controls-bttn");
+const menu = document.getElementById("menu");
+const menuBtn = document.getElementById("menu-bttn");
+
 function preload() {
   title = loadImage("../img/titledark.png", () =>
     console.log("Image loaded successfully")
@@ -82,8 +89,8 @@ function setup() {
 window.setup = setup;
 
 function draw() {
-  if (state === "start") {
-    startState();
+  if (state === "pause") {
+    pauseState();
   }
   if (state === "game") {
     gameState();
@@ -565,8 +572,8 @@ function pulse(x, y) {
   endShape();
 }
 function levitatingUfo() {
-  let levitationdistance = 1;
-  let levitate = levitationdistance * Math.sin(frameCount * 0.05);
+  let levitationdistance = 0.3;
+  let levitate = levitationdistance * Math.sin(frameCount * 0.08);
   y += levitate;
   ufo(x, y);
 
@@ -606,6 +613,35 @@ function drawMegaProjectile() {
   ellipse(1000, 500, 80, 80);
 }
 
+// menu logic
+difficultyBtn.addEventListener("click", function () {
+  console.log("Start Button Clicked!");
+
+  menu.style.display = "none";
+  state = "game";
+});
+
+infiniteBtn.addEventListener("click", function () {
+  console.log("Infinite Button Clicked!");
+
+  menu.style.display = "none";
+  state = "game";
+});
+
+controlsBtn.addEventListener("click", function () {
+  console.log("Controls Button Clicked!");
+
+  menu.style.display = "none";
+  state = "game";
+});
+
+menuBtn.addEventListener("click", function () {
+  console.log("Menu Button Clicked!");
+
+  menu.style.display = "block";
+  state = "pause";
+});
+
 // GAME
 function titleState() {
   drawGeneral();
@@ -635,10 +671,17 @@ function gameState() {
 
   movement();
   borderCheck();
+
+  if (keyIsDown(27)) {
+    console.log("Menu Button Clicked!");
+
+    menu.style.display = "block";
+    state = "pause";
+  }
 }
 window.gameState = gameState;
 
-function startState() {
+function pauseState() {
   drawGeneral();
   drawStars();
   drawCommencecommet();
@@ -646,14 +689,13 @@ function startState() {
   moon();
   drawHealthbar();
   levitatingUfo();
-  aura.draw();
-  //projectile.draw();
-  //megaProjectile.draw();
+  drawProjectile();
+  drawMegaProjectile();
 }
-window.startState = startState;
+window.pauseStateState = pauseState;
 
 function movement() {
-  if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87) || mouseIsPressed) {
+  if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87)) {
     ufoVertSpeed = ufoVertSpeed - boosterStrength;
     pulse(x, y);
   }
@@ -672,7 +714,7 @@ function movement() {
   y = y + ufoVertSpeed;
   x = x + ufoHoriSpeed;
 
-  gravity();
+  //gravity();
   slowDown();
 }
 window.movement = movement;
@@ -716,7 +758,11 @@ function borderCheck() {
 }
 window.borderCheck = borderCheck;
 
-function gravity() {
-  y *= gravityStrength;
-}
-window.gravity = gravity;
+//function gravity() {
+//  y *= gravityStrength;
+//}
+//window.gravity = gravity;
+
+setInterval(function () {
+  console.log(state);
+}, 1000);
