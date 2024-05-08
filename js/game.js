@@ -1,12 +1,11 @@
+import Projectile from "projectile.js";
+import MegaProjectile from "megaprojectile.js";
+import HealthBuff from "healthbuff.js";
+import Moon from "moon.js";
+import ShielfBuff from "shieldbuff.js";
+import Ufo from "ufo.js";
+
 /* HOW TO WORK WITH MODULES???
-import {
-  Ufo,
-  Moon,
-  HealthBuff,
-  ShieldBuff,
-  Projectile,
-  MegaProjectile,
-} from "./classes.js";
 
 // Imported Classes
 let ufo = new Ufo(100, 100);
