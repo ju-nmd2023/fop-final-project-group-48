@@ -664,11 +664,11 @@ function gameState() {
   drawAura();
   moon();
   drawHealthbar();
+  movement();
   ufo(x, y);
   drawProjectile();
   drawMegaProjectile();
 
-  movement();
   borderCheck();
 
   if (keyIsDown(27)) {
@@ -745,10 +745,8 @@ function borderCheck() {
     x = 100;
   }
 
-  if (y >= windowHeight + 200) {
-    state = "title";
-    showTitle = true;
-    y = 450;
+  if (y >= windowHeight - 40) {
+    y = windowHeight - 40;
   }
 
   if (y <= 80) {
