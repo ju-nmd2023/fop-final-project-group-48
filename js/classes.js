@@ -14,7 +14,7 @@ class Aura {
     ellipse(this.auraMove - 150, height / 2, 1800, 1800);
   }
 
-  drawAura() {
+  draw() {
     this.bgcolor();
     if (this.direction === "forward") {
       if (this.auraMove < 1830) {
@@ -402,24 +402,6 @@ class Projectile {
     fill(255, 0, 116);
     noStroke();
     ellipse(this.x, this.y, 30, 30);
-  }
-}
-
-class MegaProjectile {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-
-  draw() {
-    push();
-    stroke(255, 151, 0, 90);
-    strokeWeight(120);
-    line(this.x, this.y, this.x + 100, this.y);
-    pop();
-    fill(250, 218, 0);
-    noStroke();
-    ellipse(this.x, this.y, 80, 80);
   }
 }
 

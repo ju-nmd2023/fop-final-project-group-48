@@ -1,24 +1,21 @@
-import Projectile from "projectile.js";
-import MegaProjectile from "megaprojectile.js";
-import HealthBuff from "healthbuff.js";
-import Moon from "moon.js";
-import ShielfBuff from "shieldbuff.js";
-import Ufo from "ufo.js";
-
-/* HOW TO WORK WITH MODULES???
-
-// Imported Classes
-let ufo = new Ufo(100, 100);
-let moon = new Moon();
-let healthBuff = new HealthBuff(200, 200, 50);
-let shieldBuff = new ShieldBuff(300, 300, 60);
-let projectile = new Projectile(400, 400);
-let megaProjectile = new MegaProjectile(500, 500);
-*/
-
-//Check-console
+//Modules
 import { Aura } from "./classes.js";
 let aura = new Aura();
+
+import MegaProjectile from "./megaprojectile.js";
+let megaprojectile = new MegaProjectile();
+
+/*import  Projectile  from "./projectile.js";
+let projecctile = new Projectile();
+
+import  Ufo  from "./ufo.js";
+let ufo = new Ufo();
+
+import  SheilfBuff  from "./shieldbuff.js";
+let shieldbuff = new SheilfBuff();
+
+import  HealthBuff  from "./healthbuff.js";
+let healthbuff = new HealthBuff();*/
 
 let state = "game";
 
@@ -127,20 +124,7 @@ function drawStars() {
   }
 }
 function drawAura() {
-  bgcolor(auraMove);
-  if (direction === "forward") {
-    if (auraMove < 1830) {
-      auraMove = auraMove + 0.3;
-    } else {
-      direction = "backwards";
-    }
-  } else if (direction === "backwards") {
-    if (auraMove > 1780) {
-      auraMove = auraMove - 0.2;
-    } else {
-      direction = "forward";
-    }
-  }
+  aura.draw();
 }
 function drawCursor() {
   paw(mouseX, mouseY);
@@ -208,7 +192,7 @@ function commet(x, y) {
   fill(255, 196, 94);
   noStroke();
   ellipse(x, y, 15, 15);
-}
+} /*
 function bgcolor(auraMove) {
   noStroke();
   fill(153, 0, 51, 30);
@@ -217,7 +201,7 @@ function bgcolor(auraMove) {
   ellipse(auraMove - 80, height / 2, 1300, 1300);
   fill(153, 0, 51, 15);
   ellipse(auraMove - 150, height / 2, 1800, 1800);
-}
+}*/
 function moon() {
   noStroke();
   fill(117, 117, 117);
@@ -602,6 +586,7 @@ function drawProjectile() {
   ellipse(1000, 800, 30, 30);
 }
 function drawMegaProjectile() {
+  /*
   push();
   stroke(255, 151, 0, 90);
   strokeWeight(120);
@@ -609,7 +594,8 @@ function drawMegaProjectile() {
   pop();
   fill(250, 218, 0);
   noStroke();
-  ellipse(1000, 500, 80, 80);
+  ellipse(1000, 500, 80, 80);*/
+  megaprojectile.draw();
 }
 
 // menu logic
