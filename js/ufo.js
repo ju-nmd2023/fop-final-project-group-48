@@ -4,13 +4,18 @@ export default class Ufo {
     this.y = y;
     this.levitationdistance = 15;
     this.diameter = 225; // Initial diameter for shield
+    this.callPulse = true;
   }
 
   draw() {
     this.levitate();
-    this.pulse();
     this.drawUFO();
-    this.drawShield();
+    if (this.callPulse) {
+      this.pulse();
+    }
+    if (this.callSheild) {
+      this.drawShield();
+    }
   }
 
   levitate() {
@@ -120,6 +125,22 @@ export default class Ufo {
     ellipse(x - 15, y - 14, 3.5, 3.3);
     ellipse(x - 11, y - 15, 3.5, 3.3);
     ellipse(x - 7, y - 13, 3.5, 3.3);
+    //glass
+    fill(169, 196, 195, 50);
+    noStroke();
+    beginShape();
+    vertex(x - 60, y - 10);
+    bezierVertex(x - 53, y - 110, x + 47, y - 110, x + 60, y - 20);
+    bezierVertex(x + 60, y, x - 60, y, x - 60, y - 20);
+    endShape();
+
+    //reflection
+    fill(255, 254, 217, 50);
+    beginShape();
+    vertex(x - 25, y - 25);
+    bezierVertex(x - 30, y - 100, x + 40, y - 90, x + 53, y - 30);
+    bezierVertex(x + 55, y + 5, x - 30, y - 10, x - 10, y);
+    endShape();
   }
 
   drawShield() {
