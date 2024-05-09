@@ -20,9 +20,12 @@ let moonx = new Moon();
 import Aura from "./aura.js";
 let aurax = new Aura();
 
+import Comet from "./comet.js";
+let comets = [];
+
 let state = "game";
 
-// game physics etc
+// GAME PHYSICS ETC
 let y = 450;
 let x = 500;
 let ufoVertSpeed = 0;
@@ -35,22 +38,6 @@ const slowDownStrength = 0.95;
 let showTitle = true;
 let title;
 
-// COMET
-let commetOne = {
-  x: 200,
-  y: 200,
-  speed: 1,
-};
-let commetTwo = {
-  x: 600,
-  y: 300,
-  speed: 1.8,
-};
-let commetThree = {
-  x: 1000,
-  y: 800,
-  speed: 0.7,
-};
 //STARRY SKY INSPIRATION FROM LECTURES
 let stars = [];
 
@@ -70,7 +57,15 @@ window.preload = preload;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  window.addEventListener("resize", windowResized); //checking if window is resized
+  window.addEventListener("resize", windowResized);
+
+  // Initialize comets
+  for (let i = 0; i < 3; i++) {
+    let x = random(windowWidth);
+    let y = random(windowHeight);
+    let speed = random(0.5, 2);
+    comets.push(new Comet(x, y, speed));
+  }
 
   // Initialize stars
   for (let i = 0; i < 300; i++) {
@@ -100,13 +95,14 @@ function draw() {
 window.draw = draw;
 
 function mouseClicked() {
-  showTitle = false; // Hide the title when the mouse is clicked
+  showTitle = false;
 }
 window.mouseClicked = mouseClicked;
 function keyPressed() {
-  showTitle = false; // Hide the title when any key is pressed
+  showTitle = false;
 }
 window.keyPressed = keyPressed;
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
 }
@@ -129,20 +125,11 @@ function drawAura() {
 function drawCursor() {
   paw(mouseX, mouseY);
 }
-function drawCommencecommet() {
-  commetshower(commetOne);
-  commetshower(commetTwo);
-  commetshower(commetThree);
-}
-function commetshower(comet) {
-  comet.x += comet.speed;
-  comet.y += comet.speed;
-
-  if (comet.y > windowHeight) {
-    comet.x = random(windowWidth);
-    comet.y = 0;
+function drawCommenceComet() {
+  for (let comet of comets) {
+    comet.updatePosition();
+    comet.display();
   }
-  commet(comet.x, comet.y);
 }
 
 // START TITLE
@@ -183,58 +170,43 @@ function paw(x, y) {
   }
   beans();
 }
-function commet(x, y) {
-  push();
-  stroke(255, 255, 255, 40);
-  strokeWeight(10);
-  line(x, y, x - 100, y - 100);
-  pop();
-  fill(255, 196, 94);
-  noStroke();
-  ellipse(x, y, 15, 15);
-} /*
-function bgcolor(auraMove) {
-  noStroke();
-  fill(153, 0, 51, 30);
-  ellipse(auraMove, height / 2, 1100, 1100);
-  fill(153, 0, 51, 20);
-  ellipse(auraMove - 80, height / 2, 1300, 1300);
-  fill(153, 0, 51, 15);
-  ellipse(auraMove - 150, height / 2, 1800, 1800);
-}*/
 function moon() {
   moonx.draw();
+  moonx.x = windowWidth - 100;
+  moonx.y = windowHeight / 2;
 }
 function drawHealthbar() {
+  const barWidth = windowWidth * 0.2;
+  const barHeight = 20;
+  const barX = (windowWidth - barWidth) / 2;
+  const barY = 60;
+  const barPadding = 10;
+
   // HP BAR Background
-  strokeWeight(40);
+  strokeWeight(barHeight + barPadding * 2);
   stroke(255, 255, 255, 80);
 
+  // Draw background bar
+  line(barX + barWidth + barPadding, barY, barX - barPadding, barY);
+
   // HP BAR
-  line(900, 60, 600, 60);
   stroke(102, 255, 153);
-  strokeWeight(20);
+  strokeWeight(barHeight);
 
-  //max
-  line(900, 60, 600, 60);
-  // Make the line shrink and grow as listed below depending on how much HP there is and morph colors vvv
-  /*
+  // Draw actual health bar
+  line(barX + barWidth + barPadding, barY, barX - barPadding, barY);
 
-  //medium
-  stroke(255, 204, 0);
-  line(790, 60, 600, 60);
-  //low
-
-  stroke(153, 0, 51);
-  strokeWeight(20);
-  line(690, 60, 600, 60);
-  */
-
-  //guides
+  // Guides
   strokeWeight(2);
   stroke(0, 0, 0, 50);
-  line(700, 54, 700, 67);
-  line(800, 54, 800, 67);
+  // Guide lines
+  line(barX + barWidth / 3, barY - 6, barX + barWidth / 3, barY + 7);
+  line(
+    barX + (barWidth * 2) / 3,
+    barY - 6,
+    barX + (barWidth * 2) / 3,
+    barY + 7
+  );
 }
 function drawHealthBuff() {
   healthbuff.draw();
@@ -285,13 +257,14 @@ menuBtn.addEventListener("click", function () {
   state = "pause";
 });
 
-// GAME
+// GAME STATES --- TITLE
 function titleState() {
   drawGeneral();
   drawStars();
-  drawCommencecommet();
+  drawCommenceComet();
   drawAura();
   moon();
+  ufo(x, y);
   drawTitle();
   drawCursor();
 
@@ -301,10 +274,11 @@ function titleState() {
 }
 window.titleState = titleState;
 
+// GAME STATES --- GAME
 function gameState() {
   drawGeneral();
   drawStars();
-  drawCommencecommet();
+  drawCommenceComet();
   drawAura();
   moon();
   drawHealthbar();
@@ -324,12 +298,14 @@ function gameState() {
 }
 window.gameState = gameState;
 
+// GAME STATES --- PAUSE
 function pauseState() {
   drawGeneral();
   drawStars();
-  drawCommencecommet();
+  drawCommenceComet();
   drawAura();
   moon();
+  ufo(x, y);
   drawHealthbar();
   levitatingUfo();
   drawProjectile();

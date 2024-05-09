@@ -1,5 +1,8 @@
 export default class Moon {
-  constructor() {}
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
 
   draw() {
     let scaleFactor = min(width, height) / 1000; // Scale factor based on canvas size
@@ -161,9 +164,9 @@ export default class Moon {
     noFill();
     strokeWeight(18 * scaleFactor);
     beginShape();
-    vertex(width - 410 * scaleFactor, height / 1.45);
+    vertex(width - 400 * scaleFactor, height / 1.45);
     bezierVertex(
-      width - 410 * scaleFactor,
+      width - 400 * scaleFactor,
       height / 1.45,
       width - 160 * scaleFactor,
       height / 1.35,
