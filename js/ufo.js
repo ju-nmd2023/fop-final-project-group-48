@@ -8,7 +8,6 @@ export default class Ufo {
   }
 
   draw() {
-    this.levitate();
     this.drawUFO();
     if (this.callPulse) {
       this.pulse();
@@ -16,11 +15,6 @@ export default class Ufo {
     if (this.callSheild) {
       this.drawShield();
     }
-  }
-
-  levitate() {
-    let levitate = this.levitationdistance * Math.sin(frameCount * 0.05);
-    this.y += levitate;
   }
 
   pulse() {

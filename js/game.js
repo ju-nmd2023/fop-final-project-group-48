@@ -26,13 +26,13 @@ let comets = [];
 let state = "game";
 
 // GAME PHYSICS ETC
-let y = 450;
-let x = 500;
 let ufoVertSpeed = 0;
 let ufoHoriSpeed = 0;
+let y = 450;
+let x = 500;
+
 //let gravityStrength = 1.01;
 let boosterStrength = 0.8;
-const speedLimit = 6;
 const slowDownStrength = 0.95;
 
 let showTitle = true;
@@ -150,6 +150,7 @@ function drawTitle() {
 window.drawTitle = drawTitle;
 
 // OBJECTS
+
 function paw(x, y) {
   noStroke();
   if (mouseIsPressed || keyIsDown(32)) {
@@ -214,13 +215,16 @@ function drawHealthBuff() {
 function drawShieldBuff() {
   shieldbuff.draw();
 }
-function ufo() {
+
+function ufo(x, y) {
   ufox.draw();
-  ufox.x = windowWidth / 4.5;
-  ufox.y = windowHeight / 2;
+  ufox.x = x;
+  ufox.y = y;
   ufox.callPulse = false;
   ufox.callShield = false;
+  movement();
 }
+
 function drawProjectile() {
   projectile.draw();
 }
@@ -282,7 +286,6 @@ function gameState() {
   drawAura();
   moon();
   drawHealthbar();
-  movement();
   ufo(x, y);
   drawProjectile();
   drawMegaProjectile();
@@ -305,9 +308,8 @@ function pauseState() {
   drawCommenceComet();
   drawAura();
   moon();
-  ufo(x, y);
   drawHealthbar();
-  levitatingUfo();
+  ufo(x, y);
   drawProjectile();
   drawMegaProjectile();
 }
@@ -316,7 +318,7 @@ window.pauseStateState = pauseState;
 function movement() {
   if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87)) {
     ufoVertSpeed = ufoVertSpeed - boosterStrength;
-    pulse(x, y);
+    //pulse(x, y);
   }
   if (keyIsDown(40) || keyIsDown(83)) {
     ufoVertSpeed = ufoVertSpeed + boosterStrength;
@@ -330,8 +332,8 @@ function movement() {
     ufoHoriSpeed = ufoHoriSpeed + boosterStrength;
   }
 
-  y = y + ufoVertSpeed;
-  x = x + ufoHoriSpeed;
+  ufox.y += ufoVertSpeed;
+  ufox.x += ufoHoriSpeed;
 
   //gravity();
   slowDown();
@@ -382,4 +384,20 @@ window.borderCheck = borderCheck;
 
 setInterval(function () {
   console.log(state);
+}, 1000);
+
+setInterval(function () {
+  console.log(ufoHoriSpeed);
+}, 1000);
+
+setInterval(function () {
+  console.log(ufoVertSpeed);
+}, 1000);
+
+setInterval(function () {
+  console.log(ufox.x);
+}, 1000);
+
+setInterval(function () {
+  console.log(ufox.y);
 }, 1000);
