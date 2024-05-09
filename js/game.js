@@ -1,7 +1,4 @@
 //Modules
-import { Aura } from "./classes.js";
-let aura = new Aura();
-
 import MegaProjectile from "./megaprojectile.js";
 let megaprojectile = new MegaProjectile();
 
@@ -19,6 +16,9 @@ let healthbuff = new HealthBuff();
 
 import Moon from "./moon.js";
 let moonx = new Moon();
+
+import Aura from "./aura.js";
+let aurax = new Aura();
 
 let state = "game";
 
@@ -53,9 +53,6 @@ let commetThree = {
 };
 //STARRY SKY INSPIRATION FROM LECTURES
 let stars = [];
-
-let auraMove = 1800;
-let direction = "forward";
 
 // menu button elements
 const difficultyBtn = document.getElementById("difficulty-bttn");
@@ -127,7 +124,7 @@ function drawStars() {
   }
 }
 function drawAura() {
-  aura.draw();
+  aurax.draw();
 }
 function drawCursor() {
   paw(mouseX, mouseY);
