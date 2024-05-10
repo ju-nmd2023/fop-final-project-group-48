@@ -6,7 +6,7 @@ import Projectile from "./projectile.js";
 let projectile = new Projectile();
 
 import Ufo from "./ufo.js";
-let ufox = new Ufo();
+let ufox = new Ufo(500, 450);
 
 import SheilfBuff from "./shieldbuff.js";
 let shieldbuff = new SheilfBuff();
@@ -119,17 +119,17 @@ function drawStars() {
     star.alpha = star.alpha + 0.01;
   }
 }
-function drawAura() {
-  aurax.draw();
-}
-function drawCursor() {
-  paw(mouseX, mouseY);
-}
 function drawCommenceComet() {
   for (let comet of comets) {
     comet.updatePosition();
     comet.display();
   }
+}
+function drawAura() {
+  aurax.draw();
+}
+function drawCursor() {
+  paw(mouseX, mouseY);
 }
 
 // START TITLE
@@ -216,10 +216,8 @@ function drawShieldBuff() {
   shieldbuff.draw();
 }
 
-function ufo(x, y) {
+function ufo() {
   ufox.draw();
-  ufox.x = x;
-  ufox.y = y;
   ufox.callPulse = false;
   ufox.callShield = false;
   movement();
@@ -268,7 +266,7 @@ function titleState() {
   drawCommenceComet();
   drawAura();
   moon();
-  ufo(x, y);
+  ufo();
   drawTitle();
   drawCursor();
 
@@ -286,7 +284,7 @@ function gameState() {
   drawAura();
   moon();
   drawHealthbar();
-  ufo(x, y);
+  ufo();
   drawProjectile();
   drawMegaProjectile();
 
@@ -309,7 +307,7 @@ function pauseState() {
   drawAura();
   moon();
   drawHealthbar();
-  ufo(x, y);
+  ufo();
   drawProjectile();
   drawMegaProjectile();
 }
@@ -317,19 +315,18 @@ window.pauseStateState = pauseState;
 
 function movement() {
   if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87)) {
-    ufoVertSpeed = ufoVertSpeed - boosterStrength;
-    //pulse(x, y);
+    ufoVertSpeed -= boosterStrength;
   }
   if (keyIsDown(40) || keyIsDown(83)) {
-    ufoVertSpeed = ufoVertSpeed + boosterStrength;
+    ufoVertSpeed += boosterStrength;
   }
 
   if (keyIsDown(37) || keyIsDown(65)) {
-    ufoHoriSpeed = ufoHoriSpeed - boosterStrength;
+    ufoHoriSpeed -= boosterStrength;
   }
 
   if (keyIsDown(39) || keyIsDown(68)) {
-    ufoHoriSpeed = ufoHoriSpeed + boosterStrength;
+    ufoHoriSpeed += boosterStrength;
   }
 
   ufox.y += ufoVertSpeed;
@@ -341,20 +338,8 @@ function movement() {
 window.movement = movement;
 
 function slowDown() {
-  if (ufoVertSpeed > 0) {
-    ufoVertSpeed = ufoVertSpeed * slowDownStrength;
-  }
-  if (ufoVertSpeed < 0) {
-    ufoVertSpeed = ufoVertSpeed * slowDownStrength;
-  }
-
-  if (ufoHoriSpeed > 0) {
-    ufoHoriSpeed = ufoHoriSpeed * slowDownStrength;
-  }
-
-  if (ufoHoriSpeed < 0) {
-    ufoHoriSpeed = ufoHoriSpeed * slowDownStrength;
-  }
+  ufoVertSpeed *= slowDownStrength;
+  ufoHoriSpeed *= slowDownStrength;
 }
 window.slowDown = slowDown;
 
