@@ -24,7 +24,7 @@ let aurax = new Aura();
 import Comet from "./comet.js";
 let comets = [];
 
-let state = "game";
+let state = "title";
 
 // GAME PHYSICS ETC
 let ufoVertSpeed = 0;
@@ -33,7 +33,7 @@ let y = 450;
 let x = 500;
 
 //let gravityStrength = 1.01;
-let boosterStrength = 0.8;
+let boosterStrength = 0.5;
 const slowDownStrength = 0.95;
 
 let showTitle = true;
@@ -79,10 +79,10 @@ function setup() {
   }
 
   // Projectiles
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 10; i++) {
     let x = random(windowWidth);
     let y = random(windowHeight);
-    let speed = random(3, 5);
+    let speed = random(5, 10);
     projectiles.push(new Projectile(x, y, speed));
   }
 }
@@ -107,10 +107,6 @@ function mouseClicked() {
   showTitle = false;
 }
 window.mouseClicked = mouseClicked;
-function keyPressed() {
-  showTitle = false;
-}
-window.keyPressed = keyPressed;
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
@@ -140,6 +136,13 @@ function drawProjectiles() {
     projectile.draw();
   }
 }
+
+function drawProjectilesStationary() {
+  for (let projectile of projectiles) {
+    projectile.draw();
+  }
+}
+
 function drawAura() {
   aurax.draw();
 }
@@ -238,9 +241,12 @@ function ufo() {
   movement();
 }
 
-function drawProjectile() {
-  projectile.draw();
+function ufoStationary() {
+  ufox.draw();
+  ufox.callPulse = false;
+  ufox.callShield = false;
 }
+
 function drawMegaProjectile() {
   megaprojectile.draw();
 }
@@ -281,7 +287,7 @@ function titleState() {
   drawCommenceComet();
   drawAura();
   moon();
-  ufo();
+  ufoStationary();
   drawProjectiles();
   drawTitle();
   drawCursor();
@@ -324,8 +330,8 @@ function pauseState() {
   drawAura();
   moon();
   drawHealthbar();
-  ufo();
-  drawProjectiles();
+  ufoStationary();
+  drawProjectilesStationary();
 
   drawMegaProjectile();
 }
@@ -362,20 +368,20 @@ function slowDown() {
 window.slowDown = slowDown;
 
 function borderCheck() {
-  if (x >= windowWidth - 100) {
-    x = windowWidth - 100;
+  if (ufox.x >= windowWidth - 100) {
+    ufox.x = windowWidth - 100;
   }
 
-  if (x <= 100) {
-    x = 100;
+  if (ufox.x <= 100) {
+    ufox.x = 100;
   }
 
-  if (y >= windowHeight - 40) {
-    y = windowHeight - 40;
+  if (ufox.y >= windowHeight - 40) {
+    ufox.y = windowHeight - 40;
   }
 
-  if (y <= 80) {
-    y = 80;
+  if (ufox.y <= 80) {
+    ufox.y = 80;
   }
 }
 window.borderCheck = borderCheck;
