@@ -1,6 +1,6 @@
 //Modules
 import MegaProjectile from "./megaprojectile.js";
-let megaprojectile = new MegaProjectile(800, 450);
+let megaprojectiles = [];
 
 import Projectile from "./projectile.js";
 //let projectile = new Projectile(1200, 650);
@@ -85,6 +85,13 @@ function setup() {
     let speed = random(5, 10);
     projectiles.push(new Projectile(x, y, speed));
   }
+  // MegaProejctiles
+  for (let i = 0; i < 2; i++) {
+    let x = random(windowWidth);
+    let y = random(windowHeight);
+    let speed = random(2, 5);
+    megaprojectiles.push(new MegaProjectile(x, y, speed));
+  }
 }
 window.setup = setup;
 
@@ -134,6 +141,12 @@ function drawProjectiles() {
   for (let projectile of projectiles) {
     projectile.updatePosition();
     projectile.draw();
+  }
+}
+function drawMegaProjectiles() {
+  for (let megaprojectile of megaprojectiles) {
+    megaprojectile.updatePosition();
+    megaprojectile.draw();
   }
 }
 
@@ -247,10 +260,6 @@ function ufoStationary() {
   ufox.callShield = false;
 }
 
-function drawMegaProjectile() {
-  megaprojectile.draw();
-}
-
 // menu logic
 difficultyBtn.addEventListener("click", function () {
   console.log("Start Button Clicked!");
@@ -289,6 +298,7 @@ function titleState() {
   moon();
   ufoStationary();
   drawProjectiles();
+  drawMegaProjectiles();
   drawTitle();
   drawCursor();
 
@@ -308,8 +318,7 @@ function gameState() {
   drawHealthbar();
   ufo();
   drawProjectiles();
-
-  drawMegaProjectile();
+  drawMegaProjectiles();
 
   borderCheck();
 
@@ -333,7 +342,7 @@ function pauseState() {
   ufoStationary();
   drawProjectilesStationary();
 
-  drawMegaProjectile();
+  drawMegaProjectiles();
 }
 window.pauseStateState = pauseState;
 
