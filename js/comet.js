@@ -15,8 +15,7 @@ export default class Comet {
     }
   }
 
-  display() {
-    // Add stroke behind the comet
+  draw() {
     push();
     stroke(255, 255, 255, 40);
     strokeWeight(10);

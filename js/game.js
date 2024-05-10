@@ -1,9 +1,10 @@
 //Modules
 import MegaProjectile from "./megaprojectile.js";
-let megaprojectile = new MegaProjectile();
+let megaprojectile = new MegaProjectile(800, 450);
 
 import Projectile from "./projectile.js";
-let projectile = new Projectile();
+//let projectile = new Projectile(1200, 650);
+let projectiles = [];
 
 import Ufo from "./ufo.js";
 let ufox = new Ufo(500, 450);
@@ -76,6 +77,14 @@ function setup() {
     };
     stars.push(star);
   }
+
+  // Projectiles
+  for (let i = 0; i < 4; i++) {
+    let x = random(windowWidth);
+    let y = random(windowHeight);
+    let speed = random(3, 5);
+    projectiles.push(new Projectile(x, y, speed));
+  }
 }
 window.setup = setup;
 
@@ -122,7 +131,13 @@ function drawStars() {
 function drawCommenceComet() {
   for (let comet of comets) {
     comet.updatePosition();
-    comet.display();
+    comet.draw();
+  }
+}
+function drawProjectiles() {
+  for (let projectile of projectiles) {
+    projectile.updatePosition();
+    projectile.draw();
   }
 }
 function drawAura() {
@@ -267,6 +282,7 @@ function titleState() {
   drawAura();
   moon();
   ufo();
+  drawProjectiles();
   drawTitle();
   drawCursor();
 
@@ -285,7 +301,8 @@ function gameState() {
   moon();
   drawHealthbar();
   ufo();
-  drawProjectile();
+  drawProjectiles();
+
   drawMegaProjectile();
 
   borderCheck();
@@ -308,7 +325,8 @@ function pauseState() {
   moon();
   drawHealthbar();
   ufo();
-  drawProjectile();
+  drawProjectiles();
+
   drawMegaProjectile();
 }
 window.pauseStateState = pauseState;

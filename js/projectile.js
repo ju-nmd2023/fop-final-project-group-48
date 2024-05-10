@@ -1,7 +1,17 @@
 export default class Projectile {
-  constructor(x, y) {
+  constructor(x, y, speed) {
     this.x = x;
     this.y = y;
+    this.speed = speed;
+  }
+
+  updatePosition() {
+    this.x -= this.speed;
+
+    if (this.x < 0) {
+      this.x = windowWidth;
+      this.y = random(windowHeight);
+    }
   }
 
   draw() {
