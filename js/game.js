@@ -86,12 +86,37 @@ function setup() {
     projectiles.push(new Projectile(x, y, speed));
   }
   // MegaProejctiles
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 3; i++) {
     let x = random(windowWidth);
     let y = random(windowHeight);
-    let speed = random(2, 5);
+    let speed = random(4, 7);
     megaprojectiles.push(new MegaProjectile(x, y, speed));
   }
+
+  // Create an audio element // HELP BY AI
+  const bgMusic = new Audio("js/cowscowscows.mp3");
+
+  bgMusic.loop = true;
+  bgMusic.volume = 0.5;
+  bgMusic.preload = "auto";
+  bgMusic.addEventListener("error", function (err) {
+    console.error("Error loading audio:", err);
+  });
+
+  // Function to play the music and remove event listeners
+  function playMusic() {
+    // Play the music
+    bgMusic.play().catch(function (error) {
+      console.warn("Audio play failed:", error);
+    });
+    // Remove the event listeners to avoid multiple plays on subsequent interactions
+    window.removeEventListener("mousedown", playMusic);
+    window.removeEventListener("keydown", playMusic);
+  }
+
+  // Add event listeners for both "mousedown" and "keydown"
+  window.addEventListener("mousedown", playMusic);
+  window.addEventListener("keydown", playMusic);
 }
 window.setup = setup;
 
