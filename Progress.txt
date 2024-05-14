@@ -1,0 +1,39 @@
+14.02.2024 ----------------------------------------------------------------------
+
+Added the collision function & replenishment of projectiles after the collision:
+
+
+GAME.JS > added function for checkCollison();
+                function isColliding(objectufo, projectiles);
+                function replenishProjectiles();
+                function replenishMegaProjectiles();
+                function drawMegaProjectilesStationary();
+
+        > drawn replenishProjectiles(); and replenishMegaProjectile(); in gameState();
+        > drawn checkCollision(); in gameState();
+
+UFO.JS:
+    export default class Ufo {
+    // ........ Previous Code
+    this.width = 90;
+    this.height = 80;
+  }
+
+PROJECTILE.JS:
+    export default class Ufo {
+    // ........ Previous Code
+    this.width = 80;
+    this.height = 80;
+  }
+
+MEGAPROJECTILE.JS:
+    export default class Ufo {
+    // ........ Previous Code
+    this.width = 80;
+    this.height = 80;
+  }
+
+
+  00.00.2024 -------------------------------------------------------------------------
+
+

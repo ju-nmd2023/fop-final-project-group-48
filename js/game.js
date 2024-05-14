@@ -3,11 +3,10 @@ import MegaProjectile from "./megaprojectile.js";
 let megaprojectiles = [];
 
 import Projectile from "./projectile.js";
-//let projectile = new Projectile(1200, 650);
 let projectiles = [];
 
 import Ufo from "./ufo.js";
-let ufox = new Ufo(500, 450);
+let ufox = new Ufo(450, 500);
 
 import SheilfBuff from "./shieldbuff.js";
 let shieldbuff = new SheilfBuff();
@@ -29,8 +28,6 @@ let state = "title";
 // GAME PHYSICS ETC
 let ufoVertSpeed = 0;
 let ufoHoriSpeed = 0;
-let y = 450;
-let x = 500;
 
 //let gravityStrength = 1.01;
 let boosterStrength = 0.5;
@@ -93,7 +90,7 @@ function setup() {
     megaprojectiles.push(new MegaProjectile(x, y, speed));
   }
 
-  // Create an audio element // HELP BY AI
+  // Create an audio element // HELP BY AI - used from Lunar Lander
   const bgMusic = new Audio("js/cowscowscows.mp3");
 
   bgMusic.loop = true;
@@ -109,12 +106,10 @@ function setup() {
     bgMusic.play().catch(function (error) {
       console.warn("Audio play failed:", error);
     });
-    // Remove the event listeners to avoid multiple plays on subsequent interactions
     window.removeEventListener("mousedown", playMusic);
     window.removeEventListener("keydown", playMusic);
   }
 
-  // Add event listeners for both "mousedown" and "keydown"
   window.addEventListener("mousedown", playMusic);
   window.addEventListener("keydown", playMusic);
 }
@@ -178,6 +173,11 @@ function drawMegaProjectiles() {
 function drawProjectilesStationary() {
   for (let projectile of projectiles) {
     projectile.draw();
+  }
+}
+function drawMegaProjectilesStationary() {
+  for (let megaprojectile of megaprojectiles) {
+    megaprojectile.draw();
   }
 }
 
@@ -345,7 +345,11 @@ function gameState() {
   drawProjectiles();
   drawMegaProjectiles();
 
+  replenishProjectiles();
+  replenishMegaProjectiles();
+
   borderCheck();
+  checkCollisions();
 
   if (keyIsDown(27)) {
     console.log("Menu Button Clicked!");
@@ -366,8 +370,7 @@ function pauseState() {
   drawHealthbar();
   ufoStationary();
   drawProjectilesStationary();
-
-  drawMegaProjectiles();
+  drawMegaProjectilesStationary();
 }
 window.pauseStateState = pauseState;
 
@@ -424,7 +427,7 @@ window.borderCheck = borderCheck;
 //  y *= gravityStrength;
 //}
 //window.gravity = gravity;
-
+/*
 setInterval(function () {
   console.log(state);
 }, 1000);
@@ -444,3 +447,62 @@ setInterval(function () {
 setInterval(function () {
   console.log(ufox.y);
 }, 1000);
+*/
+
+// COLLISION FUNCTIONS
+function checkCollisions() {
+  // Check UFO collision with PROJETCILES
+  for (let i = projectiles.length - 1; i >= 0; i--) {
+    let projectile = projectiles[i];
+    if (isColliding(ufox, projectile)) {
+      projectiles.splice(i, 1); // Remove from array
+      console.log("IDK1");
+    }
+  }
+
+  // Check UFO collision with MEGA PROJECTILES
+  for (let i = megaprojectiles.length - 1; i >= 0; i--) {
+    let megaprojectile = megaprojectiles[i];
+    if (isColliding(ufox, megaprojectile)) {
+      megaprojectiles.splice(i, 1); // Remove from array
+      console.log("IDK2");
+    }
+  }
+}
+
+function isColliding(objectufo, projectiles) {
+  // Check for collision between objects
+  return (
+    objectufo.x < projectiles.x + projectiles.width &&
+    objectufo.x + objectufo.width > projectiles.x &&
+    objectufo.y < projectiles.y + projectiles.height &&
+    objectufo.y + objectufo.height > projectiles.y
+  );
+}
+
+// REPLENISH THE PROJECTILES
+function replenishProjectiles() {
+  const ProjectileCount = 10;
+  const currentProjectileCount = projectiles.length;
+
+  const projectilesToAdd = ProjectileCount - currentProjectileCount;
+  for (let i = 0; i < projectilesToAdd; i++) {
+    let x = windowWidth;
+    let y = random(windowHeight);
+    let speed = random(5, 10);
+    projectiles.push(new Projectile(x, y, speed));
+  }
+}
+
+function replenishMegaProjectiles() {
+  const MegaProjectileCount = 3;
+  const currentMegaProjectileCount = megaprojectiles.length;
+
+  const megaProjectilesToAdd = MegaProjectileCount - currentMegaProjectileCount;
+  for (let i = 0; i < megaProjectilesToAdd; i++) {
+    let x = windowWidth;
+    let y = random(windowHeight);
+    let speed = random(4, 7);
+    megaprojectiles.push(new MegaProjectile(x, y, speed));
+  }
+}
