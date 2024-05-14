@@ -75,21 +75,6 @@ function setup() {
     stars.push(star);
   }
 
-  // Projectiles
-  for (let i = 0; i < 8; i++) {
-    let x = random(windowWidth);
-    let y = random(windowHeight);
-    let speed = random(5, 10);
-    projectiles.push(new Projectile(x, y, speed));
-  }
-  // MegaProejctiles
-  for (let i = 0; i < 2; i++) {
-    let x = random(windowWidth);
-    let y = windowHeight / 2 + random(-200, 200);
-    let speed = random(4, 7);
-    megaprojectiles.push(new MegaProjectile(x, y, speed));
-  }
-
   // Create an audio element // HELP BY AI - used from Lunar Lander
   const bgMusic = new Audio("js/cowscowscows.mp3");
 
@@ -321,8 +306,6 @@ function titleState() {
   drawAura();
   moon();
   ufoStationary();
-  drawProjectiles();
-  drawMegaProjectiles();
   drawTitle();
   drawCursor();
 
@@ -481,27 +464,27 @@ function isColliding(objectufo, projectiles) {
 
 // REPLENISH THE PROJECTILES
 function replenishProjectiles() {
-  const ProjectileCount = 10;
+  const ProjectileCount = random(50);
   const currentProjectileCount = projectiles.length;
 
   const projectilesToAdd = ProjectileCount - currentProjectileCount;
   for (let i = 0; i < projectilesToAdd; i++) {
     let x = windowWidth;
-    let y = random(windowHeight);
+    let y = windowHeight / 2 + random(-400, 400);
     let speed = random(5, 10);
     projectiles.push(new Projectile(x, y, speed));
   }
 }
 
 function replenishMegaProjectiles() {
-  const MegaProjectileCount = 3;
+  const MegaProjectileCount = random(50);
   const currentMegaProjectileCount = megaprojectiles.length;
 
   const megaProjectilesToAdd = MegaProjectileCount - currentMegaProjectileCount;
   for (let i = 0; i < megaProjectilesToAdd; i++) {
     let x = windowWidth;
     let y = windowHeight / 2 + random(-200, 200);
-    let speed = random(4, 7);
+    let speed = random(3, 7);
     megaprojectiles.push(new MegaProjectile(x, y, speed));
   }
 }
