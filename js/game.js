@@ -58,10 +58,10 @@ function setup() {
   window.addEventListener("resize", windowResized);
 
   // Initialize comets
-  for (let i = 0; i < 3; i++) {
-    let x = random(windowWidth);
-    let y = random(windowHeight);
-    let speed = random(0.5, 2);
+  for (let i = 0; i < 4; i++) {
+    let x = Math.floor(Math.random() * width);
+    let y = Math.floor(Math.random() * height);
+    let speed = random(0.3, 1.5);
     comets.push(new Comet(x, y, speed));
   }
 
@@ -76,16 +76,16 @@ function setup() {
   }
 
   // Projectiles
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 8; i++) {
     let x = random(windowWidth);
     let y = random(windowHeight);
     let speed = random(5, 10);
     projectiles.push(new Projectile(x, y, speed));
   }
   // MegaProejctiles
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     let x = random(windowWidth);
-    let y = random(windowHeight);
+    let y = windowHeight / 2 + random(-200, 200);
     let speed = random(4, 7);
     megaprojectiles.push(new MegaProjectile(x, y, speed));
   }
@@ -278,7 +278,6 @@ function ufo() {
   ufox.callShield = false;
   movement();
 }
-
 function ufoStationary() {
   ufox.draw();
   ufox.callPulse = false;
@@ -501,7 +500,7 @@ function replenishMegaProjectiles() {
   const megaProjectilesToAdd = MegaProjectileCount - currentMegaProjectileCount;
   for (let i = 0; i < megaProjectilesToAdd; i++) {
     let x = windowWidth;
-    let y = random(windowHeight);
+    let y = windowHeight / 2 + random(-200, 200);
     let speed = random(4, 7);
     megaprojectiles.push(new MegaProjectile(x, y, speed));
   }

@@ -12,7 +12,7 @@ export default class MegaProjectile {
 
     if (this.x < 0) {
       this.x = windowWidth;
-      this.y = random(windowHeight);
+      this.y = windowHeight / 2;
     }
   }
 

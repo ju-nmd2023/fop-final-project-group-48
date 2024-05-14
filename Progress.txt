@@ -1,48 +1,50 @@
 14.02.2024 ----------------------------------------------------------------------
 
-ADDITION _______________________________________________________________________
+    ADDITION _______________________________________________________________________
 
-        Added the collision function & replenishment of projectiles after the collision:
+            Added the collision function & replenishment of projectiles after the collision:
 
 
-        GAME.JS > added function for checkCollison();
-                        function isColliding(objectufo, projectiles);
-                        function replenishProjectiles();
-                        function replenishMegaProjectiles();
-                        function drawMegaProjectilesStationary();
+            GAME.JS > added function for checkCollison();
+                            function isColliding(objectufo, projectiles);
+                            function replenishProjectiles();
+                            function replenishMegaProjectiles();
+                            function drawMegaProjectilesStationary();
 
-                > drawn replenishProjectiles(); and replenishMegaProjectile(); in gameState();
-                > drawn checkCollision(); in gameState();
+                    > drawn replenishProjectiles(); and replenishMegaProjectile(); in gameState();
+                    > drawn checkCollision(); in gameState();
 
-        UFO.JS:
-            export default class Ufo {
-            // ........ Previous Code
-            this.width = 90;
-            this.height = 80;
-        }
+            UFO.JS:
+                export default class Ufo {
+                // ........ Previous Code
+                this.width = 90;
+                this.height = 80;
+            }
 
-        PROJECTILE.JS:
-            export default class Ufo {
-            // ........ Previous Code
-            this.width = 80;
-            this.height = 80;
-        }
+            PROJECTILE.JS:
+                export default class Ufo {
+                // ........ Previous Code
+                this.width = 80;
+                this.height = 80;
+            }
 
-        MEGAPROJECTILE.JS:
-            export default class Ufo {
-            // ........ Previous Code
-            this.width = 80;
-            this.height = 80;
-        }
+            MEGAPROJECTILE.JS:
+                export default class Ufo {
+                // ........ Previous Code
+                this.width = 80;
+                this.height = 80;
+            }
 
-ISSUES ______________________________________________________________________________
+    ISSUES ______________________________________________________________________________
 
-        The projectiles do not collide with ufo when hit from above (underneath works)
-        - Could be due to the width and height within ufo.js?
+            1.  The projectiles do not collide with ufo when hit from above (underneath works)
+                - Could be due to the width and height within ufo.js?
 
-IMPLEMENT ____________________________________________________________________________
+                I THINK IT WORKS NOW!
 
-        Create function that lowers HP every time an object hits the ufo. (HP vary on the object)
+    IMPLEMENT ____________________________________________________________________________
+
+            Create function that lowers HP every time an object hits the ufo. (HP vary on the object)
 
 
 00.00.2024 -------------------------------------------------------------------------
