@@ -5,8 +5,8 @@ export default class Ufo {
     this.levitationdistance = 15;
     this.diameter = 225; // Initial diameter for shield
     this.callPulse = true;
-    this.width = 90;
-    this.height = 80;
+    this.width = 120;
+    this.height = 90;
   }
 
   draw() {
