@@ -29,9 +29,10 @@ let state = "title";
 let ufoVertSpeed = 0;
 let ufoHoriSpeed = 0;
 
-//let gravityStrength = 1.01;
 let boosterStrength = 0.5;
 const slowDownStrength = 0.95;
+
+let health = 3;
 
 let showTitle = true;
 let title;
@@ -101,6 +102,7 @@ function setup() {
 window.setup = setup;
 
 function draw() {
+  // Set current state and draw based of said state
   if (state === "pause") {
     pauseState();
   }
@@ -109,6 +111,9 @@ function draw() {
   }
   if (state === "title") {
     titleState();
+  }
+  if (state === "gameOver") {
+    gameOverState();
   }
   drawTitle();
   drawCursor();
@@ -250,6 +255,75 @@ function drawHealthbar() {
     barY + 7
   );
 }
+
+function drawHealthbar2() {
+  const barWidth = windowWidth * 0.2;
+  const barHeight = 20;
+  const barX = (windowWidth - barWidth) / 2;
+  const barY = 60;
+  const barPadding = 10;
+
+  // HP BAR Background
+  strokeWeight(barHeight + barPadding * 2);
+  stroke(255, 255, 255, 80);
+
+  // Draw background bar
+  line(barX + barWidth + barPadding, barY, barX - barPadding, barY);
+
+  // HP BAR
+  stroke(247, 213, 101);
+  strokeWeight(barHeight);
+
+  // Draw actual health bar
+  line(barX + (barWidth / 3) * 2 + barPadding, barY, barX - barPadding, barY);
+
+  // Guides
+  strokeWeight(2);
+  stroke(0, 0, 0, 50);
+  // Guide lines
+  line(barX + barWidth / 3, barY - 6, barX + barWidth / 3, barY + 7);
+  line(
+    barX + (barWidth * 2) / 3,
+    barY - 6,
+    barX + (barWidth * 2) / 3,
+    barY + 7
+  );
+}
+
+function drawHealthbar1() {
+  const barWidth = windowWidth * 0.2;
+  const barHeight = 20;
+  const barX = (windowWidth - barWidth) / 2;
+  const barY = 60;
+  const barPadding = 10;
+
+  // HP BAR Background
+  strokeWeight(barHeight + barPadding * 2);
+  stroke(255, 255, 255, 80);
+
+  // Draw background bar
+  line(barX + barWidth + barPadding, barY, barX - barPadding, barY);
+
+  // HP BAR
+  stroke(209, 51, 23);
+  strokeWeight(barHeight);
+
+  // Draw actual health bar
+  line(barX + barWidth / 3 + barPadding, barY, barX - barPadding, barY);
+
+  // Guides
+  strokeWeight(2);
+  stroke(0, 0, 0, 50);
+  // Guide lines
+  line(barX + barWidth / 3, barY - 6, barX + barWidth / 3, barY + 7);
+  line(
+    barX + (barWidth * 2) / 3,
+    barY - 6,
+    barX + (barWidth * 2) / 3,
+    barY + 7
+  );
+}
+
 function drawHealthBuff() {
   healthbuff.draw();
 }
@@ -322,7 +396,13 @@ function gameState() {
   drawCommenceComet();
   drawAura();
   moon();
-  drawHealthbar();
+  if (health === 3) {
+    drawHealthbar();
+  } else if (health === 2) {
+    drawHealthbar2();
+  } else if (health === 1) {
+    drawHealthbar1();
+  } // draw correct healthbar depending on health remaining
   ufo();
   drawProjectiles();
   drawMegaProjectiles();
@@ -349,12 +429,32 @@ function pauseState() {
   drawCommenceComet();
   drawAura();
   moon();
-  drawHealthbar();
+  if (health === 3) {
+    drawHealthbar();
+  } else if (health === 2) {
+    drawHealthbar2();
+  } else if (health === 1) {
+    drawHealthbar1();
+  } // draw correct healthbar depending on health remaining
   ufoStationary();
   drawProjectilesStationary();
   drawMegaProjectilesStationary();
+  menu.style.display = "block";
 }
 window.pauseStateState = pauseState;
+
+// GAME STATES --- GAMEOVER
+function gameOverState() {
+  drawGeneral();
+  drawStars();
+  drawCommenceComet();
+  drawAura();
+  moon();
+  ufoStationary();
+  drawTitle();
+  drawCursor();
+}
+window.gameOverStateState = gameOverState;
 
 function movement() {
   if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87)) {
@@ -405,11 +505,6 @@ function borderCheck() {
 }
 window.borderCheck = borderCheck;
 
-//function gravity() {
-//  y *= gravityStrength;
-//}
-//window.gravity = gravity;
-/*
 setInterval(function () {
   console.log(state);
 }, 1000);
@@ -429,7 +524,10 @@ setInterval(function () {
 setInterval(function () {
   console.log(ufox.y);
 }, 1000);
-*/
+
+setInterval(function () {
+  console.log(health);
+}, 1000);
 
 // COLLISION FUNCTIONS
 function checkCollisions() {
@@ -438,6 +536,13 @@ function checkCollisions() {
     let projectile = projectiles[i];
     if (isColliding(ufox, projectile)) {
       projectiles.splice(i, 1); // Remove from array
+
+      health -= 1; // decrease health by 1 when hit
+
+      if (health === 0) {
+        state = "gameOver";
+      }
+
       console.log("IDK1");
     }
   }
@@ -447,6 +552,13 @@ function checkCollisions() {
     let megaprojectile = megaprojectiles[i];
     if (isColliding(ufox, megaprojectile)) {
       megaprojectiles.splice(i, 1); // Remove from array
+
+      health -= 2; // decrease health by 2 when hit
+
+      if (health === 0) {
+        state = "gameOver";
+      }
+
       console.log("IDK2");
     }
   }
@@ -464,7 +576,7 @@ function isColliding(objectufo, projectiles) {
 
 // REPLENISH THE PROJECTILES
 function replenishProjectiles() {
-  const ProjectileCount = random(50);
+  const ProjectileCount = random(10);
   const currentProjectileCount = projectiles.length;
 
   const projectilesToAdd = ProjectileCount - currentProjectileCount;
@@ -477,7 +589,7 @@ function replenishProjectiles() {
 }
 
 function replenishMegaProjectiles() {
-  const MegaProjectileCount = random(50);
+  const MegaProjectileCount = random(5);
   const currentMegaProjectileCount = megaprojectiles.length;
 
   const megaProjectilesToAdd = MegaProjectileCount - currentMegaProjectileCount;

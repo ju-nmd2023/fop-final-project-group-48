@@ -1,4 +1,4 @@
-14.02.2024 ----------------------------------------------------------------------
+14.05.2024 ----------------------------------------------------------------------
 
     ADDITION _______________________________________________________________________
 
@@ -47,6 +47,42 @@
             Create function that lowers HP every time an object hits the ufo. (HP vary on the object)
 
 
-00.00.2024 -------------------------------------------------------------------------
+15.05.2024 -------------------------------------------------------------------------
 
+    ADDITION _______________________________________________________________________
+            Added a health system and "gameOver" state:
 
+            GAME.JS:
+                Added health logic:
+
+                let health = 3;
+
+                function gameState() {
+                // ........ Previous Code
+                if (health === 3) {
+                drawHealthbar();
+                } else if (health === 2) {
+                drawHealthbar2();
+                } else if (health === 1) {
+                drawHealthbar1();
+                } // draw correct healthbar depending on health remaining
+                // ........ Previous Code
+
+                (same code in the pausstate function)
+
+                function checkCollisions() {
+                // ........ Previous Code
+
+                health -= 1; // decrease health by 1 when hit
+
+                if (health === 0) {
+                state = "gameOver";
+                }
+                // ........ Previous Code
+
+                (same code for the mega projectiles but -2 health per hit instead)
+            
+    ISSUES ______________________________________________________________________________
+
+            1.  the "gameOver" state currently does nothing special, also bugged so when you press the 
+                menu button and then continue the game keeps going without any healthbar or health.
