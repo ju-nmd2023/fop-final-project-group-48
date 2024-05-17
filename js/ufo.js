@@ -2,46 +2,20 @@ export default class Ufo {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.levitationdistance = 15;
     this.diameter = 225; // Initial diameter for shield
-    this.callPulse = true;
-    this.width = 120;
-    this.height = 90;
+    this.width = 150;
+    this.height = 82;
+    this.levitationdistance = 1;
+    //this.shieldActive = false;
   }
 
   draw() {
-    this.drawUFO();
-    if (this.callPulse) {
-      this.pulse();
-    }
-    if (this.callSheild) {
-      this.drawShield();
-    }
+    this.levitate();
+    this.drawUfo();
+    // this.drawShield();
   }
 
-  pulse() {
-    let x = this.x;
-    let y = this.y;
-
-    fill(97, 255, 115, 110);
-    noStroke();
-    beginShape();
-    vertex(x - 40, y + 5);
-    bezierVertex(x - 40, y + 5, x, y + 150, x + 40, y + 5);
-    endShape();
-
-    beginShape();
-    vertex(x - 60, y + 5);
-    bezierVertex(x - 60, y + 5, x, y + 230, x + 60, y + 5);
-    endShape();
-
-    beginShape();
-    vertex(x - 70, y + 5);
-    bezierVertex(x - 70, y + 5, x, y + 280, x + 70, y + 5);
-    endShape();
-  }
-
-  drawUFO() {
+  drawUfo() {
     let x = this.x;
     let y = this.y;
 
@@ -80,12 +54,14 @@ export default class Ufo {
     noStroke();
     ellipse(x - 12, y - 50, 16, 14);
     fill(204, 153, 255);
+    noStroke();
     ellipse(x - 11, y - 50, 11);
     fill(255);
     ellipse(x - 9, y - 52, 4);
     noStroke();
     ellipse(x + 12, y - 50, 16, 14);
     fill(204, 153, 255);
+    noStroke();
     ellipse(x + 11, y - 50, 11);
     fill(255);
     ellipse(x + 13, y - 52, 4);
@@ -121,7 +97,7 @@ export default class Ufo {
     ellipse(x - 15, y - 14, 3.5, 3.3);
     ellipse(x - 11, y - 15, 3.5, 3.3);
     ellipse(x - 7, y - 13, 3.5, 3.3);
-    //glass
+    // Glass
     fill(169, 196, 195, 50);
     noStroke();
     beginShape();
@@ -129,8 +105,7 @@ export default class Ufo {
     bezierVertex(x - 53, y - 110, x + 47, y - 110, x + 60, y - 20);
     bezierVertex(x + 60, y, x - 60, y, x - 60, y - 20);
     endShape();
-
-    //reflection
+    // Reflection
     fill(255, 254, 217, 50);
     beginShape();
     vertex(x - 25, y - 25);
@@ -139,14 +114,28 @@ export default class Ufo {
     endShape();
   }
 
+  levitate() {
+    let levitate = this.levitationdistance * Math.sin(frameCount * 0.05);
+    this.y += levitate;
+  }
+
+  /*
   drawShield() {
-    let x = this.x;
-    let y = this.y;
     push();
     stroke(102, 255, 255, 30);
     strokeWeight(30);
     fill(102, 255, 255, 70);
-    ellipse(x, y - 15, this.diameter, this.diameter / 1);
+    ellipse(this.x, this.y - 15, this.diameter + 5, this.diameter + 5);
     pop();
+  }
+
+  liveShield() {
+    let dsize = this.diameter * Math.sin(frameCount * 0.07);
+    this.diameter += dsize / 180; // Adjust the divisor to reduce the effect
+  }
+  */
+
+  toggleShield() {
+    this.shieldActive = !this.shieldActive;
   }
 }

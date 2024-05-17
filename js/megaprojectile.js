@@ -3,8 +3,8 @@ export default class MegaProjectile {
     this.x = x;
     this.y = y;
     this.speed = speed;
-    this.width = 120;
-    this.height = 120;
+    this.width = 160;
+    this.height = 160;
   }
 
   updatePosition() {

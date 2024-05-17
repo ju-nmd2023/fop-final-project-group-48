@@ -1,4 +1,4 @@
-//Modules
+//MODULES
 import MegaProjectile from "./megaprojectile.js";
 let megaprojectiles = [];
 
@@ -8,11 +8,11 @@ let projectiles = [];
 import Ufo from "./ufo.js";
 let ufox = new Ufo(450, 500);
 
-import SheilfBuff from "./shieldbuff.js";
-let shieldbuff = new SheilfBuff();
+import ShieldBuff from "./shieldbuff.js";
+let shieldbuffs = [];
 
 import HealthBuff from "./healthbuff.js";
-let healthbuff = new HealthBuff();
+let healthbuffs = [];
 
 import Moon from "./moon.js";
 let moonx = new Moon();
@@ -29,7 +29,7 @@ let state = "title";
 let ufoVertSpeed = 0;
 let ufoHoriSpeed = 0;
 
-let boosterStrength = 0.5;
+let boosterStrength = 0.6;
 const slowDownStrength = 0.95;
 
 let health = 6;
@@ -67,35 +67,25 @@ function setup() {
   }
 
   // Initialize stars
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < 400; i++) {
     const star = {
-      x: Math.floor(Math.random() * width),
-      y: Math.floor(Math.random() * height),
-      alpha: Math.random(),
+      x: Math.random() * width,
+      y: Math.random() * height,
+      alpha: Math.random(0.1, 5),
     };
     stars.push(star);
   }
 
-  const arrowX = windowWidth - 100;
-  const arrowY = windowHeight / 2;
-  //const speed = 12; // Speed for all projectiles
-  const spacing = 130;
-
-  // Center projectile
-  projectiles.push(new Projectile(arrowX, arrowY, 12));
-  // Upper right projectiles
-  projectiles.push(new Projectile(arrowX + spacing, arrowY - spacing, 11.5));
-  projectiles.push(
-    new Projectile(arrowX + 2 * spacing, arrowY - 2 * spacing, 11)
-  );
-  // Lower right projectiles
-  projectiles.push(new Projectile(arrowX + spacing, arrowY + spacing, 11.5));
-  projectiles.push(
-    new Projectile(arrowX + 2 * spacing, arrowY + 2 * spacing, 11)
-  );
+  //commenceArrowProjectiles();
+  commenceShieldWallProjectiles();
+  setInterval(commenceShieldWallProjectiles, 12000);
+  setInterval(commenceArrowProjectiles, 6000);
+  setInterval(commenceMegaProjectiles, 10000);
+  setInterval(commenceHealthBuffs, 20000);
+  setInterval(commenceShieldBuffs, 30000);
 
   // Create an audio element // HELP BY AI - used from Lunar Lander
-  const bgMusic = new Audio("js/cowscowscows.mp3");
+  const bgMusic = new Audio("js/retrogamesambience.mp3");
 
   bgMusic.loop = true;
   bgMusic.volume = 0.5;
@@ -132,20 +122,53 @@ function draw() {
   }
   if (state === "gameOver") {
     gameOverState();
+    drawGameOver();
   }
   drawTitle();
   drawCursor();
 }
 window.draw = draw;
 
-function mouseClicked() {
-  showTitle = false;
+function removeTitle(event) {
+  if (
+    event.type === "click" ||
+    (event.type === "keydown" && (event.key === " " || event.key === "Enter"))
+  ) {
+    showTitle = false;
+  }
 }
-window.mouseClicked = mouseClicked;
+window.addEventListener("click", removeTitle);
+window.addEventListener("keydown", removeTitle);
+// START TITLE
+function drawTitle() {
+  if (showTitle) {
+    let maxWidth = 850;
+    let maxHeight = 850;
+    let scale = min(maxWidth / title.width, maxHeight / title.height);
+
+    // Center IT
+    let imageX = (windowWidth - title.width * 0.6) / 2;
+    let imageY = (windowHeight - title.height * 0.6) / 1.8;
+
+    // Draw the image with the calculated position and scaled dimensions
+    image(title, imageX, imageY, title.width * 0.6, title.height * 0.6);
+  }
+}
+window.drawTitle = drawTitle;
+
+function drawGameOver() {
+  textAlign(CENTER, CENTER);
+  textSize(128);
+  fill(255, 196, 94);
+  textFont("pain-de-mie, sans-serif");
+  text("GAME OVER", width / 2, height / 2);
+}
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
 }
+
+//DRAW
 function drawGeneral() {
   noStroke();
   clear();
@@ -154,7 +177,7 @@ function drawGeneral() {
 function drawStars() {
   noStroke();
   for (let star of stars) {
-    fill(255, 255, 255, Math.abs(Math.sin(star.alpha)) * 200);
+    fill(255, 255, 255, Math.abs(Math.sin(star.alpha)) * 100);
     ellipse(star.x, star.y, 3);
     star.alpha = star.alpha + 0.01;
   }
@@ -166,10 +189,99 @@ function drawCommenceComet() {
   }
 }
 
+//BUFFS n STUFFS
+function commenceHealthBuffs() {
+  const healthBuffX = windowWidth + 100;
+  const healthBuffY = random(windowHeight);
+
+  if (healthbuffs.length < 1) {
+    healthbuffs.push(new HealthBuff(healthBuffX, healthBuffY, 8));
+  }
+}
+function drawHealthBuffs() {
+  for (let healthbuff of healthbuffs) {
+    healthbuff.updatePosition();
+    healthbuff.draw();
+    healthbuff.livehpBuff();
+  }
+}
+
+function commenceShieldBuffs() {
+  const shieldBuffX = windowWidth + 100;
+  const shieldBuffY = random(windowHeight);
+
+  if (shieldbuffs.length < 1) {
+    shieldbuffs.push(new ShieldBuff(shieldBuffX, shieldBuffY, 8));
+  }
+}
+function drawShieldBuffs() {
+  for (let shieldbuff of shieldbuffs) {
+    shieldbuff.updatePosition();
+    shieldbuff.draw();
+    shieldbuff.liveshieldBuff();
+  }
+}
+
+function commenceArrowProjectiles() {
+  const arrowX = windowWidth + 500;
+  const arrowY = windowHeight / 2;
+  const spacing = 150;
+
+  if (projectiles.length < 5) {
+    // Center
+    projectiles.push(new Projectile(arrowX, arrowY, 11.8));
+    // Upper right
+    projectiles.push(
+      new Projectile(arrowX + spacing, arrowY - spacing / 2, 11.6)
+    );
+    projectiles.push(
+      new Projectile(arrowX + spacing, arrowY + spacing / 2, 11.6)
+    );
+    // Lower right
+    projectiles.push(
+      new Projectile(arrowX + spacing * 2, arrowY - spacing, 11.5)
+    );
+    projectiles.push(
+      new Projectile(arrowX + spacing * 2, arrowY + spacing, 11.5)
+    );
+  }
+}
+function commenceShieldWallProjectiles() {
+  const arrowX = windowWidth + 500;
+  const arrowY = windowHeight / 2;
+  const spacing = 350;
+
+  if (projectiles.length < 5) {
+    // Center
+    projectiles.push(new Projectile(arrowX, arrowY, 11.8));
+    // Upper right
+    projectiles.push(
+      new Projectile(arrowX - spacing - 200, arrowY - spacing / 2, 11.6)
+    );
+    projectiles.push(
+      new Projectile(arrowX - spacing - 200, arrowY + spacing / 2, 11.6)
+    );
+    // Lower right
+    projectiles.push(new Projectile(arrowX - spacing, arrowY - spacing, 11.5));
+    projectiles.push(new Projectile(arrowX - spacing, arrowY + spacing, 11.5));
+  }
+}
 function drawProjectiles() {
   for (let projectile of projectiles) {
     projectile.updatePosition();
     projectile.draw();
+  }
+}
+
+function commenceMegaProjectiles() {
+  const megaX = windowWidth + 500;
+  const megaY = windowHeight / 2;
+
+  const offsetY = random(-200, 200); // Randomly offset Y
+  const spawnY = constrain(megaY + offsetY, 100, windowHeight - 100);
+
+  if (megaprojectiles.length < 3) {
+    megaprojectiles.push(new MegaProjectile(megaX, spawnY, 7));
   }
 }
 function drawMegaProjectiles() {
@@ -190,32 +302,13 @@ function drawMegaProjectilesStationary() {
   }
 }
 
+// OBJECTS
 function drawAura() {
   aurax.draw();
 }
 function drawCursor() {
   paw(mouseX, mouseY);
 }
-
-// START TITLE
-function drawTitle() {
-  if (showTitle) {
-    let maxWidth = 850;
-    let maxHeight = 850;
-    let scale = min(maxWidth / title.width, maxHeight / title.height);
-
-    // Center IT
-    let imageX = (windowWidth - title.width * 0.6) / 2;
-    let imageY = (windowHeight - title.height * 0.6) / 1.8;
-
-    // Draw the image with the calculated position and scaled dimensions
-    image(title, imageX, imageY, title.width * 0.6, title.height * 0.6);
-  }
-}
-window.drawTitle = drawTitle;
-
-// OBJECTS
-
 function paw(x, y) {
   noStroke();
   if (mouseIsPressed || keyIsDown(32)) {
@@ -274,7 +367,6 @@ function drawHealthbar6() {
     barY + 7
   );
 }
-
 function drawHealthbar5() {
   const barWidth = windowWidth * 0.2;
   const barHeight = 20;
@@ -308,7 +400,6 @@ function drawHealthbar5() {
     barY + 7
   );
 }
-
 function drawHealthbar4() {
   const barWidth = windowWidth * 0.2;
   const barHeight = 20;
@@ -342,7 +433,6 @@ function drawHealthbar4() {
     barY + 7
   );
 }
-
 function drawHealthbar3() {
   const barWidth = windowWidth * 0.2;
   const barHeight = 20;
@@ -376,7 +466,6 @@ function drawHealthbar3() {
     barY + 7
   );
 }
-
 function drawHealthbar2() {
   const barWidth = windowWidth * 0.2;
   const barHeight = 20;
@@ -410,7 +499,6 @@ function drawHealthbar2() {
     barY + 7
   );
 }
-
 function drawHealthbar1() {
   const barWidth = windowWidth * 0.2;
   const barHeight = 20;
@@ -445,23 +533,18 @@ function drawHealthbar1() {
   );
 }
 
-function drawHealthBuff() {
-  healthbuff.draw();
-}
-function drawShieldBuff() {
-  shieldbuff.draw();
-}
-
 function ufo() {
   ufox.draw();
-  ufox.callPulse = false;
-  ufox.callShield = false;
+  /*
+  if (ufox.shieldActive) {
+    ufox.liveShield();
+  }*/
   movement();
 }
 function ufoStationary() {
   ufox.draw();
   ufox.callPulse = false;
-  ufox.callShield = false;
+  ufox.callShield = true;
 }
 
 // menu logic
@@ -469,33 +552,21 @@ difficultyBtn.addEventListener("click", function () {
   console.log("Start Button Clicked!");
 
   menu.style.display = "none";
-  if (health > 0) {
-    state = "game";
-  } else if (health <= 0) {
-    state = "gameOver";
-  }
+  state = "game";
 });
 
 infiniteBtn.addEventListener("click", function () {
   console.log("Infinite Button Clicked!");
 
   menu.style.display = "none";
-  if (health > 0) {
-    state = "game";
-  } else if (health <= 0) {
-    state = "gameOver";
-  }
+  state = "game";
 });
 
 controlsBtn.addEventListener("click", function () {
   console.log("Controls Button Clicked!");
 
   menu.style.display = "none";
-  if (health > 0) {
-    state = "game";
-  } else if (health <= 0) {
-    state = "gameOver";
-  }
+  state = "game";
 });
 
 menuBtn.addEventListener("click", function () {
@@ -541,14 +612,12 @@ function gameState() {
     drawHealthbar2();
   } else if (health === 1) {
     drawHealthbar1();
-  } // draw correct healthbar depending on health remaining
+  }
   ufo();
   drawProjectiles();
   drawMegaProjectiles();
-
-  replenishProjectiles();
-  replenishMegaProjectiles();
-
+  drawHealthBuffs();
+  drawShieldBuffs();
   borderCheck();
   checkCollisions();
 
@@ -563,37 +632,28 @@ window.gameState = gameState;
 
 // GAME STATES --- PAUSE
 function pauseState() {
-  if (health > 0) {
-    drawGeneral();
-    drawStars();
-    drawCommenceComet();
-    drawAura();
-    moon();
-    if (health === 6) {
-      drawHealthbar6();
-    } else if (health === 5) {
-      drawHealthbar5();
-    } else if (health === 4) {
-      drawHealthbar4();
-    } else if (health === 3) {
-      drawHealthbar3();
-    } else if (health === 2) {
-      drawHealthbar2();
-    } else if (health === 1) {
-      drawHealthbar1();
-    } // draw correct healthbar depending on health remaining
-    ufoStationary();
-    drawProjectilesStationary();
-    drawMegaProjectilesStationary();
-    menu.style.display = "block";
-  } else if (health <= 0) {
-    drawGeneral();
-    drawStars();
-    drawCommenceComet();
-    drawAura();
-    moon();
-    menu.style.display = "block";
+  drawGeneral();
+  drawStars();
+  drawCommenceComet();
+  drawAura();
+  moon();
+  if (health === 6) {
+    drawHealthbar6();
+  } else if (health === 5) {
+    drawHealthbar5();
+  } else if (health === 4) {
+    drawHealthbar4();
+  } else if (health === 3) {
+    drawHealthbar3();
+  } else if (health === 2) {
+    drawHealthbar2();
+  } else if (health === 1) {
+    drawHealthbar1();
   }
+  ufoStationary();
+  drawProjectilesStationary();
+  drawMegaProjectilesStationary();
+  menu.style.display = "block";
 }
 window.pauseStateState = pauseState;
 
@@ -604,6 +664,7 @@ function gameOverState() {
   drawCommenceComet();
   drawAura();
   moon();
+  ufoStationary();
   drawTitle();
   drawCursor();
 }
@@ -658,30 +719,6 @@ function borderCheck() {
 }
 window.borderCheck = borderCheck;
 
-setInterval(function () {
-  console.log(state);
-}, 1000);
-
-setInterval(function () {
-  console.log(ufoHoriSpeed);
-}, 1000);
-
-setInterval(function () {
-  console.log(ufoVertSpeed);
-}, 1000);
-
-setInterval(function () {
-  console.log(ufox.x);
-}, 1000);
-
-setInterval(function () {
-  console.log(ufox.y);
-}, 1000);
-
-setInterval(function () {
-  console.log(health);
-}, 1000);
-
 // COLLISION FUNCTIONS
 function checkCollisions() {
   // Check UFO collision with PROJETCILES
@@ -692,11 +729,9 @@ function checkCollisions() {
 
       health -= 1; // decrease health by 1 when hit
 
-      if (health <= 0) {
+      if (health === 0) {
         state = "gameOver";
       }
-
-      console.log("IDK1");
     }
   }
 
@@ -708,11 +743,9 @@ function checkCollisions() {
 
       health -= 2; // decrease health by 2 when hit
 
-      if (health <= 0) {
+      if (health === 0) {
         state = "gameOver";
       }
-
-      console.log("IDK2");
     }
   }
 }
@@ -725,31 +758,4 @@ function isColliding(objectufo, projectiles) {
     objectufo.y < projectiles.y + projectiles.height &&
     objectufo.y + objectufo.height > projectiles.y
   );
-}
-
-// REPLENISH THE PROJECTILES
-function replenishProjectiles() {
-  const ProjectileCount = 5;
-  const currentProjectileCount = projectiles.length;
-
-  const projectilesToAdd = ProjectileCount - currentProjectileCount;
-  for (let i = 0; i < projectilesToAdd; i++) {
-    let x = windowWidth;
-    let y = windowHeight / 2 + random(-450, 450);
-    let speed = random(5, 12);
-    projectiles.push(new Projectile(x, y, speed));
-  }
-}
-
-function replenishMegaProjectiles() {
-  const MegaProjectileCount = random(3);
-  const currentMegaProjectileCount = megaprojectiles.length;
-
-  const megaProjectilesToAdd = MegaProjectileCount - currentMegaProjectileCount;
-  for (let i = 0; i < megaProjectilesToAdd; i++) {
-    let x = windowWidth;
-    let y = windowHeight / 2 + random(-200, 200);
-    let speed = random(5, 7);
-    megaprojectiles.push(new MegaProjectile(x, y, speed));
-  }
 }

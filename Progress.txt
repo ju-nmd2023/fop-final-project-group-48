@@ -101,7 +101,9 @@
             GAME.JS >   added in the setup(); a projectile Initialization.
             (maybe should be a function if we want to adapt it throut the game)
 
-            Chnaged the size of MegaProjectile make it bigger
+            Chnaged the size of MegaProjectile make it bigger,
+            Accordingly adjusted it's hit box = 160; from 120
+
 
             MEGAPROJECTILE.JS:
                 export default class Ufo {
@@ -125,22 +127,3 @@
             small projectile half of 1HP in order to make the game less punishing.
             (Havnet tested with the buffs yet, perhaps the balance is going to
             be fair once we add their functionality) ^^
-
-17.05.2024 ----------------------------------------------------------------------
-
-    ADDITION _______________________________________________________________________
-
-            Implemented the HP suggestion from before and fixed issues with being 
-            able to play while on less than zero hp through the pause menu.
-
-            GAME.JS: difficultyBtn.addEventListener("click", function () {
-                     console.log("Start Button Clicked!");
-                     menu.style.display = "none";
-                     if (health > 0) {
-                         state = "game";
-                     } else if (health <= 0) {
-                         state = "gameOver";
-                     }
-    
-    ISSUES _______________________________________________________________________
-            gameOver state still does nothing, working on it.

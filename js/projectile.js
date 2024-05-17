@@ -12,7 +12,7 @@ export default class Projectile {
 
     if (this.x < 0) {
       this.x = windowWidth;
-      this.y = windowHeight / 2 + random(-450, 450);
+      this.y = windowHeight / 2 + random(-480, 480);
     }
   }
 

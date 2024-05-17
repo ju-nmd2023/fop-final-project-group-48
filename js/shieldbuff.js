@@ -1,8 +1,20 @@
 export default class ShieldBuff {
-  constructor(x, y, diameter) {
+  constructor(x, y, speed) {
     this.x = x;
     this.y = y;
-    this.diameter = diameter;
+    this.diameter = 90;
+    this.speed = speed;
+    this.width = 50;
+    this.height = 50;
+  }
+
+  updatePosition() {
+    this.x -= this.speed;
+
+    if (this.x < 0) {
+      this.x = windowWidth;
+      this.y = random(windowHeight);
+    }
   }
 
   draw() {
@@ -37,5 +49,10 @@ export default class ShieldBuff {
       this.y - 20
     );
     endShape();
+  }
+
+  liveshieldBuff() {
+    let dsize = this.diameter * Math.sin(frameCount * 0.07);
+    this.diameter += dsize / 150;
   }
 }
