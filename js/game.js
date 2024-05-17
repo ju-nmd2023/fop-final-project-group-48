@@ -81,8 +81,8 @@ function setup() {
   setInterval(commenceShieldWallProjectiles, 12000);
   setInterval(commenceArrowProjectiles, 6000);
   setInterval(commenceMegaProjectiles, 10000);
-  setInterval(commenceHealthBuffs, 1000);
-  setInterval(commenceShieldBuffs, 1000);
+  setInterval(commenceHealthBuffs, 20000);
+  setInterval(commenceShieldBuffs, 30000);
 
   // Create an audio element // HELP BY AI - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
@@ -122,6 +122,7 @@ function draw() {
   }
   if (state === "gameOver") {
     gameOverState();
+    drawGameOver();
   }
   drawTitle();
   drawCursor();
@@ -138,10 +139,36 @@ function removeTitle(event) {
 }
 window.addEventListener("click", removeTitle);
 window.addEventListener("keydown", removeTitle);
+// START TITLE
+function drawTitle() {
+  if (showTitle) {
+    let maxWidth = 850;
+    let maxHeight = 850;
+    let scale = min(maxWidth / title.width, maxHeight / title.height);
+
+    // Center IT
+    let imageX = (windowWidth - title.width * 0.6) / 2;
+    let imageY = (windowHeight - title.height * 0.6) / 1.8;
+
+    // Draw the image with the calculated position and scaled dimensions
+    image(title, imageX, imageY, title.width * 0.6, title.height * 0.6);
+  }
+}
+window.drawTitle = drawTitle;
+
+function drawGameOver() {
+  textAlign(CENTER, CENTER);
+  textSize(128);
+  fill(255, 196, 94);
+  textFont("pain-de-mie, sans-serif");
+  text("GAME OVER", width / 2, height / 2);
+}
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
 }
+
+//DRAW
 function drawGeneral() {
   noStroke();
   clear();
@@ -162,13 +189,13 @@ function drawCommenceComet() {
   }
 }
 
+//BUFFS n STUFFS
 function commenceHealthBuffs() {
   const healthBuffX = windowWidth + 100;
   const healthBuffY = random(windowHeight);
 
-  // Check if the array length is less than the desired maximum
   if (healthbuffs.length < 1) {
-    healthbuffs.push(new HealthBuff(healthBuffX, healthBuffY, 10, 8));
+    healthbuffs.push(new HealthBuff(healthBuffX, healthBuffY, 8));
   }
 }
 function drawHealthBuffs() {
@@ -184,7 +211,7 @@ function commenceShieldBuffs() {
   const shieldBuffY = random(windowHeight);
 
   if (shieldbuffs.length < 1) {
-    shieldbuffs.push(new ShieldBuff(shieldBuffX, shieldBuffY, 10, 8));
+    shieldbuffs.push(new ShieldBuff(shieldBuffX, shieldBuffY, 8));
   }
 }
 function drawShieldBuffs() {
@@ -275,31 +302,13 @@ function drawMegaProjectilesStationary() {
   }
 }
 
+// OBJECTS
 function drawAura() {
   aurax.draw();
 }
 function drawCursor() {
   paw(mouseX, mouseY);
 }
-
-// START TITLE
-function drawTitle() {
-  if (showTitle) {
-    let maxWidth = 850;
-    let maxHeight = 850;
-    let scale = min(maxWidth / title.width, maxHeight / title.height);
-
-    // Center IT
-    let imageX = (windowWidth - title.width * 0.6) / 2;
-    let imageY = (windowHeight - title.height * 0.6) / 1.8;
-
-    // Draw the image with the calculated position and scaled dimensions
-    image(title, imageX, imageY, title.width * 0.6, title.height * 0.6);
-  }
-}
-window.drawTitle = drawTitle;
-
-// OBJECTS
 function paw(x, y) {
   noStroke();
   if (mouseIsPressed || keyIsDown(32)) {
@@ -526,8 +535,10 @@ function drawHealthbar1() {
 
 function ufo() {
   ufox.draw();
-  ufox.callPulse = false;
-  ufox.liveShield();
+  /*
+  if (ufox.shieldActive) {
+    ufox.liveShield();
+  }*/
   movement();
 }
 function ufoStationary() {
@@ -607,7 +618,6 @@ function gameState() {
   drawMegaProjectiles();
   drawHealthBuffs();
   drawShieldBuffs();
-
   borderCheck();
   checkCollisions();
 

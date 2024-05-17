@@ -3,13 +3,16 @@ export default class Ufo {
     this.x = x;
     this.y = y;
     this.diameter = 225; // Initial diameter for shield
+    this.width = 150;
+    this.height = 82;
     this.levitationdistance = 1;
+    //this.shieldActive = false;
   }
 
   draw() {
     this.levitate();
     this.drawUfo();
-    this.drawShield();
+    // this.drawShield();
   }
 
   drawUfo() {
@@ -116,6 +119,7 @@ export default class Ufo {
     this.y += levitate;
   }
 
+  /*
   drawShield() {
     push();
     stroke(102, 255, 255, 30);
@@ -128,5 +132,10 @@ export default class Ufo {
   liveShield() {
     let dsize = this.diameter * Math.sin(frameCount * 0.07);
     this.diameter += dsize / 180; // Adjust the divisor to reduce the effect
+  }
+  */
+
+  toggleShield() {
+    this.shieldActive = !this.shieldActive;
   }
 }
