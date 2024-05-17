@@ -1,4 +1,4 @@
-//Modules
+//MODULES
 import MegaProjectile from "./megaprojectile.js";
 let megaprojectiles = [];
 
@@ -8,11 +8,11 @@ let projectiles = [];
 import Ufo from "./ufo.js";
 let ufox = new Ufo(450, 500);
 
-import SheilfBuff from "./shieldbuff.js";
-let shieldbuff = new SheilfBuff();
+import ShieldBuff from "./shieldbuff.js";
+let shieldbuffs = [];
 
 import HealthBuff from "./healthbuff.js";
-let healthbuff = new HealthBuff();
+let healthbuffs = [];
 
 import Moon from "./moon.js";
 let moonx = new Moon();
@@ -32,7 +32,7 @@ let ufoHoriSpeed = 0;
 let boosterStrength = 0.5;
 const slowDownStrength = 0.95;
 
-let health = 3;
+let health = 6;
 
 let showTitle = true;
 let title;
@@ -78,9 +78,11 @@ function setup() {
 
   //commenceArrowProjectiles();
   commenceShieldWallProjectiles();
-  setInterval(commenceShieldWallProjectiles, 20000);
-  setInterval(commenceArrowProjectiles, 8000);
-  setInterval(commenceMegaProjectiles, 15000);
+  setInterval(commenceShieldWallProjectiles, 12000);
+  setInterval(commenceArrowProjectiles, 6000);
+  setInterval(commenceMegaProjectiles, 10000);
+  setInterval(commenceHealthBuffs, 1000);
+  setInterval(commenceShieldBuffs, 1000);
 
   // Create an audio element // HELP BY AI - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
@@ -126,7 +128,7 @@ function draw() {
 }
 window.draw = draw;
 
-function StartGameHandler(event) {
+function removeTitle(event) {
   if (
     event.type === "click" ||
     (event.type === "keydown" && (event.key === " " || event.key === "Enter"))
@@ -134,8 +136,8 @@ function StartGameHandler(event) {
     showTitle = false;
   }
 }
-window.addEventListener("click", StartGameHandler);
-window.addEventListener("keydown", StartGameHandler);
+window.addEventListener("click", removeTitle);
+window.addEventListener("keydown", removeTitle);
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
@@ -157,6 +159,39 @@ function drawCommenceComet() {
   for (let comet of comets) {
     comet.updatePosition();
     comet.draw();
+  }
+}
+
+function commenceHealthBuffs() {
+  const healthBuffX = windowWidth + 100;
+  const healthBuffY = random(windowHeight);
+
+  // Check if the array length is less than the desired maximum
+  if (healthbuffs.length < 1) {
+    healthbuffs.push(new HealthBuff(healthBuffX, healthBuffY, 10, 8));
+  }
+}
+function drawHealthBuffs() {
+  for (let healthbuff of healthbuffs) {
+    healthbuff.updatePosition();
+    healthbuff.draw();
+    healthbuff.livehpBuff();
+  }
+}
+
+function commenceShieldBuffs() {
+  const shieldBuffX = windowWidth + 100;
+  const shieldBuffY = random(windowHeight);
+
+  if (shieldbuffs.length < 1) {
+    shieldbuffs.push(new ShieldBuff(shieldBuffX, shieldBuffY, 10, 8));
+  }
+}
+function drawShieldBuffs() {
+  for (let shieldbuff of shieldbuffs) {
+    shieldbuff.updatePosition();
+    shieldbuff.draw();
+    shieldbuff.liveshieldBuff();
   }
 }
 
@@ -210,12 +245,12 @@ function drawProjectiles() {
     projectile.draw();
   }
 }
+
 function commenceMegaProjectiles() {
   const megaX = windowWidth + 500;
   const megaY = windowHeight / 2;
 
-  // Randomly offset Y
-  const offsetY = random(-200, 200);
+  const offsetY = random(-200, 200); // Randomly offset Y
   const spawnY = constrain(megaY + offsetY, 100, windowHeight - 100);
 
   if (megaprojectiles.length < 3) {
@@ -265,7 +300,6 @@ function drawTitle() {
 window.drawTitle = drawTitle;
 
 // OBJECTS
-
 function paw(x, y) {
   noStroke();
   if (mouseIsPressed || keyIsDown(32)) {
@@ -291,7 +325,7 @@ function moon() {
   moonx.x = windowWidth - 100;
   moonx.y = windowHeight / 2;
 }
-function drawHealthbar() {
+function drawHealthbar6() {
   const barWidth = windowWidth * 0.2;
   const barHeight = 20;
   const barX = (windowWidth - barWidth) / 2;
@@ -324,8 +358,40 @@ function drawHealthbar() {
     barY + 7
   );
 }
+function drawHealthbar5() {
+  const barWidth = windowWidth * 0.2;
+  const barHeight = 20;
+  const barX = (windowWidth - barWidth) / 2;
+  const barY = 60;
+  const barPadding = 10;
 
-function drawHealthbar2() {
+  // HP BAR Background
+  strokeWeight(barHeight + barPadding * 2);
+  stroke(255, 255, 255, 80);
+
+  // Draw background bar
+  line(barX + barWidth + barPadding, barY, barX - barPadding, barY);
+
+  // HP BAR
+  stroke(102, 255, 153);
+  strokeWeight(barHeight);
+
+  // Draw actual health bar
+  line(barX + (barWidth / 3) * 2.5 + barPadding, barY, barX - barPadding, barY);
+
+  // Guides
+  strokeWeight(2);
+  stroke(0, 0, 0, 50);
+  // Guide lines
+  line(barX + barWidth / 3, barY - 6, barX + barWidth / 3, barY + 7);
+  line(
+    barX + (barWidth * 2) / 3,
+    barY - 6,
+    barX + (barWidth * 2) / 3,
+    barY + 7
+  );
+}
+function drawHealthbar4() {
   const barWidth = windowWidth * 0.2;
   const barHeight = 20;
   const barX = (windowWidth - barWidth) / 2;
@@ -358,8 +424,40 @@ function drawHealthbar2() {
     barY + 7
   );
 }
+function drawHealthbar3() {
+  const barWidth = windowWidth * 0.2;
+  const barHeight = 20;
+  const barX = (windowWidth - barWidth) / 2;
+  const barY = 60;
+  const barPadding = 10;
 
-function drawHealthbar1() {
+  // HP BAR Background
+  strokeWeight(barHeight + barPadding * 2);
+  stroke(255, 255, 255, 80);
+
+  // Draw background bar
+  line(barX + barWidth + barPadding, barY, barX - barPadding, barY);
+
+  // HP BAR
+  stroke(247, 213, 101);
+  strokeWeight(barHeight);
+
+  // Draw actual health bar
+  line(barX + (barWidth / 3) * 1.5 + barPadding, barY, barX - barPadding, barY);
+
+  // Guides
+  strokeWeight(2);
+  stroke(0, 0, 0, 50);
+  // Guide lines
+  line(barX + barWidth / 3, barY - 6, barX + barWidth / 3, barY + 7);
+  line(
+    barX + (barWidth * 2) / 3,
+    barY - 6,
+    barX + (barWidth * 2) / 3,
+    barY + 7
+  );
+}
+function drawHealthbar2() {
   const barWidth = windowWidth * 0.2;
   const barHeight = 20;
   const barX = (windowWidth - barWidth) / 2;
@@ -392,24 +490,50 @@ function drawHealthbar1() {
     barY + 7
   );
 }
+function drawHealthbar1() {
+  const barWidth = windowWidth * 0.2;
+  const barHeight = 20;
+  const barX = (windowWidth - barWidth) / 2;
+  const barY = 60;
+  const barPadding = 10;
 
-function drawHealthBuff() {
-  healthbuff.draw();
-}
-function drawShieldBuff() {
-  shieldbuff.draw();
+  // HP BAR Background
+  strokeWeight(barHeight + barPadding * 2);
+  stroke(255, 255, 255, 80);
+
+  // Draw background bar
+  line(barX + barWidth + barPadding, barY, barX - barPadding, barY);
+
+  // HP BAR
+  stroke(209, 51, 23);
+  strokeWeight(barHeight);
+
+  // Draw actual health bar
+  line(barX + barWidth / 6 - 20 + barPadding, barY, barX - barPadding, barY);
+
+  // Guides
+  strokeWeight(2);
+  stroke(0, 0, 0, 50);
+  // Guide lines
+  line(barX + barWidth / 3, barY - 6, barX + barWidth / 3, barY + 7);
+  line(
+    barX + (barWidth * 2) / 3,
+    barY - 6,
+    barX + (barWidth * 2) / 3,
+    barY + 7
+  );
 }
 
 function ufo() {
   ufox.draw();
   ufox.callPulse = false;
-  ufox.callShield = false;
+  ufox.liveShield();
   movement();
 }
 function ufoStationary() {
   ufox.draw();
   ufox.callPulse = false;
-  ufox.callShield = false;
+  ufox.callShield = true;
 }
 
 // menu logic
@@ -465,16 +589,24 @@ function gameState() {
   drawCommenceComet();
   drawAura();
   moon();
-  if (health === 3) {
-    drawHealthbar();
+  if (health === 6) {
+    drawHealthbar6();
+  } else if (health === 5) {
+    drawHealthbar5();
+  } else if (health === 4) {
+    drawHealthbar4();
+  } else if (health === 3) {
+    drawHealthbar3();
   } else if (health === 2) {
     drawHealthbar2();
   } else if (health === 1) {
     drawHealthbar1();
-  } // draw correct healthbar depending on health remaining
+  }
   ufo();
   drawProjectiles();
   drawMegaProjectiles();
+  drawHealthBuffs();
+  drawShieldBuffs();
 
   borderCheck();
   checkCollisions();
@@ -495,13 +627,19 @@ function pauseState() {
   drawCommenceComet();
   drawAura();
   moon();
-  if (health === 3) {
-    drawHealthbar();
+  if (health === 6) {
+    drawHealthbar6();
+  } else if (health === 5) {
+    drawHealthbar5();
+  } else if (health === 4) {
+    drawHealthbar4();
+  } else if (health === 3) {
+    drawHealthbar3();
   } else if (health === 2) {
     drawHealthbar2();
   } else if (health === 1) {
     drawHealthbar1();
-  } // draw correct healthbar depending on health remaining
+  }
   ufoStationary();
   drawProjectilesStationary();
   drawMegaProjectilesStationary();
@@ -571,30 +709,6 @@ function borderCheck() {
 }
 window.borderCheck = borderCheck;
 
-setInterval(function () {
-  console.log(state);
-}, 1000);
-
-setInterval(function () {
-  console.log(ufoHoriSpeed);
-}, 1000);
-
-setInterval(function () {
-  console.log(ufoVertSpeed);
-}, 1000);
-
-setInterval(function () {
-  console.log(ufox.x);
-}, 1000);
-
-setInterval(function () {
-  console.log(ufox.y);
-}, 1000);
-
-setInterval(function () {
-  console.log(health);
-}, 1000);
-
 // COLLISION FUNCTIONS
 function checkCollisions() {
   // Check UFO collision with PROJETCILES
@@ -608,8 +722,6 @@ function checkCollisions() {
       if (health === 0) {
         state = "gameOver";
       }
-
-      console.log("IDK1");
     }
   }
 
