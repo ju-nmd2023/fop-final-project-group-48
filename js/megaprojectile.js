@@ -19,11 +19,11 @@ export default class MegaProjectile {
   draw() {
     push();
     stroke(255, 151, 0, 90);
-    strokeWeight(120);
+    strokeWeight(150);
     line(this.x, this.y, this.x + 100, this.y);
     pop();
     fill(250, 218, 0);
     noStroke();
-    ellipse(this.x, this.y, 80, 80);
+    ellipse(this.x, this.y, 100, 100);
   }
 }

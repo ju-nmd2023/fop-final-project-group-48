@@ -76,6 +76,24 @@ function setup() {
     stars.push(star);
   }
 
+  const arrowX = windowWidth - 100;
+  const arrowY = windowHeight / 2;
+  //const speed = 12; // Speed for all projectiles
+  const spacing = 130;
+
+  // Center projectile
+  projectiles.push(new Projectile(arrowX, arrowY, 12));
+  // Upper right projectiles
+  projectiles.push(new Projectile(arrowX + spacing, arrowY - spacing, 11.5));
+  projectiles.push(
+    new Projectile(arrowX + 2 * spacing, arrowY - 2 * spacing, 11)
+  );
+  // Lower right projectiles
+  projectiles.push(new Projectile(arrowX + spacing, arrowY + spacing, 11.5));
+  projectiles.push(
+    new Projectile(arrowX + 2 * spacing, arrowY + 2 * spacing, 11)
+  );
+
   // Create an audio element // HELP BY AI - used from Lunar Lander
   const bgMusic = new Audio("js/cowscowscows.mp3");
 
@@ -147,6 +165,7 @@ function drawCommenceComet() {
     comet.draw();
   }
 }
+
 function drawProjectiles() {
   for (let projectile of projectiles) {
     projectile.updatePosition();
@@ -576,27 +595,27 @@ function isColliding(objectufo, projectiles) {
 
 // REPLENISH THE PROJECTILES
 function replenishProjectiles() {
-  const ProjectileCount = random(10);
+  const ProjectileCount = 5;
   const currentProjectileCount = projectiles.length;
 
   const projectilesToAdd = ProjectileCount - currentProjectileCount;
   for (let i = 0; i < projectilesToAdd; i++) {
     let x = windowWidth;
-    let y = windowHeight / 2 + random(-400, 400);
-    let speed = random(5, 10);
+    let y = windowHeight / 2 + random(-450, 450);
+    let speed = random(5, 12);
     projectiles.push(new Projectile(x, y, speed));
   }
 }
 
 function replenishMegaProjectiles() {
-  const MegaProjectileCount = random(5);
+  const MegaProjectileCount = random(3);
   const currentMegaProjectileCount = megaprojectiles.length;
 
   const megaProjectilesToAdd = MegaProjectileCount - currentMegaProjectileCount;
   for (let i = 0; i < megaProjectilesToAdd; i++) {
     let x = windowWidth;
     let y = windowHeight / 2 + random(-200, 200);
-    let speed = random(3, 7);
+    let speed = random(5, 7);
     megaprojectiles.push(new MegaProjectile(x, y, speed));
   }
 }
