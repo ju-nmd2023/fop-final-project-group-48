@@ -86,3 +86,61 @@
 
             1.  the "gameOver" state currently does nothing special, also bugged so when you press the 
                 menu button and then continue the game keeps going without any healthbar or health.
+
+
+17.05.2024 ----------------------------------------------------------------------
+
+    ADDITION _______________________________________________________________________
+
+            Replaced randomness to a concerted formation for small projectiles:
+            (Idea - make sure that the game isn't too random, making
+            a balance in difficulty. W/o it it was too random making the game
+            either too easy or too hard to avoid projectiles)
+
+
+            GAME.JS >   added in the setup(); a projectile Initialization.
+            (maybe should be a function if we want to adapt it throut the game)
+
+            Chnaged the size of MegaProjectile make it bigger
+
+            MEGAPROJECTILE.JS:
+                export default class Ufo {
+                    // ........ Previous Code
+                draw(){
+                    // ........ Previous Code
+                    strokeWeight(150); Previous = 120
+                    ellipse(this.x, this.y, 100, 100); Previous = 80
+
+                }
+            }
+
+    ISSUES ______________________________________________________________________________
+
+            1.  I think we should make the formation into a function rather than
+            writing it in setup in order to call it whenver we want to.
+
+    IMPLEMENT ____________________________________________________________________________
+
+            As an idea, do we want to make MegaProjectile to take 1HP and
+            small projectile half of 1HP in order to make the game less punishing.
+            (Havnet tested with the buffs yet, perhaps the balance is going to
+            be fair once we add their functionality) ^^
+
+17.05.2024 ----------------------------------------------------------------------
+
+    ADDITION _______________________________________________________________________
+
+            Implemented the HP suggestion from before and fixed issues with being 
+            able to play while on less than zero hp through the pause menu.
+
+            GAME.JS: difficultyBtn.addEventListener("click", function () {
+                     console.log("Start Button Clicked!");
+                     menu.style.display = "none";
+                     if (health > 0) {
+                         state = "game";
+                     } else if (health <= 0) {
+                         state = "gameOver";
+                     }
+    
+    ISSUES _______________________________________________________________________
+            gameOver state still does nothing, working on it.
