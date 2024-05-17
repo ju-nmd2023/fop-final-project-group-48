@@ -29,7 +29,7 @@ let state = "title";
 let ufoVertSpeed = 0;
 let ufoHoriSpeed = 0;
 
-let boosterStrength = 0.5;
+let boosterStrength = 0.6;
 const slowDownStrength = 0.95;
 
 let health = 6;
