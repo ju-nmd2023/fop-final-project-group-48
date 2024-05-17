@@ -67,35 +67,23 @@ function setup() {
   }
 
   // Initialize stars
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < 400; i++) {
     const star = {
-      x: Math.floor(Math.random() * width),
-      y: Math.floor(Math.random() * height),
-      alpha: Math.random(),
+      x: Math.random() * width,
+      y: Math.random() * height,
+      alpha: Math.random(0.1, 5),
     };
     stars.push(star);
   }
 
-  const arrowX = windowWidth - 100;
-  const arrowY = windowHeight / 2;
-  //const speed = 12; // Speed for all projectiles
-  const spacing = 130;
-
-  // Center projectile
-  projectiles.push(new Projectile(arrowX, arrowY, 12));
-  // Upper right projectiles
-  projectiles.push(new Projectile(arrowX + spacing, arrowY - spacing, 11.5));
-  projectiles.push(
-    new Projectile(arrowX + 2 * spacing, arrowY - 2 * spacing, 11)
-  );
-  // Lower right projectiles
-  projectiles.push(new Projectile(arrowX + spacing, arrowY + spacing, 11.5));
-  projectiles.push(
-    new Projectile(arrowX + 2 * spacing, arrowY + 2 * spacing, 11)
-  );
+  //commenceArrowProjectiles();
+  commenceShieldWallProjectiles();
+  setInterval(commenceShieldWallProjectiles, 20000);
+  setInterval(commenceArrowProjectiles, 8000);
+  setInterval(commenceMegaProjectiles, 15000);
 
   // Create an audio element // HELP BY AI - used from Lunar Lander
-  const bgMusic = new Audio("js/cowscowscows.mp3");
+  const bgMusic = new Audio("js/retrogamesambience.mp3");
 
   bgMusic.loop = true;
   bgMusic.volume = 0.5;
@@ -138,10 +126,16 @@ function draw() {
 }
 window.draw = draw;
 
-function mouseClicked() {
-  showTitle = false;
+function StartGameHandler(event) {
+  if (
+    event.type === "click" ||
+    (event.type === "keydown" && (event.key === " " || event.key === "Enter"))
+  ) {
+    showTitle = false;
+  }
 }
-window.mouseClicked = mouseClicked;
+window.addEventListener("click", StartGameHandler);
+window.addEventListener("keydown", StartGameHandler);
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
@@ -154,7 +148,7 @@ function drawGeneral() {
 function drawStars() {
   noStroke();
   for (let star of stars) {
-    fill(255, 255, 255, Math.abs(Math.sin(star.alpha)) * 200);
+    fill(255, 255, 255, Math.abs(Math.sin(star.alpha)) * 100);
     ellipse(star.x, star.y, 3);
     star.alpha = star.alpha + 0.01;
   }
@@ -166,10 +160,66 @@ function drawCommenceComet() {
   }
 }
 
+function commenceArrowProjectiles() {
+  const arrowX = windowWidth + 500;
+  const arrowY = windowHeight / 2;
+  const spacing = 150;
+
+  if (projectiles.length < 5) {
+    // Center
+    projectiles.push(new Projectile(arrowX, arrowY, 11.8));
+    // Upper right
+    projectiles.push(
+      new Projectile(arrowX + spacing, arrowY - spacing / 2, 11.6)
+    );
+    projectiles.push(
+      new Projectile(arrowX + spacing, arrowY + spacing / 2, 11.6)
+    );
+    // Lower right
+    projectiles.push(
+      new Projectile(arrowX + spacing * 2, arrowY - spacing, 11.5)
+    );
+    projectiles.push(
+      new Projectile(arrowX + spacing * 2, arrowY + spacing, 11.5)
+    );
+  }
+}
+function commenceShieldWallProjectiles() {
+  const arrowX = windowWidth + 500;
+  const arrowY = windowHeight / 2;
+  const spacing = 350;
+
+  if (projectiles.length < 5) {
+    // Center
+    projectiles.push(new Projectile(arrowX, arrowY, 11.8));
+    // Upper right
+    projectiles.push(
+      new Projectile(arrowX - spacing - 200, arrowY - spacing / 2, 11.6)
+    );
+    projectiles.push(
+      new Projectile(arrowX - spacing - 200, arrowY + spacing / 2, 11.6)
+    );
+    // Lower right
+    projectiles.push(new Projectile(arrowX - spacing, arrowY - spacing, 11.5));
+    projectiles.push(new Projectile(arrowX - spacing, arrowY + spacing, 11.5));
+  }
+}
 function drawProjectiles() {
   for (let projectile of projectiles) {
     projectile.updatePosition();
     projectile.draw();
+  }
+}
+function commenceMegaProjectiles() {
+  const megaX = windowWidth + 500;
+  const megaY = windowHeight / 2;
+
+  // Randomly offset Y
+  const offsetY = random(-200, 200);
+  const spawnY = constrain(megaY + offsetY, 100, windowHeight - 100);
+
+  if (megaprojectiles.length < 3) {
+    megaprojectiles.push(new MegaProjectile(megaX, spawnY, 7));
   }
 }
 function drawMegaProjectiles() {
@@ -426,9 +476,6 @@ function gameState() {
   drawProjectiles();
   drawMegaProjectiles();
 
-  replenishProjectiles();
-  replenishMegaProjectiles();
-
   borderCheck();
   checkCollisions();
 
@@ -577,8 +624,6 @@ function checkCollisions() {
       if (health === 0) {
         state = "gameOver";
       }
-
-      console.log("IDK2");
     }
   }
 }
@@ -591,31 +636,4 @@ function isColliding(objectufo, projectiles) {
     objectufo.y < projectiles.y + projectiles.height &&
     objectufo.y + objectufo.height > projectiles.y
   );
-}
-
-// REPLENISH THE PROJECTILES
-function replenishProjectiles() {
-  const ProjectileCount = 5;
-  const currentProjectileCount = projectiles.length;
-
-  const projectilesToAdd = ProjectileCount - currentProjectileCount;
-  for (let i = 0; i < projectilesToAdd; i++) {
-    let x = windowWidth;
-    let y = windowHeight / 2 + random(-450, 450);
-    let speed = random(5, 12);
-    projectiles.push(new Projectile(x, y, speed));
-  }
-}
-
-function replenishMegaProjectiles() {
-  const MegaProjectileCount = random(3);
-  const currentMegaProjectileCount = megaprojectiles.length;
-
-  const megaProjectilesToAdd = MegaProjectileCount - currentMegaProjectileCount;
-  for (let i = 0; i < megaProjectilesToAdd; i++) {
-    let x = windowWidth;
-    let y = windowHeight / 2 + random(-200, 200);
-    let speed = random(5, 7);
-    megaprojectiles.push(new MegaProjectile(x, y, speed));
-  }
 }

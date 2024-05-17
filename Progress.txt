@@ -101,7 +101,9 @@
             GAME.JS >   added in the setup(); a projectile Initialization.
             (maybe should be a function if we want to adapt it throut the game)
 
-            Chnaged the size of MegaProjectile make it bigger
+            Chnaged the size of MegaProjectile make it bigger,
+            Accordingly adjusted it's hit box = 160; from 120
+
 
             MEGAPROJECTILE.JS:
                 export default class Ufo {
