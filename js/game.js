@@ -78,11 +78,11 @@ function setup() {
 
   //commenceArrowProjectiles();
   commenceShieldWallProjectiles();
-  setInterval(commenceShieldWallProjectiles, 12000);
-  setInterval(commenceArrowProjectiles, 6000);
-  setInterval(commenceMegaProjectiles, 10000);
-  setInterval(commenceHealthBuffs, 20000);
-  setInterval(commenceShieldBuffs, 30000);
+  setInterval(commenceShieldWallProjectiles, 9000); //120000
+  setInterval(commenceArrowProjectiles, 6000); //6000
+  setInterval(commenceMegaProjectiles, 15000); //10000
+  setInterval(commenceHealthBuffs, 1000); //20000
+  setInterval(commenceShieldBuffs, 1000); //30000
 
   // Create an audio element // HELP BY AI - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
@@ -161,7 +161,7 @@ function drawGameOver() {
   textSize(128);
   fill(255, 196, 94);
   textFont("pain-de-mie, sans-serif");
-  text("GAME OVER", width / 2, height / 2);
+  text("GAME MEOWER", width / 2, height / 2);
 }
 
 function windowResized() {
@@ -729,7 +729,7 @@ function checkCollisions() {
 
       health -= 1; // decrease health by 1 when hit
 
-      if (health === 0) {
+      if (health <= 0) {
         state = "gameOver";
       }
     }
@@ -743,7 +743,7 @@ function checkCollisions() {
 
       health -= 2; // decrease health by 2 when hit
 
-      if (health === 0) {
+      if (health <= 0) {
         state = "gameOver";
       }
     }
