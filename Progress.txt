@@ -101,8 +101,17 @@
             GAME.JS >   added in the setup(); a projectile Initialization.
             (maybe should be a function if we want to adapt it throut the game)
 
-            Chnaged the size of MegaProjectile make it bigger,
+            - Chnaged the size of MegaProjectile make it bigger,
             Accordingly adjusted it's hit box = 160; from 120
+
+            - Integrated the Shield and Health buffs into the game, they currently don't function
+            as projectiles do.
+
+            - Created "Game Over" text that now appears one the "game over" state is active.
+
+            - Added the option when hitting 'enter, space' besides clicking now starts the game.
+
+            - Adjusted movement speed of the ufo for 1 extra point in order to balance the game.
 
 
             MEGAPROJECTILE.JS:
@@ -118,12 +127,12 @@
 
     ISSUES ______________________________________________________________________________
 
-            1.  I think we should make the formation into a function rather than
-            writing it in setup in order to call it whenver we want to.
+
+            1. I tried using same technique to BUFFs as with the projectiles, but for some reason it
+            doesn't work.... :c
 
     IMPLEMENT ____________________________________________________________________________
 
-            As an idea, do we want to make MegaProjectile to take 1HP and
-            small projectile half of 1HP in order to make the game less punishing.
-            (Havnet tested with the buffs yet, perhaps the balance is going to
-            be fair once we add their functionality) ^^
+            - Make the BUFFs able to be picked up, meaning integrate their hitbox into collision functions.
+            - Whenver user press 'click, space or enter' at the "Game Over" state(text)
+              it opens the menu or restarts the game.
