@@ -183,7 +183,7 @@
 
     ISSUES ______________________________________________________________________________
 
-        - Hitbox of the Shield and HP buff is further to left than where object appears to be.
+        ✅ FIXED - Hitbox of the Shield and HP buff is further to left than where object appears to be.
 
             
     IMPLEMENT ____________________________________________________________________________
