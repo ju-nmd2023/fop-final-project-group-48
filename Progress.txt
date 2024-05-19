@@ -37,14 +37,14 @@
 
     ISSUES ______________________________________________________________________________
 
-            1.  The projectiles do not collide with ufo when hit from above (underneath works)
+            ✅1.  The projectiles do not collide with ufo when hit from above (underneath works)
                 - Could be due to the width and height within ufo.js?
 
                 I THINK IT WORKS NOW!
 
     IMPLEMENT ____________________________________________________________________________
 
-            Create function that lowers HP every time an object hits the ufo. (HP vary on the object)
+           ✅ Create function that lowers HP every time an object hits the ufo. (HP vary on the object)
 
 
 15.05.2024 -------------------------------------------------------------------------
@@ -84,7 +84,7 @@
             
     ISSUES ______________________________________________________________________________
 
-            1.  the "gameOver" state currently does nothing special, also bugged so when you press the 
+            ✅  the "gameOver" state currently does nothing special, also bugged so when you press the 
                 menu button and then continue the game keeps going without any healthbar or health.
 
 
@@ -128,13 +128,13 @@
     ISSUES ______________________________________________________________________________
 
 
-            1. I tried using same technique to BUFFs as with the projectiles, but for some reason it
+        ✅ I tried using same technique to BUFFs as with the projectiles, but for some reason it
             doesn't work.... :c
 
     IMPLEMENT ____________________________________________________________________________
 
-            - Make the BUFFs able to be picked up, meaning integrate their hitbox into collision functions.
-            - Whenver user press 'click, space or enter' at the "Game Over" state(text)
+        ✅ Make the BUFFs able to be picked up, meaning integrate their hitbox into collision functions.
+        ✅ Whenver user press 'click, space or enter' at the "Game Over" state(text)
               it opens the menu or restarts the game.
 
 18.05.2024 ----------------------------------------------------------------------
@@ -156,31 +156,38 @@
 
     ADDITION ___________________________________________________________________________
 
-            >   I added a function that now toggles between pause and game state when
-                Escape key is pressed or rather released. I used p5 reference:
-                https://p5js.org/reference/#/p5/keyReleased
+        >   I added a function that now toggles between pause and game state when
+            Escape key is pressed or rather released. I used p5 reference:
+            https://p5js.org/reference/#/p5/keyReleased
 
-                    function keyReleased() {
-                        if (keyCode === 27) {
-                        if (state === "pause") {
-                        state = "game";
-                        menu.style.display = "none";
-                        } else if (state === "game") {
-                        state = "pause";
-                        menu.style.display = "block";
-                            }
+                function keyReleased() {
+                    if (keyCode === 27) {
+                    if (state === "pause") {
+                    state = "game";
+                    menu.style.display = "none";
+                    } else if (state === "game") {
+                    state = "pause";
+                    menu.style.display = "block";
                         }
-                        }
+                    }
+                    }
 
-                OBS: ( Once we implement timer I think this should be updated too!)
+            🛑OBS: ( Once we implement timer I think this should be updated too!)
+
+
+        >   Integrated the Shield and Healthbuff into the Collision function. Now they
+            can collide and revert HP back to the player.
+            Currently both shield and HP buff are giving 1 HP back.
+
+            💡 Should figure out integration of time with shield buff and the game itself.
 
     ISSUES ______________________________________________________________________________
 
-            1. I tried using same technique for BUFFs as with the projectiles, but for some reason it
-            doesn't work.... :c
+        - Hitbox of the Shield and HP buff is further to left than where object appears to be.
 
+            
     IMPLEMENT ____________________________________________________________________________
 
-            - Make the BUFFs able to be picked up, meaning integrate their hitbox into collision functions.
-
-
+        - Logic behind Shield Buff, time limit, endurance? etc.
+        - Time that sets the limit of the game, making it possible to win by "hitting" the moon.
+        - Implement Aura logic with time, add hitbox to it, etc.

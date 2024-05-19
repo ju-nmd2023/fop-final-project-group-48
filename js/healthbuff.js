@@ -4,8 +4,8 @@ export default class HealthBuff {
     this.y = y;
     this.diameter = 80;
     this.speed = speed;
-    this.width = 50;
-    this.height = 50;
+    this.width = 80;
+    this.height = 80;
   }
 
   updatePosition() {
@@ -22,8 +22,6 @@ export default class HealthBuff {
   }
 
   healthBuffObject() {
-    fill(102, 255, 153, 80);
-    ellipse(this.x + 300, this.y, this.diameter, this.diameter);
     noStroke();
     fill(179, 255, 179);
     beginShape();
@@ -45,5 +43,7 @@ export default class HealthBuff {
   livehpBuff() {
     let dsize = this.diameter * Math.sin(frameCount * 0.07);
     this.diameter += dsize / 150;
+    fill(102, 255, 153, 80);
+    ellipse(this.x + 300, this.y, this.diameter, this.diameter);
   }
 }

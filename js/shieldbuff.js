@@ -19,11 +19,10 @@ export default class ShieldBuff {
 
   draw() {
     this.shieldBuffObject();
+    this.liveshieldBuff();
   }
 
   shieldBuffObject() {
-    fill(102, 255, 255, 80);
-    ellipse(this.x + 190, this.y - 10, this.diameter, this.diameter);
     noStroke();
     fill(102, 255, 255);
     beginShape();
@@ -54,5 +53,7 @@ export default class ShieldBuff {
   liveshieldBuff() {
     let dsize = this.diameter * Math.sin(frameCount * 0.07);
     this.diameter += dsize / 150;
+    fill(102, 255, 255, 80);
+    ellipse(this.x + 190, this.y - 10, this.diameter, this.diameter);
   }
 }

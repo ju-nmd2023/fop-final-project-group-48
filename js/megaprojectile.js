@@ -3,7 +3,7 @@ export default class MegaProjectile {
     this.x = x;
     this.y = y;
     this.speed = speed;
-    this.width = 160;
+    this.width = 200;
     this.height = 160;
   }
 

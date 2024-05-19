@@ -232,7 +232,6 @@ function drawShieldBuffs() {
   for (let shieldbuff of shieldbuffs) {
     shieldbuff.updatePosition();
     shieldbuff.draw();
-    shieldbuff.liveshieldBuff();
   }
 }
 
@@ -749,6 +748,42 @@ function checkCollisions() {
 
       health -= 2; // decrease health by 2 when hit
 
+      if (health <= 0) {
+        state = "gameOver";
+      }
+    }
+  }
+
+  // Check UFO collision with ShieldBuffs
+  for (let i = shieldbuffs.length - 1; i >= 0; i--) {
+    let shiledbuff = shieldbuffs[i];
+    if (isColliding(ufox, shiledbuff)) {
+      shieldbuffs.splice(i, 1);
+
+      if (health <= 5) {
+        health += 1;
+        if (health >= 6) {
+          health = 6;
+        }
+      }
+      if (health <= 0) {
+        state = "gameOver";
+      }
+    }
+  }
+
+  // Check UFO collision with HealthBuff
+  for (let i = healthbuffs.length - 1; i >= 0; i--) {
+    let healthbuff = healthbuffs[i];
+    if (isColliding(ufox, healthbuff)) {
+      healthbuffs.splice(i, 1);
+
+      if (health <= 5) {
+        health += 1;
+        if (health >= 6) {
+          health = 6;
+        }
+      }
       if (health <= 0) {
         state = "gameOver";
       }
