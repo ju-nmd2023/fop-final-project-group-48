@@ -110,17 +110,16 @@ function setup() {
 window.setup = setup;
 
 function draw() {
-  // Set current state and draw based of said state
+  // Set current state and draw based on said state
   if (state === "pause") {
     pauseState();
-  }
-  if (state === "game") {
+    console.log("pause state");
+  } else if (state === "game") {
     gameState();
-  }
-  if (state === "title") {
+    console.log("game state");
+  } else if (state === "title") {
     titleState();
-  }
-  if (state === "gameOver") {
+  } else if (state === "gameOver") {
     gameOverState();
     drawGameOver();
   }
@@ -128,6 +127,21 @@ function draw() {
   drawCursor();
 }
 window.draw = draw;
+
+function keyReleased() {
+  if (keyCode === 27) {
+    if (state === "pause") {
+      state = "game";
+      menu.style.display = "none";
+      console.log("ESC PRESSED FOR CONTINUE");
+    } else if (state === "game") {
+      state = "pause";
+      menu.style.display = "block";
+      console.log("ESC PRESSED FOR PAUSE");
+    }
+  }
+}
+window.keyReleased = keyReleased;
 
 function removeTitle(event) {
   if (
@@ -620,13 +634,6 @@ function gameState() {
   drawShieldBuffs();
   borderCheck();
   checkCollisions();
-
-  if (keyIsDown(27)) {
-    console.log("Menu Button Clicked!");
-
-    menu.style.display = "block";
-    state = "pause";
-  }
 }
 window.gameState = gameState;
 
@@ -653,7 +660,6 @@ function pauseState() {
   ufoStationary();
   drawProjectilesStationary();
   drawMegaProjectilesStationary();
-  menu.style.display = "block";
 }
 window.pauseStateState = pauseState;
 

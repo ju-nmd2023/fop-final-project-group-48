@@ -150,3 +150,37 @@
               It didn't work in certain cases because code was looking for:
               hp === 0  (which means it must be 0;)
               now it is hp <= 0 (which means the hp must be 0 or less to call for that state).
+
+
+19.05.2024 -----------------------------------------------------------------------------
+
+    ADDITION ___________________________________________________________________________
+
+            >   I added a function that now toggles between pause and game state when
+                Escape key is pressed or rather released. I used p5 reference:
+                https://p5js.org/reference/#/p5/keyReleased
+
+                    function keyReleased() {
+                        if (keyCode === 27) {
+                        if (state === "pause") {
+                        state = "game";
+                        menu.style.display = "none";
+                        } else if (state === "game") {
+                        state = "pause";
+                        menu.style.display = "block";
+                            }
+                        }
+                        }
+
+                OBS: ( Once we implement timer I think this should be updated too!)
+
+    ISSUES ______________________________________________________________________________
+
+            1. I tried using same technique for BUFFs as with the projectiles, but for some reason it
+            doesn't work.... :c
+
+    IMPLEMENT ____________________________________________________________________________
+
+            - Make the BUFFs able to be picked up, meaning integrate their hitbox into collision functions.
+
+
