@@ -136,3 +136,17 @@
             - Make the BUFFs able to be picked up, meaning integrate their hitbox into collision functions.
             - Whenver user press 'click, space or enter' at the "Game Over" state(text)
               it opens the menu or restarts the game.
+
+18.05.2024 ----------------------------------------------------------------------
+
+    ADJUSTMENT ______________________________________________________________________________
+
+            - I changed the size of the Shield Buff since it appeared greater than HP Buff.
+
+    FIXED _______________________________________________________________________
+
+            - Fixed bug with "game over" state. I made sure that it is certain the game will
+              reach the game over state one hp is gone.
+              It didn't work in certain cases because code was looking for:
+              hp === 0  (which means it must be 0;)
+              now it is hp <= 0 (which means the hp must be 0 or less to call for that state).
