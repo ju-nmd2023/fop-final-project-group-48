@@ -76,10 +76,12 @@ function setup() {
 
   //commenceArrowProjectiles();
   commenceShieldWallProjectiles();
-  setInterval(commenceShieldWallProjectiles, 9000);
-  setInterval(commenceArrowProjectiles, 6000);
+  //commenceSlashProjectiles();
+  setInterval(commenceShieldWallProjectiles, 6300);
+  setInterval(commenceArrowProjectiles, 9500);
+  setInterval(commenceSlashProjectiles, 5500);
   setInterval(commenceMegaProjectiles, 15000);
-  setInterval(commenceHealthBuffs, 17500);
+  setInterval(commenceHealthBuffs, 14000);
   setInterval(commenceShieldBuffs, 30000);
 
   // Create an audio element // HELP BY AI - used from Lunar Lander
@@ -239,22 +241,46 @@ function commenceArrowProjectiles() {
   const arrowY = windowHeight / 2;
   const spacing = 150;
 
-  if (projectiles.length < 5) {
+  if (projectiles.length < 8) {
     // Center
-    projectiles.push(new Projectile(arrowX, arrowY, 11.8));
+    projectiles.push(new Projectile(arrowX, arrowY, 11));
     // Upper right
     projectiles.push(
-      new Projectile(arrowX + spacing, arrowY - spacing / 2, 11.6)
+      new Projectile(arrowX + spacing, arrowY - spacing / 2, 10.5)
     );
     projectiles.push(
-      new Projectile(arrowX + spacing, arrowY + spacing / 2, 11.6)
+      new Projectile(arrowX + spacing, arrowY + spacing / 2, 10.5)
     );
     // Lower right
     projectiles.push(
-      new Projectile(arrowX + spacing * 2, arrowY - spacing, 11.5)
+      new Projectile(arrowX + spacing * 2, arrowY - spacing, 10)
     );
     projectiles.push(
-      new Projectile(arrowX + spacing * 2, arrowY + spacing, 11.5)
+      new Projectile(arrowX + spacing * 2, arrowY + spacing, 10)
+    );
+  }
+}
+function commenceSlashProjectiles() {
+  const arrowX = windowWidth + 500;
+  const arrowY = windowHeight / 2;
+  const spacing = 350;
+
+  if (projectiles.length < 5) {
+    // Center
+    projectiles.push(new Projectile(arrowX, arrowY, 11.5));
+    // Upper right
+    projectiles.push(
+      new Projectile(arrowX + spacing, arrowY - spacing / 2, 11)
+    );
+    projectiles.push(
+      new Projectile(arrowX + spacing, arrowY + spacing / 2, 10)
+    );
+    // Lower right
+    projectiles.push(
+      new Projectile(arrowX + spacing * 2, arrowY - spacing, 11)
+    );
+    projectiles.push(
+      new Projectile(arrowX + spacing * 2, arrowY + spacing, 10)
     );
   }
 }
@@ -265,17 +291,17 @@ function commenceShieldWallProjectiles() {
 
   if (projectiles.length < 5) {
     // Center
-    projectiles.push(new Projectile(arrowX, arrowY, 11.8));
+    projectiles.push(new Projectile(arrowX, arrowY, 10.5));
     // Upper right
     projectiles.push(
-      new Projectile(arrowX - spacing - 200, arrowY - spacing / 2, 11.6)
+      new Projectile(arrowX - spacing - 200, arrowY - spacing / 2, 10.5)
     );
     projectiles.push(
-      new Projectile(arrowX - spacing - 200, arrowY + spacing / 2, 11.6)
+      new Projectile(arrowX - spacing - 200, arrowY + spacing / 2, 10.5)
     );
     // Lower right
-    projectiles.push(new Projectile(arrowX - spacing, arrowY - spacing, 11.5));
-    projectiles.push(new Projectile(arrowX - spacing, arrowY + spacing, 11.5));
+    projectiles.push(new Projectile(arrowX - spacing, arrowY - spacing, 10.5));
+    projectiles.push(new Projectile(arrowX - spacing, arrowY + spacing, 10.5));
   }
 }
 function drawProjectiles() {
