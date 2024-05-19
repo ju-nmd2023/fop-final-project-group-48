@@ -26,25 +26,25 @@ export default class ShieldBuff {
     noStroke();
     fill(102, 255, 255);
     beginShape();
-    vertex(this.x + 170, this.y - 30);
-    vertex(this.x + 180, this.y - 20);
-    vertex(this.x + 190, this.y - 30);
-    vertex(this.x + 200, this.y - 20);
-    vertex(this.x + 210, this.y - 30);
+    vertex(this.x - 20, this.y - 30);
+    vertex(this.x - 10, this.y - 20);
+    vertex(this.x + 0, this.y - 30);
+    vertex(this.x + 10, this.y - 20);
+    vertex(this.x + 20, this.y - 30);
     bezierVertex(
-      this.x + 210,
+      this.x + 20,
       this.y - 30,
-      this.x + 220,
+      this.x + 30,
       this.y + 0,
-      this.x + 190,
+      this.x + 0,
       this.y + 17
     );
     bezierVertex(
-      this.x + 190,
+      this.x + 0,
       this.y + 17,
-      this.x + 160,
+      this.x - 30,
       this.y + 0,
-      this.x + 170,
+      this.x - 20,
       this.y - 30
     );
     endShape();
@@ -54,6 +54,6 @@ export default class ShieldBuff {
     let dsize = this.diameter * Math.sin(frameCount * 0.07);
     this.diameter += dsize / 150;
     fill(102, 255, 255, 80);
-    ellipse(this.x + 190, this.y - 10, this.diameter, this.diameter);
+    ellipse(this.x, this.y - 10, this.diameter, this.diameter);
   }
 }

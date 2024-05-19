@@ -9,7 +9,7 @@ export default class Aura {
 
     noStroke();
     fill(153, 0, 51, 35);
-    stroke(255, 0, 116, 20);
+    stroke(255, 0, 116, 35);
     strokeWeight(80);
     ellipse(
       this.auraMove * scaleFactor,
@@ -18,14 +18,14 @@ export default class Aura {
       1100 * scaleFactor
     );
     noStroke();
-    fill(153, 0, 51, 30);
+    fill(153, 0, 51, 35);
     ellipse(
       (this.auraMove - 25) * scaleFactor,
       height / 2,
       1400 * scaleFactor,
       1400 * scaleFactor
     );
-    fill(153, 0, 51, 30);
+    fill(153, 0, 51, 35);
     ellipse(
       (this.auraMove - 150) * scaleFactor,
       height / 2,

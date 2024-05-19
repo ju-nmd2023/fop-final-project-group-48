@@ -48,9 +48,7 @@ const menu = document.getElementById("menu");
 const menuBtn = document.getElementById("menu-bttn");
 
 function preload() {
-  title = loadImage("../img/titledark.png", () =>
-    console.log("Image loaded successfully")
-  );
+  title = loadImage("../img/titledark.png");
 }
 window.preload = preload;
 
@@ -78,11 +76,11 @@ function setup() {
 
   //commenceArrowProjectiles();
   commenceShieldWallProjectiles();
-  setInterval(commenceShieldWallProjectiles, 9000); //120000
-  setInterval(commenceArrowProjectiles, 6000); //6000
-  setInterval(commenceMegaProjectiles, 15000); //10000
-  setInterval(commenceHealthBuffs, 1000); //20000
-  setInterval(commenceShieldBuffs, 1000); //30000
+  setInterval(commenceShieldWallProjectiles, 9000);
+  setInterval(commenceArrowProjectiles, 6000);
+  setInterval(commenceMegaProjectiles, 15000);
+  setInterval(commenceHealthBuffs, 17500);
+  setInterval(commenceShieldBuffs, 30000);
 
   // Create an audio element // HELP BY AI - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
@@ -111,6 +109,7 @@ window.setup = setup;
 
 function draw() {
   // Set current state and draw based on said state
+
   if (state === "pause") {
     pauseState();
     console.log("pause state");
@@ -761,7 +760,7 @@ function checkCollisions() {
       shieldbuffs.splice(i, 1);
 
       if (health <= 5) {
-        health += 1;
+        health += 2;
         if (health >= 6) {
           health = 6;
         }
