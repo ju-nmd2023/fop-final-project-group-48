@@ -33,6 +33,7 @@ let boosterStrength = 0.6;
 const slowDownStrength = 0.95;
 
 let health = 6;
+let shield = false;
 
 let showTitle = true;
 let title;
@@ -82,10 +83,11 @@ function setup() {
   setInterval(commenceSlashProjectiles, 5500);
   setInterval(commenceMegaProjectiles, 15000);
   setInterval(commenceHealthBuffs, 14000);
-  setInterval(commenceShieldBuffs, 30000);
+  setInterval(commenceShieldBuffs, 20000);
 
   // Create an audio element // HELP BY AI - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
+  const healthPickUp = new Audio("js/soundone.mp3");
 
   bgMusic.loop = true;
   bgMusic.volume = 0.5;
@@ -579,10 +581,20 @@ function ufo() {
   }*/
   movement();
 }
+
 function ufoStationary() {
   ufox.draw();
   ufox.callPulse = false;
   ufox.callShield = true;
+}
+
+function drawShield() {
+  push();
+  stroke(102, 255, 255, 30);
+  strokeWeight(30);
+  fill(102, 255, 255, 70);
+  ellipse(ufox.x, ufox.y - 15, ufox.diameter + 5, ufox.diameter + 5);
+  pop();
 }
 
 // menu logic
@@ -656,6 +668,11 @@ function gameState() {
   drawMegaProjectiles();
   drawHealthBuffs();
   drawShieldBuffs();
+
+  if (shield === true) {
+    drawShield();
+  }
+
   borderCheck();
   checkCollisions();
 }
@@ -757,7 +774,11 @@ function checkCollisions() {
     if (isColliding(ufox, projectile)) {
       projectiles.splice(i, 1); // Remove from array
 
-      health -= 1; // decrease health by 1 when hit
+      if (shield === true) {
+        shield = false;
+      } else if (shield === false) {
+        health -= 1; // checks if shield is active, otherwise decreases health by 1 when hit
+      }
 
       if (health <= 0) {
         state = "gameOver";
@@ -771,7 +792,11 @@ function checkCollisions() {
     if (isColliding(ufox, megaprojectile)) {
       megaprojectiles.splice(i, 1); // Remove from array
 
-      health -= 2; // decrease health by 2 when hit
+      if (shield === true) {
+        shield = false;
+      } else if (shield === false) {
+        health -= 2; // checks if shield is active, otherwise decreases health by 2 when hit
+      }
 
       if (health <= 0) {
         state = "gameOver";
@@ -785,12 +810,8 @@ function checkCollisions() {
     if (isColliding(ufox, shiledbuff)) {
       shieldbuffs.splice(i, 1);
 
-      if (health <= 5) {
-        health += 2;
-        if (health >= 6) {
-          health = 6;
-        }
-      }
+      shield = true;
+
       if (health <= 0) {
         state = "gameOver";
       }

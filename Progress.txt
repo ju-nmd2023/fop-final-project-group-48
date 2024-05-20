@@ -191,3 +191,21 @@
         - Logic behind Shield Buff, time limit, endurance? etc.
         - Time that sets the limit of the game, making it possible to win by "hitting" the moon.
         - Implement Aura logic with time, add hitbox to it, etc.
+
+19.05.2024 -----------------------------------------------------------------------------
+
+    ADDITION ___________________________________________________________________________
+
+            I made the shield function like a shield and appear once a shieldbuff is collected.
+
+            function checkCollisions() {
+                old code...
+
+                if (shield === true) {
+                shield = false;
+                } else if (shield === false) {
+                health -= 1; // checks if shield is active, otherwise decreases health by 1 when hit
+                }
+
+                old code...
+            }
