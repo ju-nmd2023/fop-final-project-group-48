@@ -3,8 +3,8 @@ export default class Projectile {
     this.x = x;
     this.y = y;
     this.speed = speed;
-    this.width = 150;
-    this.height = 80;
+    this.width = 160;
+    this.height = 55;
   }
 
   updatePosition() {
@@ -20,10 +20,13 @@ export default class Projectile {
     push();
     stroke(181, 51, 88, 90);
     strokeWeight(50);
-    line(this.x, this.y, this.x + 100, this.y);
+    line(this.x - 50, this.y, this.x + 50, this.y);
     pop();
     fill(255, 0, 116);
     noStroke();
-    ellipse(this.x, this.y, 30, 30);
+    ellipse(this.x - 50, this.y, 30, 30);
+    //HITBOX
+    //fill(0, 0, 255, 80);
+    //ellipse(this.x, this.y, 160, 55);
   }
 }

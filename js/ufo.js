@@ -12,7 +12,9 @@ export default class Ufo {
   draw() {
     this.levitate();
     this.drawUfo();
-    // this.drawShield();
+    //HITBOX
+    //fill(255, 0, 0, 90);
+    //ellipse(this.x, this.y, 150, 82);
   }
 
   drawUfo() {

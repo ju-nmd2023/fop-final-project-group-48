@@ -45,12 +45,41 @@ let title;
 //STARRY SKY INSPIRATION FROM LECTURES
 let stars = [];
 
-// menu button elements
+// MENU BUTTON ELEMENTS
 const difficultyBtn = document.getElementById("difficulty-bttn");
 const infiniteBtn = document.getElementById("infinite-bttn");
 const controlsBtn = document.getElementById("controls-bttn");
 const menu = document.getElementById("menu");
 const menuBtn = document.getElementById("menu-bttn");
+
+// menu logic
+difficultyBtn.addEventListener("click", function () {
+  console.log("Start Button Clicked!");
+
+  menu.style.display = "none";
+  state = "game";
+});
+
+infiniteBtn.addEventListener("click", function () {
+  console.log("Infinite Button Clicked!");
+
+  menu.style.display = "none";
+  state = "game";
+});
+
+controlsBtn.addEventListener("click", function () {
+  console.log("Controls Button Clicked!");
+
+  menu.style.display = "none";
+  state = "game";
+});
+
+menuBtn.addEventListener("click", function () {
+  console.log("Menu Button Clicked!");
+
+  menu.style.display = "block";
+  state = "pause";
+});
 
 function preload() {
   title = loadImage("../img/titledark.png");
@@ -63,8 +92,8 @@ function setup() {
 
   // Initialize comets
   for (let i = 0; i < 4; i++) {
-    let x = Math.floor(Math.random() * width);
-    let y = Math.floor(Math.random() * height);
+    let x = Math.random() * width;
+    let y = Math.random() * height;
     let speed = random(0.3, 1.5);
     comets.push(new Comet(x, y, speed));
   }
@@ -133,46 +162,37 @@ function draw() {
   }
   drawTitle();
   drawCursor();
+  removeTitle();
 }
 window.draw = draw;
 
+// Searched how to use keyRelease rather than keyDown - help through p5's website
 function keyReleased() {
   if (keyCode === 27) {
     if (state === "pause") {
       state = "game";
       menu.style.display = "none";
-      console.log("ESC PRESSED FOR CONTINUE");
     } else if (state === "game") {
       state = "pause";
       menu.style.display = "block";
-      console.log("ESC PRESSED FOR PAUSE");
     }
   }
 }
 window.keyReleased = keyReleased;
 
-function removeTitle(event) {
-  if (
-    event.type === "click" ||
-    (event.type === "keydown" && (event.key === " " || event.key === "Enter"))
-  ) {
+function removeTitle() {
+  if (mouseIsPressed || keyIsDown(32) || keyIsDown(13)) {
     showTitle = false;
   }
 }
-window.addEventListener("click", removeTitle);
-window.addEventListener("keydown", removeTitle);
 // START TITLE
 function drawTitle() {
   if (showTitle) {
-    let maxWidth = 850;
-    let maxHeight = 850;
-    let scale = min(maxWidth / title.width, maxHeight / title.height);
-
-    // Center IT
+    // Center the image
     let imageX = (windowWidth - title.width * 0.6) / 2;
     let imageY = (windowHeight - title.height * 0.6) / 1.8;
 
-    // Draw the image with the calculated position and scaled dimensions
+    // Draw the image with calculated position and scaled dimensions
     image(title, imageX, imageY, title.width * 0.6, title.height * 0.6);
   }
 }
@@ -255,6 +275,7 @@ function drawCommenceComet() {
   }
 }
 
+// How to keep specific amount of item on the screen help by AI - https://chatgpt.com/share/a280875f-ea21-4af9-a836-6a61f7dad987
 //BUFFS n STUFFS
 function commenceHealthBuffs() {
   const healthBuffX = windowWidth + 100;
@@ -267,8 +288,8 @@ function commenceHealthBuffs() {
 function drawHealthBuffs() {
   for (let healthbuff of healthbuffs) {
     healthbuff.updatePosition();
-    healthbuff.draw();
     healthbuff.livehpBuff();
+    healthbuff.draw();
   }
 }
 
@@ -283,6 +304,7 @@ function commenceShieldBuffs() {
 function drawShieldBuffs() {
   for (let shieldbuff of shieldbuffs) {
     shieldbuff.updatePosition();
+    shieldbuff.liveshieldBuff();
     shieldbuff.draw();
   }
 }
@@ -364,13 +386,10 @@ function drawProjectiles() {
 
 function commenceMegaProjectiles() {
   const megaX = windowWidth + 500;
-  const megaY = windowHeight / 2;
-
-  const offsetY = random(-200, 200); // Randomly offset Y
-  const spawnY = constrain(megaY + offsetY, 100, windowHeight - 100);
+  const megaY = windowHeight / 2 + random(-350, 350);
 
   if (megaprojectiles.length < 3) {
-    megaprojectiles.push(new MegaProjectile(megaX, spawnY, 7));
+    megaprojectiles.push(new MegaProjectile(megaX, megaY, 7));
   }
 }
 function drawMegaProjectiles() {
@@ -624,17 +643,11 @@ function drawHealthbar1() {
 
 function ufo() {
   ufox.draw();
-  /*
-  if (ufox.shieldActive) {
-    ufox.liveShield();
-  }*/
   movement();
 }
 
 function ufoStationary() {
   ufox.draw();
-  ufox.callPulse = false;
-  ufox.callShield = true;
 }
 
 function drawShield() {
@@ -645,35 +658,6 @@ function drawShield() {
   ellipse(ufox.x, ufox.y - 15, ufox.diameter + 5, ufox.diameter + 5);
   pop();
 }
-
-// menu logic
-difficultyBtn.addEventListener("click", function () {
-  console.log("Start Button Clicked!");
-
-  menu.style.display = "none";
-  state = "game";
-});
-
-infiniteBtn.addEventListener("click", function () {
-  console.log("Infinite Button Clicked!");
-
-  menu.style.display = "none";
-  state = "game";
-});
-
-controlsBtn.addEventListener("click", function () {
-  console.log("Controls Button Clicked!");
-
-  menu.style.display = "none";
-  state = "game";
-});
-
-menuBtn.addEventListener("click", function () {
-  console.log("Menu Button Clicked!");
-
-  menu.style.display = "block";
-  state = "pause";
-});
 
 // GAME STATES --- TITLE
 function titleState() {
@@ -785,7 +769,6 @@ function movement() {
   ufox.y += ufoVertSpeed;
   ufox.x += ufoHoriSpeed;
 
-  //gravity();
   slowDown();
 }
 window.movement = movement;
@@ -815,9 +798,10 @@ function borderCheck() {
 }
 window.borderCheck = borderCheck;
 
-// COLLISION FUNCTIONS
+// COLLISION FUNCTION
 function checkCollisions() {
-  // Check UFO collision with PROJETCILES
+  /* Removing items from arrays using backwards iteration help from w3 Schools - https://www.w3schools.com/jsref/jsref_for.asp*/
+  //COLLISION WITH PROJETCILES
   for (let i = projectiles.length - 1; i >= 0; i--) {
     let projectile = projectiles[i];
     if (isColliding(ufox, projectile)) {
@@ -826,7 +810,7 @@ function checkCollisions() {
       if (shield === true) {
         shield = false;
       } else if (shield === false) {
-        health -= 1; // checks if shield is active, otherwise decreases health by 1 when hit
+        health -= 1;
       }
 
       if (health <= 0) {
@@ -835,7 +819,7 @@ function checkCollisions() {
     }
   }
 
-  // Check UFO collision with MEGA PROJECTILES
+  //COLLISION WITH MEGA PROJECTILES
   for (let i = megaprojectiles.length - 1; i >= 0; i--) {
     let megaprojectile = megaprojectiles[i];
     if (isColliding(ufox, megaprojectile)) {
@@ -844,7 +828,7 @@ function checkCollisions() {
       if (shield === true) {
         shield = false;
       } else if (shield === false) {
-        health -= 2; // checks if shield is active, otherwise decreases health by 2 when hit
+        health -= 2;
       }
 
       if (health <= 0) {
@@ -853,7 +837,7 @@ function checkCollisions() {
     }
   }
 
-  // Check UFO collision with ShieldBuffs
+  //COLLISION WITH SHIELD BUFFS
   for (let i = shieldbuffs.length - 1; i >= 0; i--) {
     let shiledbuff = shieldbuffs[i];
     if (isColliding(ufox, shiledbuff)) {
@@ -867,7 +851,7 @@ function checkCollisions() {
     }
   }
 
-  // Check UFO collision with HealthBuff
+  //COLLISION WITH HEALTH BUFFS
   for (let i = healthbuffs.length - 1; i >= 0; i--) {
     let healthbuff = healthbuffs[i];
     if (isColliding(ufox, healthbuff)) {
@@ -886,12 +870,12 @@ function checkCollisions() {
   }
 }
 
-function isColliding(objectufo, projectiles) {
+function isColliding(objectufo, objects) {
   // Check for collision between objects
   return (
-    objectufo.x < projectiles.x + projectiles.width &&
-    objectufo.x + objectufo.width > projectiles.x &&
-    objectufo.y < projectiles.y + projectiles.height &&
-    objectufo.y + objectufo.height > projectiles.y
+    objectufo.x < objects.x + objects.width &&
+    objectufo.x + objectufo.width > objects.x &&
+    objectufo.y < objects.y + objects.height &&
+    objectufo.y + objectufo.height > objects.y
   );
 }
