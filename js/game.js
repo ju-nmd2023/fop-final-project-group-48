@@ -25,6 +25,10 @@ let comets = [];
 
 let state = "title";
 
+let timer;
+let startTime;
+let elapsedTime = 0;
+
 // GAME PHYSICS ETC
 let ufoVertSpeed = 0;
 let ufoHoriSpeed = 0;
@@ -125,6 +129,7 @@ function draw() {
   } else if (state === "gameOver") {
     gameOverState();
     drawGameOver();
+    drawRestart();
   }
   drawTitle();
   drawCursor();
@@ -180,6 +185,50 @@ function drawGameOver() {
   textFont("pain-de-mie, sans-serif");
   text("GAME MEOWER", width / 2, height / 2);
 }
+
+let restartWidth = 300;
+let restartHeight = 100;
+
+function drawRestart() {
+  textAlign(CENTER, CENTER);
+
+  // makes the restart text interactive by checking whether the cursor is inside or outside of the the texts area
+  if (
+    mouseX >= width / 2 - 150 &&
+    mouseX <= width / 2 + restartWidth - 150 &&
+    mouseY >= height / 1.5 - 50 &&
+    mouseY <= height / 1.5 + restartHeight - 50
+  ) {
+    textSize(112);
+  } else if (
+    mouseX < width / 2 - 150 ||
+    mouseX > width / 2 + restartWidth - 150 ||
+    mouseY < height / 1.5 - 50 ||
+    mouseY > height / 1.5 + restartHeight - 50
+  ) {
+    textSize(96);
+  }
+
+  fill(255, 196, 94);
+  textFont("pain-de-mie, sans-serif");
+  text("RESTART", width / 2, height / 1.5);
+}
+
+document.addEventListener("mousedown", (event) => {
+  // help from Chatgpt with "clickX" and "clickY" events
+  const clickX = event.clientX;
+  const clickY = event.clientY;
+
+  if (
+    clickX >= width / 2 - 150 &&
+    clickX <= width / 2 + restartWidth - 150 &&
+    clickY >= height / 1.5 - 50 &&
+    clickY <= height / 1.5 + restartHeight - 50 &&
+    state === "gameOver" // Check if the mouse is on top of the restart text when the state is set to "gameOver"
+  ) {
+    location.reload();
+  }
+});
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
