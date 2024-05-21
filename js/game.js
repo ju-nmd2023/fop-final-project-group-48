@@ -25,9 +25,7 @@ let comets = [];
 
 let state = "title";
 
-let timer;
-let startTime;
-let elapsedTime = 0;
+let timer = 10;
 
 // GAME PHYSICS ETC
 let ufoVertSpeed = 0;
@@ -111,14 +109,14 @@ function setup() {
   //commenceArrowProjectiles();
   commenceShieldWallProjectiles();
   //commenceSlashProjectiles();
-  setInterval(commenceShieldWallProjectiles, 6300);
-  setInterval(commenceArrowProjectiles, 9500);
-  setInterval(commenceSlashProjectiles, 5500);
-  setInterval(commenceMegaProjectiles, 15000);
-  setInterval(commenceHealthBuffs, 14000);
-  setInterval(commenceShieldBuffs, 20000);
+  //setInterval(commenceShieldWallProjectiles, 6300);
+  //setInterval(commenceArrowProjectiles, 9500);
+  //setInterval(commenceSlashProjectiles, 5500);
+  //setInterval(commenceMegaProjectiles, 15000);
+  //setInterval(commenceHealthBuffs, 14000);
+  //setInterval(commenceShieldBuffs, 20000);
 
-  // Create an audio element // HELP BY AI - used from Lunar Lander
+  // Create an audio element // HELP BY - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
   const healthPickUp = new Audio("js/soundone.mp3");
 
@@ -159,6 +157,9 @@ function draw() {
     gameOverState();
     drawGameOver();
     drawRestart();
+  } else if (state === "winState") {
+    winState();
+    winGame();
   }
   drawTitle();
   drawCursor();
@@ -205,6 +206,14 @@ function drawGameOver() {
   fill(255, 196, 94);
   textFont("pain-de-mie, sans-serif");
   text("GAME MEOWER", width / 2, height / 2);
+}
+
+function winGame() {
+  textAlign(CENTER, CENTER);
+  textSize(128);
+  fill(255, 196, 94);
+  textFont("pain-de-mie, sans-serif");
+  text("FLY TO MEWOON", width / 2, height / 2);
 }
 
 let restartWidth = 300;
@@ -722,6 +731,13 @@ function gameState() {
   }
   borderCheck();
   checkCollisions();
+  if (frameCount % 60 === 0 && timer > 0) {
+    // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+    timer--;
+  }
+  if (timer == 0) {
+    state = "winState";
+  }
 }
 window.gameState = gameState;
 
@@ -762,6 +778,16 @@ function gameOverState() {
   drawCursor();
 }
 window.gameOverStateState = gameOverState;
+
+// GAME STATES --- GAMEOVER
+function winState() {
+  drawAura();
+  moon();
+  ufo();
+  drawTitle();
+  drawCursor();
+}
+window.winState = winState;
 
 function movement() {
   if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87)) {
