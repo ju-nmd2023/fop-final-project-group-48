@@ -281,7 +281,7 @@ document.addEventListener("mousedown", (event) => {
 });
 
 function restartGame() {
-  if (state === "gameOver" || "winState") {
+  if (state === "gameOver" || state === "winState") {
     if (keyIsDown(32) || keyIsDown(13)) {
       showTitle = false;
       location.reload();
