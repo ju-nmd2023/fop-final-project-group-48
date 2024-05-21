@@ -160,6 +160,15 @@ function draw() {
     drawRestart();
   } else if (state === "winState") {
     winState();
+    if (ufox.x >= windowWidth + 100) {
+      ufox.x = windowWidth + 100;
+    } else if (ufox.x <= 150) {
+      ufox.x = 150;
+    } else if (ufox.y >= windowHeight - 150) {
+      ufox.y = windowHeight - 150;
+    } else if (ufox.y <= 150) {
+      ufox.y = 150;
+    }
   }
 
   drawTitle();
@@ -800,6 +809,7 @@ function winState() {
   drawCursor();
   if (showFlyToWin === true) {
     flytoWin();
+    boosterStrength = 1;
     if (ufox.x >= windowWidth) {
       showFlyToWin = false;
     }
