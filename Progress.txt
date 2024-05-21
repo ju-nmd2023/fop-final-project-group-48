@@ -294,6 +294,11 @@
                             }
                         }
 
+        > Added     function flytoWin() {...}
+                    function gameWon() {...}
+                    WINSTATE - Condition to remove first title,
+                    to another one. flytoWin >>> gameWon.
+
 
 
 
