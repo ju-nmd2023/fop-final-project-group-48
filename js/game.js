@@ -40,6 +40,7 @@ let shield = false;
 
 let showTitle = true;
 let title;
+let controls;
 
 //STARRY SKY INSPIRATION FROM LECTURES
 let stars = [];
@@ -70,7 +71,7 @@ controlsBtn.addEventListener("click", function () {
   console.log("Controls Button Clicked!");
 
   menu.style.display = "none";
-  state = "game";
+  state = "controls";
 });
 
 menuBtn.addEventListener("click", function () {
@@ -82,6 +83,7 @@ menuBtn.addEventListener("click", function () {
 
 function preload() {
   title = loadImage("../img/titledark.png");
+  controls = loadImage("../img/controlscircles.png");
 }
 window.preload = preload;
 
@@ -169,6 +171,8 @@ function draw() {
     } else if (ufox.y <= 150) {
       ufox.y = 150;
     }
+  } else if (state === "controls") {
+    controlsState();
   }
 
   drawTitle();
@@ -270,11 +274,12 @@ document.addEventListener("mousedown", (event) => {
   const clickY = event.clientY;
 
   if (
-    clickX >= width / 2 - 150 &&
-    clickX <= width / 2 + restartWidth - 150 &&
-    clickY >= height / 1.5 - 50 &&
-    clickY <= height / 1.5 + restartHeight - 50 &&
-    state === "gameOver" // Check if the mouse is on top of the restart text when the state is set to "gameOver"
+    (clickX >= width / 2 - 150 &&
+      clickX <= width / 2 + restartWidth - 150 &&
+      clickY >= height / 1.5 - 50 &&
+      clickY <= height / 1.5 + restartHeight - 50 &&
+      state === "gameOver") ||
+    state === "winState" // Check if the mouse is on top of the restart text when the state is set to "gameOver" or "winState"
   ) {
     location.reload();
   }
@@ -287,6 +292,12 @@ function restartGame() {
       location.reload();
     }
   }
+}
+
+function drawControls() {
+  let w = controls.width * 0.7;
+  let h = controls.height * 0.7;
+  image(controls, windowWidth / 2 - w / 2, windowHeight / 2 - h / 2, w, h);
 }
 
 function windowResized() {
@@ -780,12 +791,14 @@ function pauseState() {
     drawHealthbar1();
   }
   ufoStationary();
-  drawProjectilesStationary();
-  drawMegaProjectilesStationary();
-  drawHealthBuffsStationary();
-  drawShielfBuffsStationary();
-  if (shield === true) {
-    drawShield();
+  if (health > 0) {
+    drawProjectilesStationary();
+    drawMegaProjectilesStationary();
+    drawHealthBuffsStationary();
+    drawShielfBuffsStationary();
+    if (shield === true) {
+      drawShield();
+    }
   }
 }
 window.pauseStateState = pauseState;
@@ -821,6 +834,36 @@ function winState() {
   }
 }
 window.winState = winState;
+
+function controlsState() {
+  drawAura();
+  moon();
+  if (health === 6) {
+    drawHealthbar6();
+  } else if (health === 5) {
+    drawHealthbar5();
+  } else if (health === 4) {
+    drawHealthbar4();
+  } else if (health === 3) {
+    drawHealthbar3();
+  } else if (health === 2) {
+    drawHealthbar2();
+  } else if (health === 1) {
+    drawHealthbar1();
+  }
+  ufoStationary();
+  if (health > 0) {
+    drawProjectilesStationary();
+    drawMegaProjectilesStationary();
+    drawHealthBuffsStationary();
+    drawShielfBuffsStationary();
+    if (shield === true) {
+      drawShield();
+    }
+  }
+
+  drawControls();
+}
 
 function movement() {
   if (keyIsDown(38) || keyIsDown(32) || keyIsDown(87)) {
