@@ -25,7 +25,7 @@ let comets = [];
 
 let state = "title";
 
-let timer = 10;
+let timer = 120;
 let showFlyToWin = true;
 
 // GAME PHYSICS ETC
