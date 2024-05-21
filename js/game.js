@@ -26,6 +26,7 @@ let comets = [];
 let state = "title";
 
 let timer = 10;
+let showFlyToWin = true;
 
 // GAME PHYSICS ETC
 let ufoVertSpeed = 0;
@@ -108,13 +109,13 @@ function setup() {
 
   //commenceArrowProjectiles();
   commenceShieldWallProjectiles();
-  //commenceSlashProjectiles();
-  //setInterval(commenceShieldWallProjectiles, 6300);
-  //setInterval(commenceArrowProjectiles, 9500);
-  //setInterval(commenceSlashProjectiles, 5500);
-  //setInterval(commenceMegaProjectiles, 15000);
-  //setInterval(commenceHealthBuffs, 14000);
-  //setInterval(commenceShieldBuffs, 20000);
+  commenceSlashProjectiles();
+  setInterval(commenceShieldWallProjectiles, 6300);
+  setInterval(commenceArrowProjectiles, 9500);
+  setInterval(commenceSlashProjectiles, 5500);
+  setInterval(commenceMegaProjectiles, 15000);
+  setInterval(commenceHealthBuffs, 14000);
+  setInterval(commenceShieldBuffs, 20000);
 
   // Create an audio element // HELP BY - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
@@ -159,8 +160,8 @@ function draw() {
     drawRestart();
   } else if (state === "winState") {
     winState();
-    winGame();
   }
+
   drawTitle();
   drawCursor();
   removeTitle();
@@ -205,15 +206,25 @@ function drawGameOver() {
   textSize(128);
   fill(255, 196, 94);
   textFont("pain-de-mie, sans-serif");
-  text("GAME MEOWER", width / 2, height / 2);
+  text("GAME MEOWER", width / 2, height / 2 - 50);
 }
-
-function winGame() {
+function flytoWin() {
   textAlign(CENTER, CENTER);
   textSize(128);
   fill(255, 196, 94);
   textFont("pain-de-mie, sans-serif");
-  text("FLY TO MEWOON", width / 2, height / 2);
+  text("fly to the meown", width / 2, height / 2 - 50);
+  textSize(60);
+  text("to finish the game", width / 2, height / 2 + 50);
+}
+function gameWon() {
+  textAlign(CENTER, CENTER);
+  textSize(200);
+  fill(255, 196, 94);
+  textFont("pain-de-mie, sans-serif");
+  text("YOU WON", width / 2, height / 2 - 50);
+  textSize(60);
+  text("thanks for playing", width / 2, height / 2 + 50);
 }
 
 let restartWidth = 300;
@@ -261,7 +272,7 @@ document.addEventListener("mousedown", (event) => {
 });
 
 function restartGame() {
-  if (state === "gameOver") {
+  if (state === "gameOver" || "winState") {
     if (keyIsDown(32) || keyIsDown(13)) {
       showTitle = false;
       location.reload();
@@ -780,13 +791,24 @@ function gameOverState() {
 }
 window.gameOverStateState = gameOverState;
 
-// GAME STATES --- GAMEOVER
+// GAME STATES --- WINSTATE
 function winState() {
   drawAura();
   moon();
   ufo();
   drawTitle();
   drawCursor();
+  if (showFlyToWin === true) {
+    flytoWin();
+    if (ufox.x >= windowWidth) {
+      showFlyToWin = false;
+    }
+  } else {
+    if (ufox.x >= windowWidth) {
+      gameWon();
+      drawRestart();
+    }
+  }
 }
 window.winState = winState;
 
