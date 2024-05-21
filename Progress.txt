@@ -262,4 +262,28 @@
         - Timer for main gamemode, and once that's done make the infinite mode.
         - Controls menu
 
-        
+21.05.2024 -----------------------------------------------------------------------------
+
+    ADDITION ___________________________________________________________________________
+
+        > Made addition to restart, where the game could be restarted using enter or space.
+
+            function RestartGame() {...}
+
+        > Created   drawHealthBuffsStationary();
+                    drawShielfBuffsStationary();
+
+        > Added into PAUSE STATE:
+                    drawHealthBuffsStationary();
+                    drawShielfBuffsStationary();
+                    if (shield === true) {
+                    drawShield();
+                    }
+
+
+
+    ADJUSTMENT ____________________________________________________________________________
+
+        - Adjusted the class-objects' positions to fit better their hit boxes and
+        the other way around.
+

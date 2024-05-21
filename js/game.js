@@ -146,7 +146,7 @@ window.setup = setup;
 
 function draw() {
   // Set current state and draw based on said state
-
+  drawGeneral();
   if (state === "pause") {
     pauseState();
     console.log("pause state");
@@ -163,6 +163,7 @@ function draw() {
   drawTitle();
   drawCursor();
   removeTitle();
+  restartGame();
 }
 window.draw = draw;
 
@@ -250,6 +251,15 @@ document.addEventListener("mousedown", (event) => {
   }
 });
 
+function restartGame() {
+  if (state === "gameOver") {
+    if (keyIsDown(32) || keyIsDown(13)) {
+      showTitle = false;
+      location.reload();
+    }
+  }
+}
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
 }
@@ -259,6 +269,8 @@ function drawGeneral() {
   noStroke();
   clear();
   background(30, 30, 70);
+  drawStars();
+  drawCommenceComet();
 }
 function drawStars() {
   noStroke();
@@ -292,6 +304,12 @@ function drawHealthBuffs() {
     healthbuff.draw();
   }
 }
+function drawHealthBuffsStationary() {
+  for (let healthbuff of healthbuffs) {
+    healthbuff.livehpBuff();
+    healthbuff.draw();
+  }
+}
 
 function commenceShieldBuffs() {
   const shieldBuffX = windowWidth + 100;
@@ -304,6 +322,12 @@ function commenceShieldBuffs() {
 function drawShieldBuffs() {
   for (let shieldbuff of shieldbuffs) {
     shieldbuff.updatePosition();
+    shieldbuff.liveshieldBuff();
+    shieldbuff.draw();
+  }
+}
+function drawShielfBuffsStationary() {
+  for (let shieldbuff of shieldbuffs) {
     shieldbuff.liveshieldBuff();
     shieldbuff.draw();
   }
@@ -661,15 +685,10 @@ function drawShield() {
 
 // GAME STATES --- TITLE
 function titleState() {
-  drawGeneral();
-  drawStars();
-  drawCommenceComet();
   drawAura();
   moon();
   ufoStationary();
   drawTitle();
-  drawCursor();
-
   if (showTitle === false) {
     state = "game";
   }
@@ -678,9 +697,6 @@ window.titleState = titleState;
 
 // GAME STATES --- GAME
 function gameState() {
-  drawGeneral();
-  drawStars();
-  drawCommenceComet();
   drawAura();
   moon();
   if (health === 6) {
@@ -701,11 +717,9 @@ function gameState() {
   drawMegaProjectiles();
   drawHealthBuffs();
   drawShieldBuffs();
-
   if (shield === true) {
     drawShield();
   }
-
   borderCheck();
   checkCollisions();
 }
@@ -713,9 +727,6 @@ window.gameState = gameState;
 
 // GAME STATES --- PAUSE
 function pauseState() {
-  drawGeneral();
-  drawStars();
-  drawCommenceComet();
   drawAura();
   moon();
   if (health === 6) {
@@ -734,14 +745,16 @@ function pauseState() {
   ufoStationary();
   drawProjectilesStationary();
   drawMegaProjectilesStationary();
+  drawHealthBuffsStationary();
+  drawShielfBuffsStationary();
+  if (shield === true) {
+    drawShield();
+  }
 }
 window.pauseStateState = pauseState;
 
 // GAME STATES --- GAMEOVER
 function gameOverState() {
-  drawGeneral();
-  drawStars();
-  drawCommenceComet();
   drawAura();
   moon();
   ufoStationary();
