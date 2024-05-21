@@ -731,6 +731,7 @@ function gameState() {
   }
   borderCheck();
   checkCollisions();
+  // Countdown help from P5 - https://editor.p5js.org/denaplesk2/sketches/S1OAhXA-M
   if (frameCount % 60 === 0 && timer > 0) {
     // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
     timer--;

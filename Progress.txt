@@ -188,8 +188,8 @@
             
     IMPLEMENT ____________________________________________________________________________
 
-        - Logic behind Shield Buff, time limit, endurance? etc.
-        - Time that sets the limit of the game, making it possible to win by "hitting" the moon.
+        ✅ Logic behind Shield Buff, time limit, endurance? etc.
+        ✅ Time that sets the limit of the game, making it possible to win by "hitting" the moon.
         - Implement Aura logic with time, add hitbox to it, etc.
 
 19.05.2024 -----------------------------------------------------------------------------
@@ -259,7 +259,7 @@
 
     IMPLEMENT ____________________________________________________________________________
 
-        - Timer for main gamemode, and once that's done make the infinite mode.
+        ✅ Timer for main gamemode, and once that's done make the infinite mode.
         - Controls menu
 
 21.05.2024 -----------------------------------------------------------------------------
@@ -279,6 +279,21 @@
                     if (shield === true) {
                     drawShield();
                     }
+
+        > Added     timer for the Game
+
+                    let timer = 10;
+                    function gameState() {
+                        // previous code...
+                        if (frameCount % 60 === 0 && timer > 0) {
+                            // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+                            timer--;
+                            }
+                            if (timer == 0) {
+                            state = "winState";
+                            }
+                        }
+
 
 
 
