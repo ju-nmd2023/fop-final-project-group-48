@@ -22,6 +22,8 @@ export default class Ufo {
     let x = this.x;
     let y = this.y;
 
+    push();
+    translate(40, 40);
     noStroke();
     fill(94, 255, 215);
     // Ship
@@ -115,6 +117,7 @@ export default class Ufo {
     bezierVertex(x - 30, y - 100, x + 40, y - 90, x + 53, y - 30);
     bezierVertex(x + 55, y + 5, x - 30, y - 10, x - 10, y);
     endShape();
+    pop();
   }
 
   levitate() {

@@ -19,6 +19,8 @@ export default class MegaProjectile {
 
   draw() {
     push();
+    translate(100, 80);
+    push();
     stroke(255, 151, 0, 90);
     strokeWeight(150);
     line(this.x - 25, this.y, this.x + 75, this.y);
@@ -29,5 +31,6 @@ export default class MegaProjectile {
     //HITBOX
     //fill(0, 0, 255, 80);
     //rect(this.x, this.y, 200, 160);
+    pop();
   }
 }

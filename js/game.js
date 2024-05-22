@@ -115,15 +115,15 @@ function setup() {
     stars.push(star);
   }
 
-  //commenceArrowProjectiles();
+  commenceArrowProjectiles();
   commenceShieldWallProjectiles();
-  //commenceSlashProjectiles();
-  //setInterval(commenceShieldWallProjectiles, 6300);
-  //setInterval(commenceArrowProjectiles, 9500);
-  //setInterval(commenceSlashProjectiles, 5500);
-  //setInterval(commenceMegaProjectiles, 500);
-  //setInterval(commenceHealthBuffs, 14000);
-  //setInterval(commenceShieldBuffs, 20000);
+  commenceSlashProjectiles();
+  setInterval(commenceShieldWallProjectiles, 6300);
+  setInterval(commenceArrowProjectiles, 9500);
+  setInterval(commenceSlashProjectiles, 5500);
+  setInterval(commenceMegaProjectiles, 15000);
+  setInterval(commenceHealthBuffs, 14000);
+  setInterval(commenceShieldBuffs, 20000);
 
   // Create an audio element // HELP BY - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
@@ -164,7 +164,11 @@ function draw() {
   } else if (state === "infinite") {
     infiniteState();
     console.log("infinite state");
-    console.log(infiniteTimer);
+    console.log(highScore);
+    console.log(retrievedHighScore);
+    if (highScore > retrievedHighScore) { //store highscore in local storage if it's larger than the value currently stored.
+      localStorage.setItem("highScore", highScore.toString());
+    }
   } else if (state === "infinitePause") {
     infinitePauseState();
     drawtransAura();
@@ -200,7 +204,6 @@ function draw() {
   drawCursor();
   removeTitle();
   restartGame();
-  drawHighScore();
 }
 window.draw = draw;
 
@@ -342,11 +345,6 @@ function drawControls() {
   ) {
     state = "game";
   }
-
-  if (mouseX > width / 2 + w || mouseX < width / 2 - w) {
-    state = "pause";
-    menu.style.display = "block";
-  }
 }
 
 function drawTimer() {
@@ -363,7 +361,14 @@ function drawInfiniteTimer() {
   text(infiniteTimer, windowWidth / 3.4, 80);
 }
 
-function drawHighScore() {}
+let retrievedHighScore = parseInt(localStorage.getItem("highScore"));
+
+function drawHighScore() {
+  fill(255, 153, 51);
+  textFont("pain-de-mie, sans-serif");
+  textSize(64);
+  text("High Score:" + " " + retrievedHighScore, windowWidth / 20, 80);
+}
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
@@ -786,6 +791,7 @@ function ufoStationary() {
 
 function drawShield() {
   push();
+  translate(40, 40);
   stroke(102, 255, 255, 30);
   strokeWeight(30);
   fill(102, 255, 255, 70);
@@ -877,9 +883,11 @@ function infiniteState() {
   if (frameCount % 60 === 0) {
     // if the frameCount is divisible by 60, then a second has passed. it will keep increasing until the player dies
     infiniteTimer++;
+    highScore++;
   }
 
   drawInfiniteTimer();
+  drawHighScore();
 }
 window.infiniteState = infiniteState;
 
@@ -945,6 +953,7 @@ function infinitePauseState() {
     }
   }
   drawInfiniteTimer();
+  drawHighScore();
 }
 window.infinitePauseState = infinitePauseState;
 
@@ -966,6 +975,7 @@ function infiniteGameOverState() {
   drawTitle();
   drawCursor();
   drawInfiniteTimer();
+  drawHighScore();
 }
 window.infiniteGameOverState = infiniteGameOverState;
 
@@ -1051,20 +1061,20 @@ function slowDown() {
 window.slowDown = slowDown;
 
 function borderCheck() {
-  if (ufox.x >= windowWidth - 100) {
-    ufox.x = windowWidth - 100;
+  if (ufox.x >= windowWidth - 145) {
+    ufox.x = windowWidth - 145;
   }
 
-  if (ufox.x <= 100) {
-    ufox.x = 100;
+  if (ufox.x <= 65) {
+    ufox.x = 65;
   }
 
-  if (ufox.y >= windowHeight - 40) {
-    ufox.y = windowHeight - 40;
+  if (ufox.y >= windowHeight - 80) {
+    ufox.y = windowHeight - 80;
   }
 
-  if (ufox.y <= 80) {
-    ufox.y = 80;
+  if (ufox.y <= 40) {
+    ufox.y = 40;
   }
 }
 window.borderCheck = borderCheck;

@@ -47,6 +47,6 @@ export default class HealthBuff {
     let dsize = this.diameter * Math.sin(frameCount * 0.07);
     this.diameter += dsize / 170;
     fill(102, 255, 153, 80);
-    rect(this.x, this.y, this.diameter, this.diameter);
+    ellipse(this.x, this.y, this.diameter, this.diameter);
   }
 }

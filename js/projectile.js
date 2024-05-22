@@ -18,6 +18,8 @@ export default class Projectile {
 
   draw() {
     push();
+    translate(80, 27);
+    push();
     stroke(181, 51, 88, 90);
     strokeWeight(50);
     line(this.x - 50, this.y, this.x + 50, this.y);
@@ -26,7 +28,8 @@ export default class Projectile {
     noStroke();
     ellipse(this.x - 50, this.y, 30, 30);
     //HITBOX
-    fill(0, 0, 255, 80);
-    rect(this.x, this.y, 160, 55);
+    // fill(0, 0, 255, 80);
+    //rect(this.x, this.y, 160, 55);
+    pop();
   }
 }
