@@ -297,7 +297,26 @@ function restartGame() {
 function drawControls() {
   let w = controls.width * 0.7;
   let h = controls.height * 0.7;
+
   image(controls, windowWidth / 2 - w / 2, windowHeight / 2 - h / 2, w, h);
+
+  if (
+    keyIsDown(87) ||
+    keyIsDown(65) ||
+    keyIsDown(83) ||
+    keyIsDown(68) ||
+    keyIsDown(40) ||
+    keyIsDown(37) ||
+    keyIsDown(38) ||
+    keyIsDown(39)
+  ) {
+    state = "game";
+  }
+
+  if (mouseX > width / 2 + w || mouseX < width / 2 - w) {
+    state = "pause";
+    menu.style.display = "block";
+  }
 }
 
 function windowResized() {
@@ -790,7 +809,9 @@ function pauseState() {
   } else if (health === 1) {
     drawHealthbar1();
   }
+
   ufoStationary();
+
   if (health > 0) {
     drawProjectilesStationary();
     drawMegaProjectilesStationary();
