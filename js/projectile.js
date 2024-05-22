@@ -26,7 +26,7 @@ export default class Projectile {
     noStroke();
     ellipse(this.x - 50, this.y, 30, 30);
     //HITBOX
-    //fill(0, 0, 255, 80);
-    //ellipse(this.x, this.y, 160, 55);
+    fill(0, 0, 255, 80);
+    rect(this.x, this.y, 160, 55);
   }
 }

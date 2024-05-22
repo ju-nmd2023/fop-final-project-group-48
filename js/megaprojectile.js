@@ -5,6 +5,7 @@ export default class MegaProjectile {
     this.speed = speed;
     this.width = 200;
     this.height = 160;
+    this.r = 100;
   }
 
   updatePosition() {
@@ -27,6 +28,6 @@ export default class MegaProjectile {
     ellipse(this.x - 25, this.y, 100, 100);
     //HITBOX
     //fill(0, 0, 255, 80);
-    //ellipse(this.x, this.y, 200, 160);
+    //rect(this.x, this.y, 200, 160);
   }
 }

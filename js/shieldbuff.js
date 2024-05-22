@@ -21,7 +21,7 @@ export default class ShieldBuff {
     this.shieldBuffObject();
     //HITBOX
     //fill(255, 0, 0, 90);
-    //ellipse(this.x, this.y, 70, 70);
+    //rect(this.x, this.y, 70, 70);
   }
 
   shieldBuffObject() {
@@ -56,6 +56,6 @@ export default class ShieldBuff {
     let dsize = this.diameter * Math.sin(frameCount * 0.07);
     this.diameter += dsize / 160;
     fill(102, 255, 255, 80);
-    ellipse(this.x, this.y, this.diameter, this.diameter);
+    square(this.x, this.y, this.diameter, this.diameter);
   }
 }

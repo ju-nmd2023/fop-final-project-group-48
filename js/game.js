@@ -23,6 +23,9 @@ let aurax = new Aura();
 import Comet from "./comet.js";
 let comets = [];
 
+import transparentAura from "./transparentaura.js";
+let transaura = new transparentAura();
+
 let state = "title";
 
 let timer = 120;
@@ -114,13 +117,13 @@ function setup() {
 
   //commenceArrowProjectiles();
   commenceShieldWallProjectiles();
-  commenceSlashProjectiles();
-  setInterval(commenceShieldWallProjectiles, 6300);
-  setInterval(commenceArrowProjectiles, 9500);
-  setInterval(commenceSlashProjectiles, 5500);
-  setInterval(commenceMegaProjectiles, 15000);
-  setInterval(commenceHealthBuffs, 14000);
-  setInterval(commenceShieldBuffs, 20000);
+  //commenceSlashProjectiles();
+  //setInterval(commenceShieldWallProjectiles, 6300);
+  //setInterval(commenceArrowProjectiles, 9500);
+  //setInterval(commenceSlashProjectiles, 5500);
+  //setInterval(commenceMegaProjectiles, 500);
+  //setInterval(commenceHealthBuffs, 14000);
+  //setInterval(commenceShieldBuffs, 20000);
 
   // Create an audio element // HELP BY - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
@@ -154,6 +157,7 @@ function draw() {
   if (state === "pause") {
     pauseState();
     console.log("pause state");
+    drawtransAura();
   } else if (state === "game") {
     gameState();
     console.log("game state");
@@ -163,8 +167,10 @@ function draw() {
     console.log(infiniteTimer);
   } else if (state === "infinitePause") {
     infinitePauseState();
+    drawtransAura();
   } else if (state === "title") {
     titleState();
+    drawtransAura();
   } else if (state === "gameOver") {
     gameOverState();
     drawGameOver();
@@ -173,6 +179,8 @@ function draw() {
     infiniteGameOverState();
     drawGameOver();
     drawRestart();
+    drawtransAura();
+    //Stashed changes
   } else if (state === "winState") {
     winState();
     if (ufox.x >= windowWidth + 100) {
@@ -534,6 +542,11 @@ function drawMegaProjectilesStationary() {
 // OBJECTS
 function drawAura() {
   aurax.draw();
+}
+function drawtransAura() {
+  transaura.draw();
+  transaura.x = windowWidth - 630;
+  transaura.y = windowHeight / windowHeight;
 }
 function drawCursor() {
   paw(mouseX, mouseY);
@@ -1126,6 +1139,23 @@ function checkCollisions() {
       if (health <= 0) {
         state = "gameOver";
       }
+    }
+  }
+
+  //COLLISION WITH AURA
+  if (isColliding(ufox, transaura)) {
+    if (frameCount % 60 === 0) {
+      if (shield === true) {
+        shield = false;
+        health -= 1;
+      } else if (shield === false) {
+        health -= 2;
+      }
+    }
+    if (health <= 0 && state === "game") {
+      state = "gameOver";
+    } else if (health <= 0 && state === "infinite") {
+      state = "infiniteGameOver";
     }
   }
 }

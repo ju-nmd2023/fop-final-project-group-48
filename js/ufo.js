@@ -7,6 +7,7 @@ export default class Ufo {
     this.height = 82;
     this.levitationdistance = 1;
     //this.shieldActive = false;
+    this.r = this.width / 2;
   }
 
   draw() {
@@ -14,7 +15,7 @@ export default class Ufo {
     this.drawUfo();
     //HITBOX
     //fill(255, 0, 0, 90);
-    //ellipse(this.x, this.y, 150, 82);
+    //rect(this.x, this.y, 150, 82);
   }
 
   drawUfo() {
