@@ -28,6 +28,9 @@ let state = "title";
 let timer = 120;
 let showFlyToWin = true;
 
+let infiniteTimer = 0;
+let highScore = 0;
+
 // GAME PHYSICS ETC
 let ufoVertSpeed = 0;
 let ufoHoriSpeed = 0;
@@ -64,7 +67,7 @@ infiniteBtn.addEventListener("click", function () {
   console.log("Infinite Button Clicked!");
 
   menu.style.display = "none";
-  state = "game";
+  state = "infinite";
 });
 
 controlsBtn.addEventListener("click", function () {
@@ -154,10 +157,20 @@ function draw() {
   } else if (state === "game") {
     gameState();
     console.log("game state");
+  } else if (state === "infinite") {
+    infiniteState();
+    console.log("infinite state");
+    console.log(infiniteTimer);
+  } else if (state === "infinitePause") {
+    infinitePauseState();
   } else if (state === "title") {
     titleState();
   } else if (state === "gameOver") {
     gameOverState();
+    drawGameOver();
+    drawRestart();
+  } else if (state === "infiniteGameOver") {
+    infiniteGameOverState();
     drawGameOver();
     drawRestart();
   } else if (state === "winState") {
@@ -179,6 +192,7 @@ function draw() {
   drawCursor();
   removeTitle();
   restartGame();
+  drawHighScore();
 }
 window.draw = draw;
 
@@ -188,8 +202,15 @@ function keyReleased() {
     if (state === "pause") {
       state = "game";
       menu.style.display = "none";
-    } else if (state === "game") {
+    } else if (
+      state === "game" ||
+      state === "gameOver" ||
+      state === "winState"
+    ) {
       state = "pause";
+      menu.style.display = "block";
+    } else if (state === "infinite") {
+      state = "infinitePause";
       menu.style.display = "block";
     }
   }
@@ -279,7 +300,8 @@ document.addEventListener("mousedown", (event) => {
       clickY >= height / 1.5 - 50 &&
       clickY <= height / 1.5 + restartHeight - 50 &&
       state === "gameOver") ||
-    state === "winState" // Check if the mouse is on top of the restart text when the state is set to "gameOver" or "winState"
+    state === "winState" ||
+    state === "infiniteGameOver" // Check if the mouse is on top of the restart text when the state is set to "gameOver" or "winState"
   ) {
     location.reload();
   }
@@ -318,6 +340,22 @@ function drawControls() {
     menu.style.display = "block";
   }
 }
+
+function drawTimer() {
+  fill(255, 153, 51);
+  textFont("pain-de-mie, sans-serif");
+  textSize(64);
+  text(timer, windowWidth / 3.4, 80);
+}
+
+function drawInfiniteTimer() {
+  fill(255, 153, 51);
+  textFont("pain-de-mie, sans-serif");
+  textSize(64);
+  text(infiniteTimer, windowWidth / 3.4, 80);
+}
+
+function drawHighScore() {}
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); //resize the window
@@ -749,7 +787,8 @@ function titleState() {
   ufoStationary();
   drawTitle();
   if (showTitle === false) {
-    state = "game";
+    state = "pause";
+    menu.style.display = "block";
   }
 }
 window.titleState = titleState;
@@ -789,8 +828,47 @@ function gameState() {
   if (timer == 0) {
     state = "winState";
   }
+
+  drawTimer();
 }
 window.gameState = gameState;
+
+function infiniteState() {
+  drawAura();
+  moon();
+  if (health === 6) {
+    drawHealthbar6();
+  } else if (health === 5) {
+    drawHealthbar5();
+  } else if (health === 4) {
+    drawHealthbar4();
+  } else if (health === 3) {
+    drawHealthbar3();
+  } else if (health === 2) {
+    drawHealthbar2();
+  } else if (health === 1) {
+    drawHealthbar1();
+  }
+  ufo();
+  drawProjectiles();
+  drawMegaProjectiles();
+  drawHealthBuffs();
+  drawShieldBuffs();
+  if (shield === true) {
+    drawShield();
+  }
+  borderCheck();
+  checkCollisions();
+
+  // Countdown help from P5 - https://editor.p5js.org/denaplesk2/sketches/S1OAhXA-M
+  if (frameCount % 60 === 0) {
+    // if the frameCount is divisible by 60, then a second has passed. it will keep increasing until the player dies
+    infiniteTimer++;
+  }
+
+  drawInfiniteTimer();
+}
+window.infiniteState = infiniteState;
 
 // GAME STATES --- PAUSE
 function pauseState() {
@@ -821,8 +899,41 @@ function pauseState() {
       drawShield();
     }
   }
+  drawTimer();
 }
 window.pauseStateState = pauseState;
+
+function infinitePauseState() {
+  drawAura();
+  moon();
+  if (health === 6) {
+    drawHealthbar6();
+  } else if (health === 5) {
+    drawHealthbar5();
+  } else if (health === 4) {
+    drawHealthbar4();
+  } else if (health === 3) {
+    drawHealthbar3();
+  } else if (health === 2) {
+    drawHealthbar2();
+  } else if (health === 1) {
+    drawHealthbar1();
+  }
+
+  ufoStationary();
+
+  if (health > 0) {
+    drawProjectilesStationary();
+    drawMegaProjectilesStationary();
+    drawHealthBuffsStationary();
+    drawShielfBuffsStationary();
+    if (shield === true) {
+      drawShield();
+    }
+  }
+  drawInfiniteTimer();
+}
+window.infinitePauseState = infinitePauseState;
 
 // GAME STATES --- GAMEOVER
 function gameOverState() {
@@ -831,8 +942,19 @@ function gameOverState() {
   ufoStationary();
   drawTitle();
   drawCursor();
+  drawTimer();
 }
 window.gameOverStateState = gameOverState;
+
+function infiniteGameOverState() {
+  drawAura();
+  moon();
+  ufoStationary();
+  drawTitle();
+  drawCursor();
+  drawInfiniteTimer();
+}
+window.infiniteGameOverState = infiniteGameOverState;
 
 // GAME STATES --- WINSTATE
 function winState() {
@@ -949,8 +1071,10 @@ function checkCollisions() {
         health -= 1;
       }
 
-      if (health <= 0) {
+      if (health <= 0 && state === "game") {
         state = "gameOver";
+      } else if (health <= 0 && state === "infinite") {
+        state = "infiniteGameOver";
       }
     }
   }
