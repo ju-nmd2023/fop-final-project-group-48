@@ -48,7 +48,7 @@ let controls;
 
 const buffup = new Audio("js/buffup.mp3");
 buffup.loop = false;
-buffup.volume = 0.7;
+buffup.volume = 0.8;
 buffup.preload = "auto";
 buffup.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
@@ -56,7 +56,7 @@ buffup.addEventListener("error", function (err) {
 
 const crash = new Audio("js/click.mp3");
 crash.loop = false;
-crash.volume = 1;
+crash.volume = 0.6;
 crash.preload = "auto";
 crash.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
