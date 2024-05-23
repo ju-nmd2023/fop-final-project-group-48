@@ -382,11 +382,6 @@
              return distance < combinedRadius;
             }
 
-    ADDITION ____________________________________________________________________________
-
-            > Added NewBuff - you can use it for whatever you like if you have an idea for
-            an additional perk 🎇
-
             
 
 
