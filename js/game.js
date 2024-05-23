@@ -56,7 +56,7 @@ buffup.addEventListener("error", function (err) {
 
 const crash = new Audio("js/crash.mp3");
 crash.loop = false;
-crash.volume = 0.9;
+crash.volume = 0.5;
 crash.preload = "auto";
 crash.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
@@ -149,7 +149,6 @@ function setup() {
 
   // Create an audio element // HELP BY - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
-  const collisionsound = new Audio("js/soundone.mp3");
 
   bgMusic.loop = true;
   bgMusic.volume = 0.5;
@@ -1148,8 +1147,6 @@ function checkCollisions() {
       buffup.play();
 
       shield = true;
-
-      pickUpSound();
 
       if (health <= 0 && state === "game") {
         state = "gameOver";
