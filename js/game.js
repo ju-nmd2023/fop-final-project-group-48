@@ -26,6 +26,7 @@ let comets = [];
 let state = "title";
 
 let timer = 120;
+let auraVisible = true;
 let showFlyToWin = true;
 
 let infiniteTimer = 0;
@@ -85,8 +86,8 @@ menuBtn.addEventListener("click", function () {
 });
 
 function preload() {
-  title = loadImage(".../img/titledark.png");
-  controls = loadImage(".../img/controlscircles.png");
+  title = loadImage("img/titledark.png");
+  controls = loadImage("img/controlscircles.png");
 }
 window.preload = preload;
 
@@ -540,7 +541,9 @@ function drawMegaProjectilesStationary() {
 
 // OBJECTS
 function drawAura() {
-  aurax.draw();
+  if (auraVisible) {
+    aurax.draw();
+  }
 }
 
 function drawCursor() {
@@ -833,8 +836,9 @@ function gameState() {
     // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
     timer--;
   }
-  if (timer == 0) {
+  if (timer <= 0) {
     state = "winState";
+    auraVisible = false;
   }
 
   drawTimer();
