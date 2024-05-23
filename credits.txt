@@ -1,0 +1,39 @@
+Project Name: Pawsome Meowterspace, encounter of the Lunartic
+Date: 23.05.2024
+
+---
+
+Music Credits:
+
+1. Retro Games (Glitch Technology Synthwave): retrogamesambience.mp3
+   Artist/Composer: FASSounds
+   Source/Link: https://pixabay.com/music/video-games-retro-games-glitch-technology-synthwave-199939/
+   License: [Free for use under the Pixabay Content License]
+
+2. Interface: buffup.mp3
+   Artist/Composer: UNIVERSFIELD
+   Source/Link: https://pixabay.com/sound-effects/interface-124464/
+   License: [Free for use under the Pixabay Content License]
+
+3. yay: yay.mp3
+   Artist/Composer: Pixabay
+   Source/Link: https://pixabay.com/sound-effects/yay-6120/
+   License: [Free for use under the Pixabay Content License]
+
+
+
+---
+
+Additional Notes:
+We want to express gratitude to specific individuals and/or organizations who provided the music used in our project.
+
+Modification Details:
+We've made some modifications to a few of the original tracks to ensure they fit seamlessly within the game environment.
+Specifically, we've shortened certain sounds to ensure they play more frequently as needed in the game.
+These adjustments were made to enhance the overall gaming experience and ensure that the audio complements the gameplay effectively.
+
+Notes on Selection:
+The selection of tracks for our project was carefully selected with the aim of providing players with an immersive and enjoyable
+experience. Each track was chosen for its exceptional quality and its perfect alignment with the thematic elements and mood of
+the game. We believe that these selected tracks not only enhance the atmosphere of the game but also contribute
+significantly to the overall enjoyment of the player's experience.
