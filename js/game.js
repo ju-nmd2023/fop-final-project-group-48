@@ -352,11 +352,14 @@ document.addEventListener("mousedown", (event) => {
 });
 
 function restartGame() {
-  if (state === "gameOver" || state === "winState" || "infiniteGameOver") {
-    if (keyIsDown(32) || keyIsDown(13)) {
-      showTitle = false;
-      location.reload();
-    }
+  if (
+    (state === "gameOver" ||
+      state === "winState" ||
+      state === "infiniteGameOver") &&
+    (keyIsDown(32) || keyIsDown(13))
+  ) {
+    showTitle = false;
+    location.reload();
   }
 }
 
