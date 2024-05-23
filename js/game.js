@@ -48,15 +48,15 @@ let controls;
 
 const buffup = new Audio("js/buffup.mp3");
 buffup.loop = false;
-buffup.volume = 0.9;
+buffup.volume = 1;
 buffup.preload = "auto";
 buffup.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
 });
 
-const crash = new Audio("js/crash.mp3");
+const crash = new Audio("js/pip.mp3");
 crash.loop = false;
-crash.volume = 0.5;
+crash.volume = 1;
 crash.preload = "auto";
 crash.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
