@@ -30,7 +30,6 @@ let auraVisible = true;
 let showFlyToWin = true;
 
 let infiniteTimer = 0;
-let highScore = 0;
 
 // GAME PHYSICS ETC
 let ufoVertSpeed = 0;
@@ -199,12 +198,6 @@ function draw() {
   } else if (state === "infinite") {
     infiniteState();
     console.log("infinite state");
-    console.log(highScore);
-    console.log(retrievedHighScore);
-    if (highScore > retrievedHighScore) {
-      //store highscore in local storage if it's larger than the value currently stored.
-      localStorage.setItem("highScore", highScore.toString());
-    }
   } else if (state === "infinitePause") {
     infinitePauseState();
   } else if (state === "title") {
@@ -395,15 +388,6 @@ function drawInfiniteTimer() {
   textFont("pain-de-mie, sans-serif");
   textSize(64);
   text(infiniteTimer, windowWidth / 3.4, 80);
-}
-
-let retrievedHighScore = parseInt(localStorage.getItem("highScore"));
-
-function drawHighScore() {
-  fill(255, 196, 94);
-  textFont("pain-de-mie, sans-serif");
-  textSize(64);
-  text("High Score:" + " " + retrievedHighScore, windowWidth / 20, 80);
 }
 
 function windowResized() {
@@ -916,11 +900,9 @@ function infiniteState() {
   if (frameCount % 60 === 0) {
     // if the frameCount is divisible by 60, then a second has passed. it will keep increasing until the player dies
     infiniteTimer++;
-    highScore++;
   }
 
   drawInfiniteTimer();
-  drawHighScore();
 }
 window.infiniteState = infiniteState;
 
@@ -985,7 +967,6 @@ function infinitePauseState() {
     }
   }
   drawInfiniteTimer();
-  drawHighScore();
 }
 window.infinitePauseState = infinitePauseState;
 
@@ -1007,7 +988,6 @@ function infiniteGameOverState() {
   drawTitle();
   drawCursor();
   drawInfiniteTimer();
-  drawHighScore();
 }
 window.infiniteGameOverState = infiniteGameOverState;
 
