@@ -76,6 +76,14 @@ megacrash.preload = "auto";
 megacrash.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
 });
+
+const aurahit = new Audio("js/aurasynth.mp3");
+aurahit.loop = false;
+aurahit.volume = 1;
+aurahit.preload = "auto";
+aurahit.addEventListener("error", function (err) {
+  console.error("Error loading audio:", err);
+});
 //STARRY SKY INSPIRATION FROM LECTURES
 let stars = [];
 
@@ -1178,6 +1186,8 @@ function checkCollisions() {
   //COLLISION WITH AURA
   if (isColliding(ufox, aurax)) {
     if (frameCount % 45 === 0) {
+      aurahit.play();
+
       if (shield === true) {
         shield = false;
         health -= 1;
