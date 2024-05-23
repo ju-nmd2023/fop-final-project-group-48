@@ -3,7 +3,7 @@ export default class Aura {
     this.auraMove = 1800;
     this.direction = "forward";
     this.x = this.auraMove;
-    this.y = 1000;
+    this.y = 540;
     this.diameter = 1100;
   }
 
