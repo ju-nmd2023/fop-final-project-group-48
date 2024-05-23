@@ -2,6 +2,9 @@ export default class Aura {
   constructor() {
     this.auraMove = 1800;
     this.direction = "forward";
+    this.x = this.auraMove;
+    this.y = 1000;
+    this.diameter = 1100;
   }
 
   bgcolor() {
@@ -49,5 +52,10 @@ export default class Aura {
         this.direction = "forward";
       }
     }
+    this.x = this.auraMove;
+    this.y = height / 2;
+    //HITBOX
+    //fill(0, 255, 0, 70);
+    //ellipse(this.x, this.y, this.diameter, this.diameter);
   }
 }

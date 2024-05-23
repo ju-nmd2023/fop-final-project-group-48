@@ -358,4 +358,36 @@
                 }
             }
 
+23.05.2024 -----------------------------------------------------------------------------
+
+    ADJUSTMENT _________________________________________________________________________
+
+            > Adjusted the collision to be calculated relating to object diameter.
+            (If you don't like the style we can revert to original)
+
+            Added diameter to:
+            -Ufo
+            -Healthbuff
+            -shieldbuff
+            -MegaProjectile
+            -projectiles
+            -Aura
+
+            The checkCollision is now:
+            function isColliding(objectufo, objects) {
+             let distance = dist(objectufo.x, objectufo.y, objects.x, objects.y);
+
+             let combinedRadius = objectufo.diameter / 2 + objects.diameter / 2;
+
+             return distance < combinedRadius;
+            }
+
+    ADDITION ____________________________________________________________________________
+
+            > Added NewBuff - you can use it for whatever you like if you have an idea for
+            an additional perk 🎇
+
+            
+
+
             

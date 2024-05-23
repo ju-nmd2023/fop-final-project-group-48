@@ -4,8 +4,8 @@ export default class MegaProjectile {
     this.y = y;
     this.speed = speed;
     this.width = 200;
-    this.height = 160;
-    this.r = 100;
+    this.height = 150;
+    this.diameter = 150;
   }
 
   updatePosition() {
@@ -19,7 +19,7 @@ export default class MegaProjectile {
 
   draw() {
     push();
-    translate(100, 80);
+    translate(20, 0);
     push();
     stroke(255, 151, 0, 90);
     strokeWeight(150);
@@ -28,9 +28,10 @@ export default class MegaProjectile {
     fill(250, 218, 0);
     noStroke();
     ellipse(this.x - 25, this.y, 100, 100);
+    pop();
+
     //HITBOX
     //fill(0, 0, 255, 80);
-    //rect(this.x, this.y, 200, 160);
-    pop();
+    //ellipse(this.x, this.y, this.diameter, this.diameter);
   }
 }
