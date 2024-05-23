@@ -74,17 +74,25 @@ const menuBtn = document.getElementById("menu-bttn");
 
 // menu logic
 difficultyBtn.addEventListener("click", function () {
-  console.log("Start Button Clicked!");
+  console.log("Normal Button Clicked!");
 
   menu.style.display = "none";
-  state = "game";
+  if (health > 0) {
+    state = "game";
+  } else if (health <= 0) {
+    state = "gameOver";
+  }
 });
 
 infiniteBtn.addEventListener("click", function () {
   console.log("Infinite Button Clicked!");
 
   menu.style.display = "none";
-  state = "infinite";
+  if (health > 0) {
+    state = "infinite";
+  } else if (health <= 0) {
+    state = "infiniteGameOver";
+  }
 });
 
 controlsBtn.addEventListener("click", function () {
@@ -1140,6 +1148,8 @@ function checkCollisions() {
       buffup.play();
 
       shield = true;
+
+      pickUpSound();
 
       if (health <= 0 && state === "game") {
         state = "gameOver";
