@@ -14,6 +14,9 @@ let shieldbuffs = [];
 import HealthBuff from "./healthbuff.js";
 let healthbuffs = [];
 
+import NewBuff from "./newbuff.js";
+let newbuffs = [];
+
 import Moon from "./moon.js";
 let moonx = new Moon();
 
@@ -22,9 +25,6 @@ let aurax = new Aura();
 
 import Comet from "./comet.js";
 let comets = [];
-
-import transparentAura from "./transparentaura.js";
-let transaura = new transparentAura();
 
 let state = "title";
 
@@ -115,15 +115,16 @@ function setup() {
     stars.push(star);
   }
 
-  commenceArrowProjectiles();
+  //commenceArrowProjectiles();
   commenceShieldWallProjectiles();
-  commenceSlashProjectiles();
-  setInterval(commenceShieldWallProjectiles, 6300);
-  setInterval(commenceArrowProjectiles, 9500);
-  setInterval(commenceSlashProjectiles, 5500);
-  setInterval(commenceMegaProjectiles, 15000);
-  setInterval(commenceHealthBuffs, 14000);
-  setInterval(commenceShieldBuffs, 20000);
+  //commenceSlashProjectiles();
+  setInterval(commenceShieldWallProjectiles, 6300); //6300
+  setInterval(commenceArrowProjectiles, 9500); //9500
+  setInterval(commenceSlashProjectiles, 5500); //5500
+  setInterval(commenceMegaProjectiles, 15000); //15000
+  setInterval(commenceHealthBuffs, 14000); //14000
+  setInterval(commenceShieldBuffs, 20000); //20000
+  setInterval(commenceNewBuffs, 500);
 
   // Create an audio element // HELP BY - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
@@ -157,7 +158,6 @@ function draw() {
   if (state === "pause") {
     pauseState();
     console.log("pause state");
-    drawtransAura();
   } else if (state === "game") {
     gameState();
     console.log("game state");
@@ -166,15 +166,14 @@ function draw() {
     console.log("infinite state");
     console.log(highScore);
     console.log(retrievedHighScore);
-    if (highScore > retrievedHighScore) { //store highscore in local storage if it's larger than the value currently stored.
+    if (highScore > retrievedHighScore) {
+      //store highscore in local storage if it's larger than the value currently stored.
       localStorage.setItem("highScore", highScore.toString());
     }
   } else if (state === "infinitePause") {
     infinitePauseState();
-    drawtransAura();
   } else if (state === "title") {
     titleState();
-    drawtransAura();
   } else if (state === "gameOver") {
     gameOverState();
     drawGameOver();
@@ -183,7 +182,6 @@ function draw() {
     infiniteGameOverState();
     drawGameOver();
     drawRestart();
-    drawtransAura();
     //Stashed changes
   } else if (state === "winState") {
     winState();
@@ -348,14 +346,14 @@ function drawControls() {
 }
 
 function drawTimer() {
-  fill(255, 153, 51);
+  fill(255, 196, 94);
   textFont("pain-de-mie, sans-serif");
   textSize(64);
   text(timer, windowWidth / 3.4, 80);
 }
 
 function drawInfiniteTimer() {
-  fill(255, 153, 51);
+  fill(255, 196, 94);
   textFont("pain-de-mie, sans-serif");
   textSize(64);
   text(infiniteTimer, windowWidth / 3.4, 80);
@@ -364,7 +362,7 @@ function drawInfiniteTimer() {
 let retrievedHighScore = parseInt(localStorage.getItem("highScore"));
 
 function drawHighScore() {
-  fill(255, 153, 51);
+  fill(255, 196, 94);
   textFont("pain-de-mie, sans-serif");
   textSize(64);
   text("High Score:" + " " + retrievedHighScore, windowWidth / 20, 80);
@@ -418,6 +416,28 @@ function drawHealthBuffsStationary() {
   for (let healthbuff of healthbuffs) {
     healthbuff.livehpBuff();
     healthbuff.draw();
+  }
+}
+
+function commenceNewBuffs() {
+  const newbuffX = windowWidth + 100;
+  const newbuffY = random(windowHeight);
+
+  if (newbuffs.length < 1) {
+    newbuffs.push(new NewBuff(newbuffX, newbuffY, 9));
+  }
+}
+function drawNewBuffs() {
+  for (let newbuff of newbuffs) {
+    newbuff.updatePosition();
+    newbuff.livehpBuff();
+    newbuff.draw();
+  }
+}
+function drawNewBuffsStationary() {
+  for (let newbuff of newbuffs) {
+    newbuff.livehpBuff();
+    newbuff.draw();
   }
 }
 
@@ -548,11 +568,7 @@ function drawMegaProjectilesStationary() {
 function drawAura() {
   aurax.draw();
 }
-function drawtransAura() {
-  transaura.draw();
-  transaura.x = windowWidth - 630;
-  transaura.y = windowHeight / windowHeight;
-}
+
 function drawCursor() {
   paw(mouseX, mouseY);
 }
@@ -784,22 +800,21 @@ function ufo() {
   ufox.draw();
   movement();
 }
-
 function ufoStationary() {
   ufox.draw();
 }
-
 function drawShield() {
   push();
-  translate(40, 40);
+  translate(0, 0);
   stroke(102, 255, 255, 30);
   strokeWeight(30);
   fill(102, 255, 255, 70);
-  ellipse(ufox.x, ufox.y - 15, ufox.diameter + 5, ufox.diameter + 5);
+  ellipse(ufox.x, ufox.y, ufox.diameter + 70, ufox.diameter + 70);
   pop();
 }
 
-// GAME STATES --- TITLE
+// GAME STATES
+//TITLE
 function titleState() {
   drawAura();
   moon();
@@ -812,7 +827,7 @@ function titleState() {
 }
 window.titleState = titleState;
 
-// GAME STATES --- GAME
+//GAME
 function gameState() {
   drawAura();
   moon();
@@ -834,6 +849,7 @@ function gameState() {
   drawMegaProjectiles();
   drawHealthBuffs();
   drawShieldBuffs();
+  drawNewBuffs();
   if (shield === true) {
     drawShield();
   }
@@ -851,7 +867,6 @@ function gameState() {
   drawTimer();
 }
 window.gameState = gameState;
-
 function infiniteState() {
   drawAura();
   moon();
@@ -873,6 +888,7 @@ function infiniteState() {
   drawMegaProjectiles();
   drawHealthBuffs();
   drawShieldBuffs();
+  drawNewBuffs();
   if (shield === true) {
     drawShield();
   }
@@ -891,7 +907,7 @@ function infiniteState() {
 }
 window.infiniteState = infiniteState;
 
-// GAME STATES --- PAUSE
+//PAUSE
 function pauseState() {
   drawAura();
   moon();
@@ -916,6 +932,7 @@ function pauseState() {
     drawMegaProjectilesStationary();
     drawHealthBuffsStationary();
     drawShielfBuffsStationary();
+    drawNewBuffsStationary();
     if (shield === true) {
       drawShield();
     }
@@ -923,7 +940,6 @@ function pauseState() {
   drawTimer();
 }
 window.pauseStateState = pauseState;
-
 function infinitePauseState() {
   drawAura();
   moon();
@@ -948,6 +964,7 @@ function infinitePauseState() {
     drawMegaProjectilesStationary();
     drawHealthBuffsStationary();
     drawShielfBuffsStationary();
+    drawNewBuffsStationary();
     if (shield === true) {
       drawShield();
     }
@@ -957,7 +974,7 @@ function infinitePauseState() {
 }
 window.infinitePauseState = infinitePauseState;
 
-// GAME STATES --- GAMEOVER
+//GAMEOVER
 function gameOverState() {
   drawAura();
   moon();
@@ -967,7 +984,6 @@ function gameOverState() {
   drawTimer();
 }
 window.gameOverStateState = gameOverState;
-
 function infiniteGameOverState() {
   drawAura();
   moon();
@@ -979,7 +995,7 @@ function infiniteGameOverState() {
 }
 window.infiniteGameOverState = infiniteGameOverState;
 
-// GAME STATES --- WINSTATE
+//WINSTATE
 function winState() {
   drawAura();
   moon();
@@ -1001,6 +1017,7 @@ function winState() {
 }
 window.winState = winState;
 
+//CONSTROLS
 function controlsState() {
   drawAura();
   moon();
@@ -1079,7 +1096,7 @@ function borderCheck() {
 }
 window.borderCheck = borderCheck;
 
-// COLLISION FUNCTION
+//COLLISION FUNCTION
 function checkCollisions() {
   /* Removing items from arrays using backwards iteration help from w3 Schools - https://www.w3schools.com/jsref/jsref_for.asp*/
   //COLLISION WITH PROJETCILES
@@ -1153,13 +1170,13 @@ function checkCollisions() {
   }
 
   //COLLISION WITH AURA
-  if (isColliding(ufox, transaura)) {
-    if (frameCount % 60 === 0) {
+  if (isColliding(ufox, aurax)) {
+    if (frameCount % 45 === 0) {
       if (shield === true) {
         shield = false;
         health -= 1;
-      } else if (shield === false) {
-        health -= 2;
+      } else {
+        health -= 1;
       }
     }
     if (health <= 0 && state === "game") {
@@ -1170,12 +1187,12 @@ function checkCollisions() {
   }
 }
 
+// searched how to integrate diameter into objects by AI - https://chatgpt.com/share/dc8fe364-de04-40aa-a212-fa9aa4533a61
 function isColliding(objectufo, objects) {
-  // Check for collision between objects
-  return (
-    objectufo.x < objects.x + objects.width &&
-    objectufo.x + objectufo.width > objects.x &&
-    objectufo.y < objects.y + objects.height &&
-    objectufo.y + objectufo.height > objects.y
-  );
+  let distance = dist(objectufo.x, objectufo.y, objects.x, objects.y);
+  console.log("beep");
+
+  let combinedRadius = objectufo.diameter / 2 + objects.diameter / 2;
+
+  return distance < combinedRadius;
 }

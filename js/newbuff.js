@@ -1,4 +1,4 @@
-export default class HealthBuff {
+export default class SlowBuff {
   constructor(x, y, speed) {
     this.x = x;
     this.y = y;
@@ -26,7 +26,7 @@ export default class HealthBuff {
 
   healthBuffObject() {
     noStroke();
-    fill(179, 255, 179);
+    fill(255, 196, 94);
     beginShape();
     vertex(this.x - 7.5, this.y - 21);
     vertex(this.x + 7.5, this.y - 21);
@@ -46,7 +46,7 @@ export default class HealthBuff {
   livehpBuff() {
     let dsize = this.diameter * Math.sin(frameCount * 0.07);
     this.diameter += dsize / 170;
-    fill(102, 255, 153, 80);
+    fill(255, 196, 94, 80);
     ellipse(this.x, this.y, this.diameter, this.diameter);
   }
 }
