@@ -54,7 +54,7 @@ buffup.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
 });
 
-const crash = new Audio("js/pip.mp3");
+const crash = new Audio("js/click.mp3");
 crash.loop = false;
 crash.volume = 1;
 crash.preload = "auto";
