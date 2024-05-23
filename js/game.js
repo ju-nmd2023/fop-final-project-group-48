@@ -335,7 +335,7 @@ function drawRestart() {
 }
 
 document.addEventListener("mousedown", (event) => {
-  // help from Chatgpt with "clickX" and "clickY" events
+  // help from Chatgpt with "clickX" and "clickY" events: https://chatgpt.com/share/4977b91f-2a6b-4742-9dfd-1fe95a3c28d1
   const clickX = event.clientX;
   const clickY = event.clientY;
 
