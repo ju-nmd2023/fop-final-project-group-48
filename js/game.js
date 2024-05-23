@@ -1053,20 +1053,20 @@ function slowDown() {
 window.slowDown = slowDown;
 
 function borderCheck() {
-  if (ufox.x >= windowWidth - 145) {
-    ufox.x = windowWidth - 145;
+  if (ufox.x >= windowWidth - 110) {
+    ufox.x = windowWidth - 110;
   }
 
-  if (ufox.x <= 65) {
-    ufox.x = 65;
+  if (ufox.x <= 105) {
+    ufox.x = 105;
   }
 
-  if (ufox.y >= windowHeight - 80) {
-    ufox.y = windowHeight - 80;
+  if (ufox.y >= windowHeight - 60) {
+    ufox.y = windowHeight - 60;
   }
 
-  if (ufox.y <= 40) {
-    ufox.y = 40;
+  if (ufox.y <= 65) {
+    ufox.y = 65;
   }
 }
 window.borderCheck = borderCheck;
