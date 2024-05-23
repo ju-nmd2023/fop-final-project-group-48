@@ -215,7 +215,7 @@ function keyReleased() {
     ) {
       state = "pause";
       menu.style.display = "block";
-    } else if (state === "infinite") {
+    } else if (state === "infinite" || "infiniteGameOver") {
       state = "infinitePause";
       menu.style.display = "block";
     }
@@ -314,7 +314,7 @@ document.addEventListener("mousedown", (event) => {
 });
 
 function restartGame() {
-  if (state === "gameOver" || state === "winState") {
+  if (state === "gameOver" || state === "winState" || "infiniteGameOver") {
     if (keyIsDown(32) || keyIsDown(13)) {
       showTitle = false;
       location.reload();
@@ -958,6 +958,7 @@ function gameOverState() {
   drawTimer();
 }
 window.gameOverStateState = gameOverState;
+
 function infiniteGameOverState() {
   drawAura();
   moon();
@@ -1105,8 +1106,10 @@ function checkCollisions() {
         health -= 2;
       }
 
-      if (health <= 0) {
+      if (health <= 0 && state === "game") {
         state = "gameOver";
+      } else if (health <= 0 && state === "infinite") {
+        state = "infiniteGameOver";
       }
     }
   }
@@ -1119,8 +1122,10 @@ function checkCollisions() {
 
       shield = true;
 
-      if (health <= 0) {
+      if (health <= 0 && state === "game") {
         state = "gameOver";
+      } else if (health <= 0 && state === "infinite") {
+        state = "infiniteGameOver";
       }
     }
   }
@@ -1137,8 +1142,10 @@ function checkCollisions() {
           health = 6;
         }
       }
-      if (health <= 0) {
+      if (health <= 0 && state === "game") {
         state = "gameOver";
+      } else if (health <= 0 && state === "infinite") {
+        state = "infiniteGameOver";
       }
     }
   }
