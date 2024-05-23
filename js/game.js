@@ -48,7 +48,7 @@ let controls;
 
 const buffup = new Audio("js/buffup.mp3");
 buffup.loop = false;
-buffup.volume = 1;
+buffup.volume = 0.7;
 buffup.preload = "auto";
 buffup.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
@@ -59,6 +59,14 @@ crash.loop = false;
 crash.volume = 1;
 crash.preload = "auto";
 crash.addEventListener("error", function (err) {
+  console.error("Error loading audio:", err);
+});
+
+const yay = new Audio("js/yay.mp3");
+yay.loop = false;
+yay.volume = 1;
+yay.preload = "auto";
+yay.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
 });
 
@@ -1144,7 +1152,7 @@ function checkCollisions() {
     let shiledbuff = shieldbuffs[i];
     if (isColliding(ufox, shiledbuff)) {
       shieldbuffs.splice(i, 1);
-      buffup.play();
+      yay.play();
 
       shield = true;
 
