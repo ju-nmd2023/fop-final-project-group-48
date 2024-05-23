@@ -46,6 +46,22 @@ let showTitle = true;
 let title;
 let controls;
 
+const buffup = new Audio("js/buffup.mp3");
+buffup.loop = false;
+buffup.volume = 0.9;
+buffup.preload = "auto";
+buffup.addEventListener("error", function (err) {
+  console.error("Error loading audio:", err);
+});
+
+const crash = new Audio("js/crash.mp3");
+crash.loop = false;
+crash.volume = 0.9;
+crash.preload = "auto";
+crash.addEventListener("error", function (err) {
+  console.error("Error loading audio:", err);
+});
+
 //STARRY SKY INSPIRATION FROM LECTURES
 let stars = [];
 
@@ -125,7 +141,7 @@ function setup() {
 
   // Create an audio element // HELP BY - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
-  const healthPickUp = new Audio("js/soundone.mp3");
+  const collisionsound = new Audio("js/soundone.mp3");
 
   bgMusic.loop = true;
   bgMusic.volume = 0.5;
@@ -1079,6 +1095,7 @@ function checkCollisions() {
     let projectile = projectiles[i];
     if (isColliding(ufox, projectile)) {
       projectiles.splice(i, 1); // Remove from array
+      crash.play();
 
       if (shield === true) {
         shield = false;
@@ -1099,6 +1116,7 @@ function checkCollisions() {
     let megaprojectile = megaprojectiles[i];
     if (isColliding(ufox, megaprojectile)) {
       megaprojectiles.splice(i, 1); // Remove from array
+      crash.play();
 
       if (shield === true) {
         shield = false;
@@ -1119,6 +1137,7 @@ function checkCollisions() {
     let shiledbuff = shieldbuffs[i];
     if (isColliding(ufox, shiledbuff)) {
       shieldbuffs.splice(i, 1);
+      buffup.play();
 
       shield = true;
 
@@ -1135,6 +1154,7 @@ function checkCollisions() {
     let healthbuff = healthbuffs[i];
     if (isColliding(ufox, healthbuff)) {
       healthbuffs.splice(i, 1);
+      buffup.play();
 
       if (health <= 5) {
         health += 1;
