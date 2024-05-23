@@ -71,7 +71,7 @@ yay.addEventListener("error", function (err) {
 
 const megacrash = new Audio("js/megahit.mp3");
 megacrash.loop = false;
-megacrash.volume = 1;
+megacrash.volume = 0.8;
 megacrash.preload = "auto";
 megacrash.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
@@ -173,7 +173,7 @@ function setup() {
   const bgMusic = new Audio("js/retrogamesambience.mp3");
 
   bgMusic.loop = true;
-  bgMusic.volume = 0.5;
+  bgMusic.volume = 0.6;
   bgMusic.preload = "auto";
   bgMusic.addEventListener("error", function (err) {
     console.error("Error loading audio:", err);
