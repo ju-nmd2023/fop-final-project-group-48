@@ -48,7 +48,7 @@ let controls;
 
 const buffup = new Audio("js/buffup.mp3");
 buffup.loop = false;
-buffup.volume = 0.8;
+buffup.volume = 0.6;
 buffup.preload = "auto";
 buffup.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
@@ -56,7 +56,7 @@ buffup.addEventListener("error", function (err) {
 
 const crash = new Audio("js/click.mp3");
 crash.loop = false;
-crash.volume = 0.6;
+crash.volume = 1;
 crash.preload = "auto";
 crash.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
@@ -64,12 +64,19 @@ crash.addEventListener("error", function (err) {
 
 const yay = new Audio("js/yay.mp3");
 yay.loop = false;
-yay.volume = 1;
+yay.volume = 0.7;
 yay.preload = "auto";
 yay.addEventListener("error", function (err) {
   console.error("Error loading audio:", err);
 });
 
+const megacrash = new Audio("js/megahit.mp3");
+megacrash.loop = false;
+megacrash.volume = 1;
+megacrash.preload = "auto";
+megacrash.addEventListener("error", function (err) {
+  console.error("Error loading audio:", err);
+});
 //STARRY SKY INSPIRATION FROM LECTURES
 let stars = [];
 
@@ -1131,7 +1138,7 @@ function checkCollisions() {
     let megaprojectile = megaprojectiles[i];
     if (isColliding(ufox, megaprojectile)) {
       megaprojectiles.splice(i, 1); // Remove from array
-      crash.play();
+      megacrash.play();
 
       if (shield === true) {
         shield = false;
