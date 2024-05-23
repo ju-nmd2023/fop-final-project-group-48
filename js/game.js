@@ -85,8 +85,8 @@ menuBtn.addEventListener("click", function () {
 });
 
 function preload() {
-  title = loadImage("img/titledark.png");
-  controls = loadImage("img/controlscircles.png");
+  title = loadImage("titledark.png");
+  controls = loadImage("controlscircles.png");
 }
 window.preload = preload;
 
