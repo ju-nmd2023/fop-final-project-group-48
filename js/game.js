@@ -14,9 +14,6 @@ let shieldbuffs = [];
 import HealthBuff from "./healthbuff.js";
 let healthbuffs = [];
 
-import NewBuff from "./newbuff.js";
-let newbuffs = [];
-
 import Moon from "./moon.js";
 let moonx = new Moon();
 
@@ -124,7 +121,6 @@ function setup() {
   setInterval(commenceMegaProjectiles, 15000); //15000
   setInterval(commenceHealthBuffs, 14000); //14000
   setInterval(commenceShieldBuffs, 20000); //20000
-  setInterval(commenceNewBuffs, 500);
 
   // Create an audio element // HELP BY - used from Lunar Lander
   const bgMusic = new Audio("js/retrogamesambience.mp3");
@@ -416,28 +412,6 @@ function drawHealthBuffsStationary() {
   for (let healthbuff of healthbuffs) {
     healthbuff.livehpBuff();
     healthbuff.draw();
-  }
-}
-
-function commenceNewBuffs() {
-  const newbuffX = windowWidth + 100;
-  const newbuffY = random(windowHeight);
-
-  if (newbuffs.length < 1) {
-    newbuffs.push(new NewBuff(newbuffX, newbuffY, 9));
-  }
-}
-function drawNewBuffs() {
-  for (let newbuff of newbuffs) {
-    newbuff.updatePosition();
-    newbuff.livehpBuff();
-    newbuff.draw();
-  }
-}
-function drawNewBuffsStationary() {
-  for (let newbuff of newbuffs) {
-    newbuff.livehpBuff();
-    newbuff.draw();
   }
 }
 
@@ -849,7 +823,6 @@ function gameState() {
   drawMegaProjectiles();
   drawHealthBuffs();
   drawShieldBuffs();
-  drawNewBuffs();
   if (shield === true) {
     drawShield();
   }
@@ -888,7 +861,6 @@ function infiniteState() {
   drawMegaProjectiles();
   drawHealthBuffs();
   drawShieldBuffs();
-  drawNewBuffs();
   if (shield === true) {
     drawShield();
   }
@@ -932,7 +904,6 @@ function pauseState() {
     drawMegaProjectilesStationary();
     drawHealthBuffsStationary();
     drawShielfBuffsStationary();
-    drawNewBuffsStationary();
     if (shield === true) {
       drawShield();
     }
@@ -964,7 +935,6 @@ function infinitePauseState() {
     drawMegaProjectilesStationary();
     drawHealthBuffsStationary();
     drawShielfBuffsStationary();
-    drawNewBuffsStationary();
     if (shield === true) {
       drawShield();
     }
