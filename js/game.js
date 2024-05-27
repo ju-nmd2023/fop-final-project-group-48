@@ -25,7 +25,7 @@ let comets = [];
 
 let state = "title";
 
-let timer = 120;
+let timer = 40; //120
 let auraVisible = true;
 let showFlyToWin = true;
 
