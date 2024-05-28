@@ -7,7 +7,7 @@ Working as a pair in a team, my friend @JonatanS23 and I extended this story to 
 We are hoping that you will imerse yourself in the world of Pawsome Meowterspace and enjoy the game as much as we enjoyed forging our vision!
 <br>
 
-<h3>Pawsome Meowterspace: The Cat's First Adventure 🐱‍🚀🛸</h3>
+<h3>Pawsome Meowterspace: The Cat's First Adventure 🐱🛸🌖</h3>
 
 <p>Pepper's favorite toy is a golden ball of yarn. One night, captivated by the moon's radiant glow, Pepper becomes enchanted by its shimmering presence.
 To Pepper, the moon looks like a giant ball of yarn hanging in the sky, making it irresistible.
