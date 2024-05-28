@@ -1,0 +1,388 @@
+14.05.2024 ----------------------------------------------------------------------
+
+    ADDITION _______________________________________________________________________
+
+            Added the collision function & replenishment of projectiles after the collision:
+
+
+            GAME.JS > added function for checkCollison();
+                            function isColliding(objectufo, projectiles);
+                            function replenishProjectiles();
+                            function replenishMegaProjectiles();
+                            function drawMegaProjectilesStationary();
+
+                    > drawn replenishProjectiles(); and replenishMegaProjectile(); in gameState();
+                    > drawn checkCollision(); in gameState();
+
+            UFO.JS:
+                export default class Ufo {
+                // ........ Previous Code
+                this.width = 90;
+                this.height = 80;
+            }
+
+            PROJECTILE.JS:
+                export default class Ufo {
+                // ........ Previous Code
+                this.width = 80;
+                this.height = 80;
+            }
+
+            MEGAPROJECTILE.JS:
+                export default class Ufo {
+                // ........ Previous Code
+                this.width = 80;
+                this.height = 80;
+            }
+
+    ISSUES ______________________________________________________________________________
+
+            ✅1.  The projectiles do not collide with ufo when hit from above (underneath works)
+                - Could be due to the width and height within ufo.js?
+
+                I THINK IT WORKS NOW!
+
+    IMPLEMENT ____________________________________________________________________________
+
+           ✅ Create function that lowers HP every time an object hits the ufo. (HP vary on the object)
+
+
+15.05.2024 -------------------------------------------------------------------------
+
+    ADDITION _______________________________________________________________________
+            Added a health system and "gameOver" state:
+
+            GAME.JS:
+                Added health logic:
+
+                let health = 3;
+
+                function gameState() {
+                // ........ Previous Code
+                if (health === 3) {
+                drawHealthbar();
+                } else if (health === 2) {
+                drawHealthbar2();
+                } else if (health === 1) {
+                drawHealthbar1();
+                } // draw correct healthbar depending on health remaining
+                // ........ Previous Code
+
+                (same code in the pausstate function)
+
+                function checkCollisions() {
+                // ........ Previous Code
+
+                health -= 1; // decrease health by 1 when hit
+
+                if (health === 0) {
+                state = "gameOver";
+                }
+                // ........ Previous Code
+
+                (same code for the mega projectiles but -2 health per hit instead)
+            
+    ISSUES ______________________________________________________________________________
+
+            ✅  the "gameOver" state currently does nothing special, also bugged so when you press the 
+                menu button and then continue the game keeps going without any healthbar or health.
+
+
+17.05.2024 ----------------------------------------------------------------------
+
+    ADDITION _______________________________________________________________________
+
+            Replaced randomness to a concerted formation for small projectiles:
+            (Idea - make sure that the game isn't too random, making
+            a balance in difficulty. W/o it it was too random making the game
+            either too easy or too hard to avoid projectiles)
+
+
+            GAME.JS >   added in the setup(); a projectile Initialization.
+            (maybe should be a function if we want to adapt it throut the game)
+
+            - Chnaged the size of MegaProjectile make it bigger,
+            Accordingly adjusted it's hit box = 160; from 120
+
+            - Integrated the Shield and Health buffs into the game, they currently don't function
+            as projectiles do.
+
+            - Created "Game Over" text that now appears one the "game over" state is active.
+
+            - Added the option when hitting 'enter, space' besides clicking now starts the game.
+
+            - Adjusted movement speed of the ufo for 1 extra point in order to balance the game.
+
+
+            MEGAPROJECTILE.JS:
+                export default class Ufo {
+                    // ........ Previous Code
+                draw(){
+                    // ........ Previous Code
+                    strokeWeight(150); Previous = 120
+                    ellipse(this.x, this.y, 100, 100); Previous = 80
+
+                }
+            }
+
+    ISSUES ______________________________________________________________________________
+
+
+        ✅ I tried using same technique to BUFFs as with the projectiles, but for some reason it
+            doesn't work.... :c
+
+    IMPLEMENT ____________________________________________________________________________
+
+        ✅ Make the BUFFs able to be picked up, meaning integrate their hitbox into collision functions.
+        ✅ Whenver user press 'click, space or enter' at the "Game Over" state(text)
+              it opens the menu or restarts the game.
+
+18.05.2024 ----------------------------------------------------------------------
+
+    ADJUSTMENT ______________________________________________________________________________
+
+            - I changed the size of the Shield Buff since it appeared greater than HP Buff.
+
+    FIXED _______________________________________________________________________
+
+            - Fixed bug with "game over" state. I made sure that it is certain the game will
+              reach the game over state one hp is gone.
+              It didn't work in certain cases because code was looking for:
+              hp === 0  (which means it must be 0;)
+              now it is hp <= 0 (which means the hp must be 0 or less to call for that state).
+
+
+19.05.2024 -----------------------------------------------------------------------------
+
+    ADDITION ___________________________________________________________________________
+
+        >   I added a function that now toggles between pause and game state when
+            Escape key is pressed or rather released. I used p5 reference:
+            https://p5js.org/reference/#/p5/keyReleased
+
+                function keyReleased() {
+                    if (keyCode === 27) {
+                    if (state === "pause") {
+                    state = "game";
+                    menu.style.display = "none";
+                    } else if (state === "game") {
+                    state = "pause";
+                    menu.style.display = "block";
+                        }
+                    }
+                    }
+
+            🛑OBS: ( Once we implement timer I think this should be updated too!)
+
+
+        >   Integrated the Shield and Healthbuff into the Collision function. Now they
+            can collide and revert HP back to the player.
+            Currently both shield and HP buff are giving 1 HP back.
+
+            💡 Should figure out integration of time with shield buff and the game itself.
+
+    ISSUES ______________________________________________________________________________
+
+        ✅ FIXED - Hitbox of the Shield and HP buff is further to left than where object appears to be.
+
+            
+    IMPLEMENT ____________________________________________________________________________
+
+        ✅ Logic behind Shield Buff, time limit, endurance? etc.
+        ✅ Time that sets the limit of the game, making it possible to win by "hitting" the moon.
+        - Implement Aura logic with time, add hitbox to it, etc.
+
+19.05.2024 -----------------------------------------------------------------------------
+
+    ADDITION ___________________________________________________________________________
+
+            I made the shield function like a shield and appear once a shieldbuff is collected.
+
+            function checkCollisions() {
+                old code...
+
+                if (shield === true) {
+                shield = false;
+                } else if (shield === false) {
+                health -= 1; // checks if shield is active, otherwise decreases health by 1 when hit
+                }
+
+                old code...
+            }
+
+20.05.2024 -----------------------------------------------------------------------------
+
+    ADDITION ___________________________________________________________________________
+
+            I created a restart button once you've reached the gameOver state.
+
+            function drawRestart() {
+            textAlign(CENTER, CENTER);
+
+            // makes the restart text interactive by checking whether the cursor is inside or outside of the the texts area
+            if (
+                mouseX >= width / 2 - 150 &&
+                mouseX <= width / 2 + restartWidth - 150 &&
+                mouseY >= height / 1.5 - 50 &&
+                mouseY <= height / 1.5 + restartHeight - 50
+            ) {
+                textSize(112);
+            } else if (
+                mouseX < width / 2 - 150 ||
+                mouseX > width / 2 + restartWidth - 150 ||
+                mouseY < height / 1.5 - 50 ||
+                mouseY > height / 1.5 + restartHeight - 50
+            ) {
+                textSize(96);
+            }
+
+            fill(255, 196, 94);
+            textFont("pain-de-mie, sans-serif");
+            text("RESTART", width / 2, height / 1.5);
+            }
+
+            document.addEventListener("mousedown", (event) => {
+            // help from Chatgpt with "clickX" and "clickY" events
+            const clickX = event.clientX;
+            const clickY = event.clientY;
+
+            if (
+                clickX >= width / 2 - 150 &&
+                clickX <= width / 2 + restartWidth - 150 &&
+                clickY >= height / 1.5 - 50 &&
+                clickY <= height / 1.5 + restartHeight - 50 &&
+                state === "gameOver" // Check if the mouse is on top of the restart text when the state is set to "gameOver"
+            ) {
+                location.reload();
+            }
+            });
+
+    IMPLEMENT ____________________________________________________________________________
+
+        ✅ Timer for main gamemode, and once that's done make the infinite mode.
+        - Controls menu
+
+21.05.2024 -----------------------------------------------------------------------------
+
+    ADDITION ___________________________________________________________________________
+
+        > Made addition to restart, where the game could be restarted using enter or space.
+
+            function RestartGame() {...}
+
+        > Created   drawHealthBuffsStationary();
+                    drawShielfBuffsStationary();
+
+        > Added into PAUSE STATE:
+                    drawHealthBuffsStationary();
+                    drawShielfBuffsStationary();
+                    if (shield === true) {
+                    drawShield();
+                    }
+
+        > Added     timer for the Game
+
+                    let timer = 10;
+                    function gameState() {
+                        // previous code...
+                        if (frameCount % 60 === 0 && timer > 0) {
+                            // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+                            timer--;
+                            }
+                            if (timer == 0) {
+                            state = "winState";
+                            }
+                        }
+
+        > Added     function flytoWin() {...}
+                    function gameWon() {...}
+                    WINSTATE - Condition to remove first title,
+                    to another one. flytoWin >>> gameWon.
+
+
+
+
+    ADJUSTMENT ____________________________________________________________________________
+
+        - Adjusted the class-objects' positions to fit better their hit boxes and
+        the other way around.
+
+22.05.2024 -----------------------------------------------------------------------------
+
+    ADDITION ___________________________________________________________________________
+
+            Made controls menu and logic to hide it. Fixed bug with projectiles showing while paused in gameOver state.
+
+            function preload() {
+                old code...
+
+                controls = loadImage("../img/controlscircles.png");
+            }
+
+            function drawControls() {
+                let w = controls.width * 0.7;
+                let h = controls.height * 0.7;
+
+                image(controls, windowWidth / 2 - w / 2, windowHeight / 2 - h / 2, w, h);
+
+                if (
+                    keyIsDown(87) ||
+                    keyIsDown(65) ||
+                    keyIsDown(83) ||
+                    keyIsDown(68) ||
+                    keyIsDown(40) ||
+                    keyIsDown(37) ||
+                    keyIsDown(38) ||
+                    keyIsDown(39)
+                ) {
+                    state = "game";
+                }
+
+                if (mouseX > width / 2 + w || mouseX < width / 2 - w) {
+                    state = "pause";
+                    menu.style.display = "block";
+                }
+            }
+
+            function pauseState() {
+                old code...
+
+                if (health > 0) {
+                    drawProjectilesStationary();
+                    drawMegaProjectilesStationary();
+                    drawHealthBuffsStationary();
+                    drawShielfBuffsStationary();
+                    if (shield === true) {
+                    drawShield();
+                    }
+                }
+            }
+
+23.05.2024 -----------------------------------------------------------------------------
+
+    ADJUSTMENT _________________________________________________________________________
+
+            > Adjusted the collision to be calculated relating to object diameter.
+            (If you don't like the style we can revert to original)
+
+            Added diameter to:
+            -Ufo
+            -Healthbuff
+            -shieldbuff
+            -MegaProjectile
+            -projectiles
+            -Aura
+
+            The checkCollision is now:
+            function isColliding(objectufo, objects) {
+             let distance = dist(objectufo.x, objectufo.y, objects.x, objects.y);
+
+             let combinedRadius = objectufo.diameter / 2 + objects.diameter / 2;
+
+             return distance < combinedRadius;
+            }
+
+            
+
+
+            
